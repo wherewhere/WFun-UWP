@@ -119,7 +119,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataTemplates\Feeds.xaml.cs">
+      <DependentUpon>Feeds.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\DataHelper.cs" />
+    <Compile Include="Helpers\ValueConverters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\HasValueConverter.cs" />
+    <Compile Include="Helpers\ValueConverters\TrueToFalseConverter.cs" />
     <Compile Include="Models\FeedListModel.cs" />
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
@@ -159,6 +165,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\DataTemplates\Feeds.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

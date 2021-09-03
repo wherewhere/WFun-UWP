@@ -13,7 +13,7 @@
             <DataTemplate x:Key="List" x:DataType="model:FeedListModel">
                 <ListViewItem>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{x:Bind Title}"/>
+                        <TextBlock Text="{x:Bind MessageTitle}"/>
                         <TextBlock Text="{x:Bind Message}"/>
                     </StackPanel>
                 </ListViewItem>
