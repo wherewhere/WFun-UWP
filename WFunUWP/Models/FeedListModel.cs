@@ -16,7 +16,7 @@ namespace WFunUWP.Models
         public string Message { get; private set; }
         public string ReplyNum { get; private set; }
         public string ShareNum { get; private set; }
-        public string Username { get; private set; }
+        public string UserName { get; private set; }
         public string Dateline { get; private set; }
         public string DeviceTitle { get; private set; }
         public string MessageTitle { get; private set; }
@@ -26,24 +26,61 @@ namespace WFunUWP.Models
         public bool ShowLikes { get; private set; }
         public bool ShowPicArr { get; private set; }
         public bool ShowRelationRows { get; private set; }
+        public List<RelationRowsItem> RelationRows { get; private set; }
+
+        public ImageModel UserAvatar { get; private set; }
 
         public FeedListModel(string doc)
         {
             HtmlDocument token = new HtmlDocument();
             token.LoadHtml(doc);
-            if (token.TryGetNode("/td[1]", out HtmlNode td1))
+            if (token.TryGetNode("/td/div/div/a", out HtmlNode uurl))
             {
-
+                Uurl = uurl.GetAttributeValue("href", string.Empty).Trim();
             }
-            if (token.TryGetNode("/td[2]", out HtmlNode td2))
+            if (token.TryGetNode("/td/div/div/a/img", out HtmlNode useravatar))
             {
-                MessageTitle = td2.ChildNodes[1].InnerText;
-                Message = td2.ChildNodes[3].InnerText;
+                UserAvatar = new ImageModel("https://www.wpxap.com" + useravatar.GetAttributeValue("src", string.Empty).Trim(), ImageType.Avatar);
             }
-            if (token.TryGetNode("/td[3]", out HtmlNode td3))
+            if (token.TryGetNode("/td/div/div[2]/div", out HtmlNode username))
             {
-                Dateline = td3.InnerText;
+                UserName = username.InnerText.Trim();
+            }
+            if (token.TryGetNode("/td/div/div[2]/div[2]/span", out HtmlNode devicetitle))
+            {
+                DeviceTitle = devicetitle.InnerText.Trim();
+            }
+            if (token.TryGetNode("/td[2]/div", out HtmlNode messagetitle))
+            {
+                MessageTitle = messagetitle.InnerText.Trim();
+            }
+            if (token.TryGetNode("/td[2]/div[2]", out HtmlNode message))
+            {
+                Message = message.InnerText.Trim();
+            }
+            if (token.TryGetNode("/td[3]", out HtmlNode dateline))
+            {
+                Dateline = dateline.InnerText.Trim();
+            }
+            if (token.TryGetNode("/td[4]/a", out HtmlNode relationrows))
+            {
+                List<RelationRowsItem> buider = new List<RelationRowsItem>
+                {
+                    new RelationRowsItem
+                    {
+                        Title = relationrows.InnerText.Trim(),
+                        Url = relationrows.GetAttributeValue("href", string.Empty)
+                    }
+                };
+                ShowRelationRows = buider.Count != 0;
+                RelationRows = buider;
             }
         }
+    }
+
+    public class RelationRowsItem
+    {
+        public string Url { get; set; }
+        public string Title { get; set; }
     }
 }
