@@ -43,9 +43,9 @@ namespace WFunUWP.Pages
             HtmlNodeCollection CNodes = node.ChildNodes;
             foreach (HtmlNode item in CNodes)
             {
-                if (!string.IsNullOrEmpty(item.InnerHtml))
+                if (item.InnerHtml.Contains("td"))
                 {
-                    Collection.Add(new FeedModelBase(item.InnerHtml));
+                    Collection.Add(new FeedListModel(item.InnerHtml));
                 }
             }
         }

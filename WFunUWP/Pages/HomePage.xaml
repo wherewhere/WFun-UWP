@@ -10,7 +10,7 @@
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <Page.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="List" x:DataType="model:FeedModelBase">
+            <DataTemplate x:Key="List" x:DataType="model:FeedListModel">
                 <ListViewItem>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{x:Bind Title}"/>
@@ -22,7 +22,8 @@
     </Page.Resources>
     <Grid>
         <ListView
-            ItemTemplate="{StaticResource List}"
-            ItemsSource="{x:Bind Collection}"/>
+            SelectionMode="None"
+            ItemsSource="{x:Bind Collection}"
+            ItemTemplate="{StaticResource List}"/>
     </Grid>
 </Page>

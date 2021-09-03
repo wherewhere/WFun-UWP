@@ -8,13 +8,13 @@ using WFunUWP.Helpers;
 
 namespace WFunUWP.Models
 {
-    public class FeedModelBase
+    public class FeedListModel
     {
         public string Title { get; private set; }
         public string Message { get; private set; }
         public string Dateline { get; private set; }
 
-        public FeedModelBase(string doc)
+        public FeedListModel(string doc)
         {
             HtmlDocument token = new HtmlDocument();
             token.LoadHtml(doc);
