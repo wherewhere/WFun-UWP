@@ -5,25 +5,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:model="using:WFunUWP.Models"
+    xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     mc:Ignorable="d"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <Page.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="List" x:DataType="model:FeedListModel">
-                <ListViewItem>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{x:Bind MessageTitle}"/>
-                        <TextBlock Text="{x:Bind Message}"/>
-                    </StackPanel>
-                </ListViewItem>
-            </DataTemplate>
+            <ResourceDictionary.MergedDictionaries>
+                <templates:Feeds/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
         <ListView
             SelectionMode="None"
             ItemsSource="{x:Bind Collection}"
-            ItemTemplate="{StaticResource List}"/>
+            ItemTemplate="{StaticResource Feed}"/>
     </Grid>
 </Page>

@@ -24,12 +24,11 @@
         <Setter Property="Grid.Row" Value="10"/>
     </Style>
     
-    <DataTemplate x:Key="feed" x:DataType="models:FeedListModel">
+    <DataTemplate x:Key="Feed" x:DataType="models:FeedListModel">
         <ListViewItem
             Margin="8"
             MaxWidth="800"
             Tag="{x:Bind Url}"
-            DataContext="{x:Bind}"
             Tapped="{x:Bind local:Feeds.OnTapped}"
             Style="{StaticResource FixedListViewItemStyle}"
             KeyDown="{x:Bind local:Feeds.ListViewItem_KeyDown}"
