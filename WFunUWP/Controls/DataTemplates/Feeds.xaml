@@ -227,15 +227,15 @@
 
                     <Border Grid.Row="4"/>
 
-                    <ListView
+                    <Button
                         Grid.Row="5"
-                        x:Name="relaRLis"
-                        IsItemClickEnabled="True"
-                        x:Load="{x:Bind ShowRelationRows}"
-                        Style="{StaticResource HorizontalListViewStyle}"
-                        ItemTemplate="{StaticResource RelationRowsItem}"
-                        ItemClick="{x:Bind local:Feeds.RelaRLis_ItemClick}"
-                        ItemContainerStyle="{StaticResource FixedListViewItemStyle}"/>
+                        x:Name="RelaRLis"
+                        BorderThickness="1"
+                        Tag="{x:Bind RelationRows.Url}"
+                        Content="{x:Bind RelationRows.Title}"
+                        Style="{StaticResource ButtonRevealStyle}"
+                        Background="{ThemeResource SystemControlBackgroundListLowBrush}"
+                        BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}"/>
                 </Grid>
             </UserControl>
         </ListViewItem>

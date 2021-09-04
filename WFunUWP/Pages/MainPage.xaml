@@ -10,6 +10,7 @@
     NavigationCacheMode="Enabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
     <muxc:NavigationView
+        PaneTitle="智机社区"
         x:Name="NavigationView"
         Loaded="NavigationView_Loaded"
         BackRequested="NavigationView_BackRequested"

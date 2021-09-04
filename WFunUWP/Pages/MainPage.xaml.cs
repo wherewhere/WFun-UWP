@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using WFunUWP.Helpers;
+using WFunUWP.Pages.FeedPages;
 using WFunUWP.Pages.SettingsPages;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -28,7 +29,7 @@ namespace WFunUWP.Pages
     {
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
-            ("Home", typeof(HomePage)),
+            ("Home", typeof(IndexPage)),
         };
 
         public MainPage()
@@ -105,7 +106,8 @@ namespace WFunUWP.Pages
             if (NavigationViewFrame.SourcePageType == typeof(SettingsPage))
             {
                 // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
-                NavigationView.SelectedItem = (NavigationViewItem)NavigationView.SettingsItem;
+                NavigationView.SelectedItem = (muxc.NavigationViewItem)NavigationView.SettingsItem;
+                NavigationView.Header = "设置";
             }
             else if (NavigationViewFrame.SourcePageType != null)
             {
@@ -114,7 +116,7 @@ namespace WFunUWP.Pages
                 try
                 {
                     NavigationView.SelectedItem = NavigationView.MenuItems
-                        .OfType<NavigationViewItem>()
+                        .OfType<muxc.NavigationViewItem>()
                         .First(n => n.Tag.Equals(item.Tag));
                 }
                 catch
@@ -122,11 +124,13 @@ namespace WFunUWP.Pages
                     try
                     {
                         NavigationView.SelectedItem = NavigationView.FooterMenuItems
-                            .OfType<NavigationViewItem>()
+                            .OfType<muxc.NavigationViewItem>()
                             .First(n => n.Tag.Equals(item.Tag));
                     }
                     catch { }
                 }
+
+                NavigationView.Header = (((muxc.NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString());
             }
         }
     }

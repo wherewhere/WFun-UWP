@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="WFunUWP.Pages.FeedPages.IndexPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:templates="using:WFunUWP.Controls.DataTemplates"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <templates:Feeds/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <ListView
+            SelectionMode="None"
+            ItemTemplate="{StaticResource Feed}"
+            ItemsSource="{x:Bind NewsDS, Mode=OneWay}"/>
+    </Grid>
+</Page>

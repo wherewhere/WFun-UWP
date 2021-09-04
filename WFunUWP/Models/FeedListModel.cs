@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
 
 namespace WFunUWP.Models
@@ -25,8 +26,7 @@ namespace WFunUWP.Models
         public bool IsCopyEnabled { get; set; }
         public bool ShowLikes { get; private set; }
         public bool ShowPicArr { get; private set; }
-        public bool ShowRelationRows { get; private set; }
-        public List<RelationRowsItem> RelationRows { get; private set; }
+        public RelationRowsItem RelationRows { get; private set; }
 
         public ImageModel UserAvatar { get; private set; }
 
@@ -40,7 +40,7 @@ namespace WFunUWP.Models
             }
             if (token.TryGetNode("/td/div/div/a/img", out HtmlNode useravatar))
             {
-                UserAvatar = new ImageModel("https://www.wpxap.com" + useravatar.GetAttributeValue("src", string.Empty).Trim(), ImageType.Avatar);
+                UserAvatar = new ImageModel(new Uri(UriHelper.BaseUri, useravatar.GetAttributeValue("src", string.Empty).Trim()).ToString(), ImageType.Avatar);
             }
             if (token.TryGetNode("/td/div/div[2]/div", out HtmlNode username))
             {
@@ -64,16 +64,11 @@ namespace WFunUWP.Models
             }
             if (token.TryGetNode("/td[4]/a", out HtmlNode relationrows))
             {
-                List<RelationRowsItem> buider = new List<RelationRowsItem>
+                RelationRows = new RelationRowsItem
                 {
-                    new RelationRowsItem
-                    {
-                        Title = relationrows.InnerText.Trim(),
-                        Url = relationrows.GetAttributeValue("href", string.Empty)
-                    }
+                    Title = relationrows.InnerText.Trim(),
+                    Url = relationrows.GetAttributeValue("href", string.Empty)
                 };
-                ShowRelationRows = buider.Count != 0;
-                RelationRows = buider;
             }
         }
     }

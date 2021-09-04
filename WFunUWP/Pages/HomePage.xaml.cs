@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using WFunUWP.Core.Helpers;
 using WFunUWP.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -38,7 +39,7 @@ namespace WFunUWP.Pages
         {
             base.OnNavigatedTo(e);
             HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(await GetHtmlAsync(new Uri("https://www.wpxap.com/")));
+            doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.BaseUri));
             HtmlNode node = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody");
             HtmlNodeCollection CNodes = node.ChildNodes;
             foreach (HtmlNode item in CNodes)
@@ -48,16 +49,6 @@ namespace WFunUWP.Pages
                     Collection.Add(new FeedListModel(item.InnerHtml));
                 }
             }
-        }
-
-        public static async Task<string> GetHtmlAsync(Uri uri)
-        {
-            try
-            {
-                HttpClient client = new HttpClient();
-                return await client.GetStringAsync(uri);
-            }
-            catch { throw; }
         }
     }
 }
