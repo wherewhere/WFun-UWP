@@ -29,12 +29,13 @@ namespace WFunUWP.Pages
     {
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
-            ("Home", typeof(IndexPage)),
+            ("Home", typeof(HomePage)),
         };
 
         public MainPage()
         {
             InitializeComponent();
+            UIHelper.MainPage = this;
             if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
             { Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true; }
             UIHelper.CheckTheme();

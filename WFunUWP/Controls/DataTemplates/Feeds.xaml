@@ -234,6 +234,7 @@
                         Tag="{x:Bind RelationRows.Url}"
                         Content="{x:Bind RelationRows.Title}"
                         Style="{StaticResource ButtonRevealStyle}"
+                        Click="{x:Bind local:Feeds.FeedButton_Click}"
                         Background="{ThemeResource SystemControlBackgroundListLowBrush}"
                         BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}"/>
                 </Grid>

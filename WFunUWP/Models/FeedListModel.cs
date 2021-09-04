@@ -9,7 +9,7 @@ using WFunUWP.Helpers;
 
 namespace WFunUWP.Models
 {
-    public class FeedListModel:ICanCopy
+    public class FeedListModel : ICanCopy
     {
         public string Url { get; private set; }
         public string Uurl { get; private set; }
@@ -52,7 +52,7 @@ namespace WFunUWP.Models
             }
             if (token.TryGetNode("/td[2]/div", out HtmlNode messagetitle))
             {
-                MessageTitle = messagetitle.InnerText.Trim();
+                MessageTitle = messagetitle.InnerText.Trim().HTMLEntitytoNormal();
             }
             if (token.TryGetNode("/td[2]/div[2]", out HtmlNode message))
             {

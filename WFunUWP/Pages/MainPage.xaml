@@ -21,6 +21,8 @@
                 Icon="Home"
                 Content="主页"/>
         </muxc:NavigationView.MenuItems>
-        <Frame x:Name="NavigationViewFrame"/>
+        <Frame
+            x:FieldModifier="public"
+            x:Name="NavigationViewFrame"/>
     </muxc:NavigationView>
 </Page>

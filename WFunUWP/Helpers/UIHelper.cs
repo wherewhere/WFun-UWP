@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.Immutable;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using WFunUWP.Pages;
+using WFunUWP.Pages.FeedPages;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 using InAppNotify = Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification;
 
 namespace WFunUWP.Helpers
@@ -103,6 +105,70 @@ namespace WFunUWP.Helpers
                     view.ButtonBackgroundColor = view.InactiveBackgroundColor = view.ButtonInactiveBackgroundColor = Colors.Transparent;
                     view.ButtonForegroundColor = Colors.Black;
                 }
+            }
+        }
+    }
+
+    public enum NavigationThemeTransition
+    {
+        Default,
+        Entrance,
+        DrillIn,
+        Suppress
+    }
+
+    internal static partial class UIHelper
+    {
+        public static MainPage MainPage;
+
+        public static void Navigate(Type pageType, object e = null, NavigationThemeTransition Type = NavigationThemeTransition.Default)
+        {
+            switch (Type)
+            {
+                case NavigationThemeTransition.DrillIn:
+                    _ = (MainPage?.NavigationViewFrame.Navigate(pageType, e, new DrillInNavigationTransitionInfo()));
+                    break;
+                case NavigationThemeTransition.Entrance:
+                    _ = (MainPage?.NavigationViewFrame.Navigate(pageType, e, new EntranceNavigationTransitionInfo()));
+                    break;
+                case NavigationThemeTransition.Suppress:
+                    _ = (MainPage?.NavigationViewFrame.Navigate(pageType, e, new SuppressNavigationTransitionInfo()));
+                    break;
+                case NavigationThemeTransition.Default:
+                    _ = (MainPage?.NavigationViewFrame.Navigate(pageType, e));
+                    break;
+                default:
+                    _ = (MainPage?.NavigationViewFrame.Navigate(pageType, e));
+                    break;
+            }
+        }
+
+        private static readonly ImmutableArray<string> routes = new string[]
+        {
+            "/forum",
+        }.ToImmutableArray();
+
+        private static bool IsFirst(this string str, int i) => str.IndexOf(routes[i], StringComparison.Ordinal) == 0;
+
+        private static string Replace(this string str, int oldText)
+        {
+            return oldText == -1
+                ? str.Replace("https://www.wpxap.com", string.Empty)
+                : oldText == -2
+                    ? str.Replace("https://www.wpxap.com", string.Empty)
+                    : oldText == -3
+                                    ? str.Replace("www.coolapk.com", string.Empty)
+                                    : oldText < 0 ? throw new Exception($"i = {oldText}") : str.Replace(routes[oldText], string.Empty);
+        }
+
+        public static void OpenLinkAsync(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str)) { return; }
+            int i = 0;
+            if (str.IsFirst(i++))
+            {
+                string u = str.Replace(i - 1);
+                Navigate(typeof(FeedListPage), new object[] { new Regex(@".*?-(\d+)-[\d+].html").Match(u).Groups[1].Value });
             }
         }
     }

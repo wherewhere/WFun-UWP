@@ -10,6 +10,7 @@ namespace WFunUWP.Core.Helpers
     public enum UriType
     {
         GetNewsFeeds,
+        GetForumDetail,
     }
 
     public static class UriHelper
@@ -27,6 +28,7 @@ namespace WFunUWP.Core.Helpers
             switch (type)
             {
                 case UriType.GetNewsFeeds: return "/new/{0}.html";
+                case UriType.GetForumDetail: return "/forum-{0}-{1}.html";
                 default: throw new ArgumentException($"{typeof(UriType).FullName}值错误");
             }
         }

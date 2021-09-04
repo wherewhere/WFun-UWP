@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WFunUWP.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;

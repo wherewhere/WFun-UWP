@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WFunUWP.Helpers;
+using WFunUWP.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -23,13 +25,13 @@ namespace WFunUWP.Controls.DataTemplates
 
         internal static void OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            //FrameworkElement s = sender as FrameworkElement;
+            FrameworkElement s = sender as FrameworkElement;
             //if (e != null && !UIHelper.IsOriginSource(sender, e.OriginalSource)) { return; }
-            //if ((s.DataContext as ICanCopy)?.IsCopyEnabled ?? false) { return; }
+            if ((s.DataContext as ICanCopy)?.IsCopyEnabled ?? false) { return; }
 
-            //if (e != null) { e.Handled = true; }
+            if (e != null) { e.Handled = true; }
 
-            //UIHelper.OpenLinkAsync(s.Tag as string);
+            UIHelper.OpenLinkAsync(s.Tag as string);
         }
 
         internal static async void FeedButton_Click(object sender, RoutedEventArgs _)
@@ -84,10 +86,10 @@ namespace WFunUWP.Controls.DataTemplates
                 //    UIHelper.NavigateInSplitPane(typeof(AdaptivePage), new ViewModels.AdaptivePage.ViewModel((sender as FrameworkElement).Tag as string, ViewModels.AdaptivePage.ListType.FeedInfo, "changeHistory"));
                 //    break;
 
-                //default:
-                //    DisabledCopy();
-                //    UIHelper.OpenLinkAsync((sender as FrameworkElement).Tag as string);
-                //    break;
+                default:
+                    DisabledCopy();
+                    UIHelper.OpenLinkAsync((sender as FrameworkElement).Tag as string);
+                    break;
             }
         }
 
@@ -140,7 +142,7 @@ namespace WFunUWP.Controls.DataTemplates
 
         internal static void RelaRLis_ItemClick(object _, ItemClickEventArgs e)
         {
-            //UIHelper.OpenLinkAsync(((Models.RelationRowsItem)e.ClickedItem).Url);
+            UIHelper.OpenLinkAsync(((RelationRowsItem)e.ClickedItem).Url);
         }
     }
 }
