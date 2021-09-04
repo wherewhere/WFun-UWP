@@ -120,6 +120,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\NetworkHelper.cs" />
+    <Compile Include="Helpers\UriHelper.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WeakEvent.cs" />

@@ -125,6 +125,8 @@
       <DependentUpon>Feeds.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DataHelper.cs" />
+    <Compile Include="Helpers\DataSource\DataSourceBase.cs" />
+    <Compile Include="Helpers\DataSource\IncrementalLoadingBase.cs" />
     <Compile Include="Helpers\ImageCacheHelper.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Helpers\UIHelper.cs" />
@@ -134,8 +136,15 @@
     <Compile Include="Helpers\ValueConverters\TrueToFalseConverter.cs" />
     <Compile Include="Models\BackgroundImageModel.cs" />
     <Compile Include="Models\FeedListModel.cs" />
+    <Compile Include="Models\ForumModel.cs" />
     <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\Interfaces.cs" />
+    <Compile Include="Pages\FeedPages\FeedListPage.xaml.cs">
+      <DependentUpon>FeedListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FeedPages\IndexPage.xaml.cs">
+      <DependentUpon>IndexPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -246,6 +255,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\FeedPages\FeedListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\FeedPages\IndexPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -273,6 +290,9 @@
     <SDKReference Include="WindowsMobile, Version=10.0.19041.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\zh-CN\Feeds.resw" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

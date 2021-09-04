@@ -110,6 +110,14 @@ namespace WFunUWP.Pages
                 NavigationView.SelectedItem = (muxc.NavigationViewItem)NavigationView.SettingsItem;
                 NavigationView.Header = "设置";
             }
+            if (NavigationViewFrame.SourcePageType == typeof(FeedListPage))
+            {
+                NavigationView.Header = "论坛";
+            }
+            if (NavigationViewFrame.SourcePageType == typeof(TestPage))
+            {
+                NavigationView.Header = "测试";
+            }
             else if (NavigationViewFrame.SourcePageType != null)
             {
                 (string Tag, Type Page) item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
