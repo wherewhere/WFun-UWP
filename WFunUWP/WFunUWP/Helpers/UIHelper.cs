@@ -145,6 +145,7 @@ namespace WFunUWP.Helpers
 
         private static readonly ImmutableArray<string> routes = new string[]
         {
+            "/u/",
             "/forum",
         }.ToImmutableArray();
 
@@ -168,7 +169,12 @@ namespace WFunUWP.Helpers
             if (str.IsFirst(i++))
             {
                 string u = str.Replace(i - 1);
-                Navigate(typeof(FeedListPage), new object[] { new Regex(@".*?-(\d+)-[\d+].html").Match(u).Groups[1].Value });
+                Navigate(typeof(FeedListPage), new object[] { u, FeedListType.User });
+            }
+            else if (str.IsFirst(i++))
+            {
+                string u = str.Replace(i - 1);
+                Navigate(typeof(FeedListPage), new object[] { new Regex(@".*?-(\d+)-[\d+].html").Match(u).Groups[1].Value, FeedListType.Forum });
             }
         }
     }

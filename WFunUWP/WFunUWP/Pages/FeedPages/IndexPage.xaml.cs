@@ -57,7 +57,7 @@ namespace WFunUWP.Pages.FeedPages
             ObservableCollection<object> Collection = new ObservableCollection<object>();
             foreach (HtmlNode item in CNodes)
             {
-                if (item.InnerHtml.Contains("td"))
+                if (item.HasChildNodes)
                 {
                     Collection.Add(new FeedListModel(item.InnerHtml));
                 }

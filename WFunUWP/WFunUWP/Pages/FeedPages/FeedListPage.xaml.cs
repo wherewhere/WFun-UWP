@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
+using WFunUWP.Helpers;
 using WFunUWP.Helpers.DataSource;
 using WFunUWP.Models;
 using Windows.Foundation;
@@ -36,9 +37,9 @@ namespace WFunUWP.Pages.FeedPages
         {
             base.OnNavigatedTo(e);
             object[] vs = e.Parameter as object[];
-            if(vs[0] is string id)
+            if(vs[0] is string id && vs[1] is FeedListType type)
             {
-                ForumDS = new ForumDS(id);
+                ForumDS = new ForumDS(id, type);
             }
             _ = Refresh(-2);
         }
@@ -54,17 +55,38 @@ namespace WFunUWP.Pages.FeedPages
                 _ = await ForumDS.LoadMoreItemsAsync(20);
             }
         }
+
+        public static void UserDetailBorder_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            //if (!(e == null || UIHelper.IsOriginSource(sender, e.OriginalSource))) { return; }
+            //if (e.OriginalSource.GetType() == typeof(Windows.UI.Xaml.Shapes.Ellipse)) { return; }
+            //if (sender is ListViewItem l && l.Tag is Models.IndexPageModel i)
+            //{
+            //    UIHelper.OpenLinkAsync(i.Url);
+            //}
+            //else { return; }
+
+            //UIHelper.ShowImage((sender as FrameworkElement)?.Tag as ImageModel);
+        }
+
+        internal static void UserDetailBorder_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Border b = sender as Border;
+            b.Height = e.NewSize.Width <= 400 ? e.NewSize.Width : 400;
+        }
     }
 
     internal class FeedListPageTemplateSelector : DataTemplateSelector
     {
         public DataTemplate Feed { get; set; }
+        public DataTemplate UserHeader { get; set; }
         public DataTemplate ForumHeader { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
             switch (item)
             {
+                case UserModel _: return UserHeader;
                 case ForumModel _: return ForumHeader;
                 default: return Feed;
             }
@@ -73,24 +95,52 @@ namespace WFunUWP.Pages.FeedPages
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container) => SelectTemplateCore(item);
     }
 
+    public enum FeedListType
+    {
+        User,
+        Forum,
+    }
+
     internal class ForumDS : DataSourceBase<object>
     {
         private string _id;
+        private FeedListType _type;
 
-        internal ForumDS(string id)
+        internal ForumDS(string id, FeedListType type)
         {
             _id = id;
+            _type = type;
         }
 
         protected async override Task<IList<object>> LoadItemsAsync(uint count)
         {
             HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, _id, _currentPage)));
             ObservableCollection<object> Collection = new ObservableCollection<object>();
+            //doc.LoadHtml(await NetworkHelper.GetHtmlAsync(new Uri("https://www.wpxap.com/thread-1024317-1-1.html")));
+            //HtmlNode heasd = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div");
+            switch (_type)
+            {
+                case FeedListType.User:
+                    if (_currentPage == 1)
+                    {
+                        doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetUserDetail, _id)));
+                    }
+                    break;
+                case FeedListType.Forum:
+                    doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, _id, _currentPage)));
+                    break;
+                default:
+                    break;
+            }
             if (_currentPage == 1)
             {
                 HtmlNode head = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div/div");
-                Collection.Add(new ForumModel(head.InnerHtml));
+                switch (_type)
+                {
+                    case FeedListType.User: Collection.Add(new UserModel(head.InnerHtml)); break;
+                    case FeedListType.Forum: Collection.Add(new ForumModel(head.InnerHtml)); break;
+                    default: break;
+                }
             }
             HtmlNode node = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody");
             HtmlNodeCollection CNodes = node.ChildNodes;
