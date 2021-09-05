@@ -14,17 +14,20 @@ namespace WFunUWP.Models
     {
         public string UID { get; private set; }
         public string Uurl { get; private set; }
+        public string QRUrl { get; private set; }
         public string Message { get; private set; }
         public string UserName { get; private set; }
         public string Dateline { get; private set; }
+        public string ForumUrl { get; private set; }
         public string ForumTitle { get; private set; }
         public string MessageTitle { get; private set; }
         public string ReportMessage { get; private set; }
         public ObservableCollection<FeedReplyModel> ReplyList { get; private set; }
 
         public bool IsCopyEnabled { get; set; }
+        public bool IsFeedArticle { get; private set; }
 
-        public ImageModel UserAvatar { get; private set; }
+        public BackgroundImageModel UserAvatar { get; private set; }
 
         public FeedDetailModel(string doc)
         {
@@ -33,6 +36,11 @@ namespace WFunUWP.Models
             if (token.TryGetNode("/div/nav/a[2]", out HtmlNode forumtitle))
             {
                 ForumTitle = forumtitle.InnerText.Trim();
+                ForumUrl = forumtitle.GetAttributeValue("href", string.Empty).Trim();
+            }
+            if (token.TryGetNode("/div/nav/a[3]", out HtmlNode qrurl))
+            {
+                QRUrl = new Uri(UriHelper.BaseUri, qrurl.GetAttributeValue("href", string.Empty).Trim()).ToString();
             }
             if (token.TryGetNode("/div[2]/div", out HtmlNode messagetitle))
             {
@@ -40,7 +48,7 @@ namespace WFunUWP.Models
             }
             if (token.TryGetNode("/div[3]/div/div/a/img", out HtmlNode useravatar))
             {
-                UserAvatar = new ImageModel(new Uri(UriHelper.BaseUri, useravatar.GetAttributeValue("src", string.Empty).Trim()).ToString(), ImageType.Avatar);
+                UserAvatar = new BackgroundImageModel(new Uri(UriHelper.BaseUri, useravatar.GetAttributeValue("src", string.Empty).Trim()).ToString(), ImageType.Avatar);
             }
             if (token.TryGetNode("/div[3]/div/div[2]/div/a", out HtmlNode username))
             {
@@ -58,6 +66,7 @@ namespace WFunUWP.Models
             if (token.TryGetNode("/div[3]/div[2]", out HtmlNode message))
             {
                 Message = message.InnerHtml.Trim();
+                IsFeedArticle = message.InnerText.Length >= 200;
             }
             if (token.TryGetNode("/div[3]/div[3]/div", out HtmlNode reportmessage))
             {

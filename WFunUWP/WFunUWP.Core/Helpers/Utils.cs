@@ -143,7 +143,7 @@ namespace WFunUWP.Core.Helpers
             return $"{num:N2}{str}";
         }
 
-        public static string CSStoMarkDown(string text)
+        public static string CSStoMarkDown(this string text)
         {
             try
             {
@@ -193,7 +193,7 @@ namespace WFunUWP.Core.Helpers
             }
         }
 
-        public static string CSStoString(string str)
+        public static string CSStoString(this string str)
         {
             //换行和段落
             string s = str.Replace("<br>", "\n").Replace("<br>", "\n").Replace("<br/>", "\n").Replace("<br/>", "\n").Replace("<p>", "").Replace("</p>", "\n").Replace("&nbsp;", " ").Replace("<br />", "").Replace("<br />", "");
