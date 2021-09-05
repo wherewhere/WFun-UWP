@@ -45,6 +45,8 @@ namespace WFunUWP.Controls
             }
         }
 
+        internal Grid FeedArticleTitle { get => feedArticleTitle; }
+
         public FeedShellDetailControl() => InitializeComponent();
 
         private void StackPanel_Tapped(object sender, TappedRoutedEventArgs e)
