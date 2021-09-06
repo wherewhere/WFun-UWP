@@ -50,8 +50,9 @@ namespace WFunUWP.Models
             {
                 DeviceTitle = devicetitle.InnerText.Trim();
             }
-            if (token.TryGetNode("/td[2]/div", out HtmlNode messagetitle))
+            if (token.TryGetNode("/td[2]/div/a", out HtmlNode messagetitle))
             {
+                Url = messagetitle.GetAttributeValue("href", string.Empty);
                 MessageTitle = messagetitle.InnerText.Trim().HTMLEntitytoNormal();
             }
             if (token.TryGetNode("/td[2]/div[2]", out HtmlNode message))

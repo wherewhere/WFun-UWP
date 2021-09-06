@@ -29,7 +29,6 @@
             Margin="8"
             MaxWidth="800"
             Tag="{x:Bind Url}"
-            Tapped="{x:Bind local:Feeds.OnTapped}"
             Style="{StaticResource FixedListViewItemStyle}"
             KeyDown="{x:Bind local:Feeds.ListViewItem_KeyDown}"
             RightTapped="{x:Bind local:Feeds.ListViewItem_RightTapped}">
@@ -71,11 +70,16 @@
                         </Button>
                         <StackPanel Margin="8,0" VerticalAlignment="Center">
                             <TextBlock
+                                Tag="{x:Bind Uurl}"
                                 VerticalAlignment="Top"
                                 Text="{x:Bind UserName}"
                                 HorizontalAlignment="Left"
+                                Tapped="{x:Bind local:Feeds.FeedButton_Click}"
                                 IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"/>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel
+                                Tag="{x:Bind Url}"
+                                Orientation="Horizontal"
+                                Tapped="{x:Bind local:Feeds.OnTapped}">
                                 <TextBlock
                                     Margin="0,0,5,0"
                                     x:Name="DatelineTxb"
@@ -112,7 +116,9 @@
                                     x:Name="like1"
                                     Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                                     Visibility="{x:Bind Liked, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                <TextBlock Margin="3,0" Text="{x:Bind LikeNum, Mode=OneWay}"/>
+                                <TextBlock
+                                    Margin="4,0,0,0"
+                                    Text="{x:Bind LikeNum, Mode=OneWay}"/>
                             </StackPanel>
                         </Button>
 
@@ -126,7 +132,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Comment"/>
                                 <TextBlock
-                                    Margin="3,0"
+                                    Margin="4,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{x:Bind ReplyNum, Mode=OneWay}"/>
                             </StackPanel>
@@ -144,7 +150,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <SymbolIcon Symbol="Share"/>
                                 <TextBlock
-                                    Margin="3,0"
+                                    Margin="4,0,0,0"
                                     Text="{x:Bind ShareNum}"
                                     VerticalAlignment="Center"/>
                             </StackPanel>
@@ -173,11 +179,11 @@
                             <Button.Flyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem
-                                        x:Uid="/Feed/report"
+                                        x:Uid="/Feeds/Report"
                                         x:Name="reportButton"
                                         Click="{x:Bind local:Feeds.FeedButton_Click}"/>
                                     <ToggleMenuFlyoutItem
-                                        x:Uid="/Feed/Copy"
+                                        x:Uid="/Feeds/Copy"
                                         x:Name="copyButton"
                                         IsChecked="{x:Bind IsCopyEnabled, Mode=TwoWay}"/>
                                 </MenuFlyout>
@@ -190,9 +196,11 @@
                         Grid.Row="1"
                         FontSize="16"
                         x:Name="mTitleT"
+                        Tag="{x:Bind Url}"
                         FontWeight="Black"
                         TextWrapping="Wrap"
                         Text="{x:Bind MessageTitle}"
+                        Tapped="{x:Bind local:Feeds.OnTapped}"
                         IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
                         x:Load="{x:Bind MessageTitle, Converter={StaticResource HasValueConverter}, ConverterParameter='string'}"/>
 
@@ -202,7 +210,9 @@
                         MaxHeight="200">
                         <TextBlock
                             MaxLines="10"
+                            Tag="{x:Bind Url}"
                             Text="{x:Bind Message}"
+                            Tapped="{x:Bind local:Feeds.OnTapped}"
                             IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"/>
                     </Grid>
 

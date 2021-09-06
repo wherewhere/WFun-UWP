@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WFunUWP.Pages;
 using WFunUWP.Pages.FeedPages;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using InAppNotify = Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification;
 
@@ -107,6 +111,16 @@ namespace WFunUWP.Helpers
                 }
             }
         }
+
+        public static bool IsOriginSource(object source, object originalSource)
+        {
+            bool r = false;
+            if ((originalSource as DependencyObject).FindAscendant<Button>() == null && (originalSource as DependencyObject).FindAscendant<AppBarButton>() == null && originalSource.GetType() != typeof(Button) && originalSource.GetType() != typeof(AppBarButton) && originalSource.GetType() != typeof(RichEditBox))
+            {
+                r = /*source == (originalSource as DependencyObject).FindAscendant<T>()*/true;
+            }
+            return source == originalSource || r;
+        }
     }
 
     public enum NavigationThemeTransition
@@ -147,6 +161,10 @@ namespace WFunUWP.Helpers
         {
             "/u/",
             "/forum",
+            "/thread",
+            "http:",
+            "https:",
+            "www.wpxap.com",
         }.ToImmutableArray();
 
         private static bool IsFirst(this string str, int i) => str.IndexOf(routes[i], StringComparison.Ordinal) == 0;
@@ -154,11 +172,11 @@ namespace WFunUWP.Helpers
         private static string Replace(this string str, int oldText)
         {
             return oldText == -1
-                ? str.Replace("https://www.wpxap.com", string.Empty)
+                ? str.Replace("http://www.wpxap.com", string.Empty)
                 : oldText == -2
                     ? str.Replace("https://www.wpxap.com", string.Empty)
                     : oldText == -3
-                                    ? str.Replace("www.coolapk.com", string.Empty)
+                                    ? str.Replace("www.wpxap.com", string.Empty)
                                     : oldText < 0 ? throw new Exception($"i = {oldText}") : str.Replace(routes[oldText], string.Empty);
         }
 
@@ -175,6 +193,37 @@ namespace WFunUWP.Helpers
             {
                 string u = str.Replace(i - 1);
                 Navigate(typeof(FeedListPage), new object[] { new Regex(@".*?-(\d+)-[\d+].html").Match(u).Groups[1].Value, FeedListType.Forum });
+            }
+            else if (str.IsFirst(i++))
+            {
+                string u = str.Replace(i - 1);
+                Navigate(typeof(FeedShellPage), new object[] { new Regex(@".*?-(\d+)-[\d+]-[\d+].html").Match(u).Groups[1].Value });
+            }
+            else if (str.IsFirst(i++))
+            {
+                if (str.Contains("http://www.wpxap.com"))
+                {
+                    OpenLinkAsync(str.Replace(-1));
+                }
+                else
+                {
+                    _ = Launcher.LaunchUriAsync(new Uri(str));
+                }
+            }
+            else if (str.IsFirst(i++))
+            {
+                if (str.Contains("https://www.wpxap.com"))
+                {
+                    OpenLinkAsync(str.Replace(-2));
+                }
+                else
+                {
+                    _ = Launcher.LaunchUriAsync(new Uri(str));
+                }
+            }
+            else if (str.IsFirst(i++))
+            {
+                OpenLinkAsync(str.Replace(-3));
             }
         }
     }

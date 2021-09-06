@@ -121,7 +121,7 @@ namespace WFunUWP.Pages.FeedPages
                 DetailListHeight = e?.NewSize.Height ?? Window.Current.Bounds.Height;
 
                 RightColumnDefinition.Width = new GridLength(1, GridUnitType.Star);
-                DetailBorder.Padding = new Thickness(0, (double)Application.Current.Resources["PageTitleHeight"], 0, 16);
+                DetailBorder.Padding = new Thickness(0, 0, 0, 16);
                 DetailBorder.SetValue(ScrollViewer.VerticalScrollModeProperty, ScrollMode.Auto);
                 MainGrid.SetValue(ScrollViewer.VerticalScrollModeProperty, ScrollMode.Disabled);
                 MainGrid.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
@@ -129,7 +129,6 @@ namespace WFunUWP.Pages.FeedPages
                 MainGrid.Margin = new Thickness(0);
                 RightScrollViewer.SetValue(Grid.ColumnProperty, 1);
                 RightScrollViewer.SetValue(Grid.RowProperty, 0);
-                RightGrid.Padding = (Thickness)Application.Current.Resources["StackPanelMargin"];
                 RightGrid.SetValue(ScrollViewer.VerticalScrollModeProperty, ScrollMode.Auto);
                 RightGrid.InvalidateArrange();
             }
@@ -148,8 +147,6 @@ namespace WFunUWP.Pages.FeedPages
             {
                 MainScrollMode = ScrollMode.Auto;
                 DetailListHeight = double.NaN;
-                MainGrid.Margin = new Thickness(0, 0, 0, 0);
-                MainGrid.Padding = (Thickness)Application.Current.Resources["StackPanelMargin"];
                 MainGrid.SetValue(ScrollViewer.VerticalScrollModeProperty, ScrollMode.Auto);
                 MainGrid.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Auto);
                 DetailBorder.Padding = RightGrid.Padding = new Thickness(0, 0, 0, 12);

@@ -95,17 +95,17 @@ namespace WFunUWP.Controls.DataTemplates
 
         internal static void ListViewItem_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            //if (UIHelper.IsOriginSource(sender, e.OriginalSource))
-            //{
-            //    if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space)
-            //    {
-            //        OnTapped(sender, null);
-            //    }
-            //    else if (e.Key == Windows.System.VirtualKey.Menu)
-            //    {
-            //        ListViewItem_RightTapped(sender, null);
-            //    }
-            //}
+            if (UIHelper.IsOriginSource(sender, e.OriginalSource))
+            {
+                if (e.Key == Windows.System.VirtualKey.Enter || e.Key == Windows.System.VirtualKey.Space)
+                {
+                    OnTapped(sender, null);
+                }
+                else if (e.Key == Windows.System.VirtualKey.Menu)
+                {
+                    ListViewItem_RightTapped(sender, null);
+                }
+            }
         }
 
         internal static void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs _)

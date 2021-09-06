@@ -4,10 +4,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:muxm="using:Microsoft.UI.Xaml.Media"
-    xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
+    xmlns:converter="using:WFunUWP.Helpers.ValueConverters" xmlns:controls="using:AppStudio.Uwp.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -42,10 +41,36 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+        
+        <Grid
+            Grid.Row="0"
+            CornerRadius="0,0,8,8"
+            x:Name="feedArticleTitle">
+            <Border
+                CornerRadius="0,0,8,8"
+                VerticalAlignment="Bottom">
+                <Border.Background>
+                    <muxm:AcrylicBrush
+                        TintOpacity="0.4"
+                        BackgroundSource="Backdrop"
+                        FallbackColor="{ThemeResource SystemChromeMediumHighColor}"
+                        TintColor="{x:Bind FeedDetail.UserAvatar.BackgroundColor, Mode=OneWay}"/>
+                </Border.Background>
 
+                <TextBlock
+                    MaxLines="2"
+                    FontSize="20"
+                    Margin="16,16,16,8"
+                    TextWrapping="Wrap"
+                    Foreground="White"
+                    TextTrimming="CharacterEllipsis"
+                    Text="{x:Bind FeedDetail.MessageTitle, Mode=OneWay}"/>
+            </Border>
+        </Grid>
+        
         <ListViewItem
+            Grid.Row="1"
             x:Name="TTitle"
             Tapped="StackPanel_Tapped"
             HorizontalContentAlignment="Stretch"
@@ -55,6 +80,7 @@
             <Grid
                 Margin="8"
                 Padding="4"
+                Height="40"
                 CornerRadius="8"
                 BorderThickness="1"
                 VerticalAlignment="Center"
@@ -62,7 +88,7 @@
                 Background="{ThemeResource SystemControlChromeLowAcrylicWindowBrush}"
                 BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}">
                 <TextBlock
-                    Margin="4,0,0,0"
+                    Margin="6,0,0,0"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
                     Text="{x:Bind FeedDetail.ForumTitle, Mode=OneWay}"/>
@@ -74,32 +100,9 @@
             </Grid>
         </ListViewItem>
 
-        <Grid
+        <StackPanel
             Grid.Row="2"
-            Margin="0,0,0,0"
-            CornerRadius="0,0,8,8"
-            x:Name="feedArticleTitle">
-            <Border
-                VerticalAlignment="Bottom"
-                CornerRadius="0,0,8,8">
-                <Border.Background>
-                    <muxm:AcrylicBrush
-                        TintOpacity="0.4"
-                        BackgroundSource="Backdrop"
-                        FallbackColor="{ThemeResource SystemChromeMediumHighColor}"
-                        TintColor="{x:Bind FeedDetail.UserAvatar.BackgroundColor, Mode=OneWay}"/>
-                </Border.Background>
-
-                <TextBlock
-                    Margin="8,4"
-                    FontSize="20"
-                    TextWrapping="Wrap"
-                    Foreground="White"
-                    Text="{x:Bind FeedDetail.MessageTitle, Mode=OneWay}"/>
-            </Border>
-        </Grid>
-
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            Orientation="Horizontal">
             <Button
                 Margin="8"
                 Padding="0"
@@ -129,7 +132,7 @@
 
         <StackPanel
             Margin="8"
-            Grid.Row="3"
+            Grid.Row="2"
             Orientation="Horizontal"
             HorizontalAlignment="Right">
             <Button
@@ -140,6 +143,10 @@
                 Style="{StaticResource FeedOpButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Symbol="Comment"/>
+                    <TextBlock
+                        Margin="4,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind FeedDetail.ReplyList.Count, Mode=OneWay}"/>
                 </StackPanel>
             </Button>
             <Button
@@ -150,11 +157,11 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
-                            x:Uid="/Feed/report"
                             Click="Button_Click"
+                            x:Uid="/Feeds/Report"
                             x:Name="reportButton"/>
                         <ToggleMenuFlyoutItem
-                            x:Uid="/Feed/Copy"
+                            x:Uid="/Feeds/Copy"
                             x:Name="copyButton"
                             IsChecked="{x:Bind FeedDetail.IsCopyEnabled, Mode=TwoWay}"/>
                     </MenuFlyout>
@@ -162,25 +169,22 @@
             </Button>
         </StackPanel>
 
-        <controls:MarkdownTextBlock
-            Grid.Row="4"
+        <controls:HtmlBlock
+            Grid.Row="3"
             Margin="10,2"
             x:Name="FeedArticlePresenter"
-            x:Load="{x:Bind FeedDetail.IsFeedArticle, Mode=OneWay}"
-            IsTextSelectionEnabled="{x:Bind FeedDetail.IsCopyEnabled, Mode=OneWay}"
-            Text="{x:Bind FeedDetail.Message, Mode=OneWay, Converter={StaticResource HTMLToMarkDownConverter}}"/>
+            Source="{x:Bind FeedDetail.Message, Mode=OneWay}"
+            x:Load="{x:Bind FeedDetail.IsFeedArticle, Mode=OneWay}"/>
 
         <Grid
-            Grid.Row="4"
+            Grid.Row="3"
             Margin="10,2"
             x:Name="FeedPresenter"
             x:Load="{x:Bind FeedDetail.IsFeedArticle, Mode=OneWay, Converter={StaticResource TrueToFalseConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <controls:MarkdownTextBlock
-                IsTextSelectionEnabled="{x:Bind FeedDetail.IsCopyEnabled, Mode=OneWay}"
-                Text="{x:Bind FeedDetail.Message, Mode=OneWay, Converter={StaticResource HTMLToMarkDownConverter}}"/>
+            <controls:HtmlBlock Source="{x:Bind FeedDetail.Message, Mode=OneWay}"/>
         </Grid>
     </Grid>
 </UserControl>
