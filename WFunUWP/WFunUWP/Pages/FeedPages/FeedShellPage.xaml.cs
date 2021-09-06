@@ -78,6 +78,7 @@ namespace WFunUWP.Pages.FeedPages
         private void SetLayout()
         {
             DetailControl.FeedDetail = FeedDetailModel;
+            ListControl.FeedDetail = FeedDetailModel;
 
             Page_SizeChanged(null, null);
         }

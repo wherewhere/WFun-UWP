@@ -7,7 +7,7 @@
     xmlns:local="using:WFunUWP.Controls.DataTemplates"
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:models="using:WFunUWP.Models"
+    xmlns:models="using:WFunUWP.Models" xmlns:controls="using:AppStudio.Uwp.Controls"
     mc:Ignorable="d">
 
     <converter:HasValueConverter x:Key="HasValueConverter"/>
@@ -247,6 +247,165 @@
                         Click="{x:Bind local:Feeds.FeedButton_Click}"
                         Background="{ThemeResource SystemControlBackgroundListLowBrush}"
                         BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}"/>
+                </Grid>
+            </UserControl>
+        </ListViewItem>
+    </DataTemplate>
+
+    <DataTemplate x:Key="FeedReply" x:DataType="models:FeedReplyModel">
+        <ListViewItem
+            Margin="8"
+            MaxWidth="800"
+            Style="{StaticResource FixedListViewItemStyle}"
+            RightTapped="{x:Bind local:Feeds.ListViewItem_RightTapped}">
+            <UserControl
+                Loaded="{x:Bind local:Feeds.UserControl_Loaded}"
+                SizeChanged="{x:Bind local:Feeds.UserControl_SizeChanged}">
+                <Grid
+                    Padding="8,4"
+                    CornerRadius="8"
+                    BorderThickness="1"
+                    Background="{ThemeResource SystemControlChromeLowAcrylicWindowBrush}"
+                    BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel
+                        Grid.Row="0"
+                        x:Name="UserBar"
+                        Orientation="Horizontal">
+                        <Button
+                            Padding="0"
+                            Margin="0,4"
+                            Tag="{x:Bind Uurl}"
+                            Background="Transparent"
+                            Style="{ThemeResource ButtonRevealStyle}"
+                            Click="{x:Bind local:Feeds.FeedButton_Click}">
+                            <muxc:PersonPicture
+                                Width="36"
+                                Height="36"
+                                DisplayName="{x:Bind UserName}"
+                                ProfilePicture="{x:Bind UserAvatar.Pic, Mode=OneWay}"/>
+                        </Button>
+                        <StackPanel Margin="8,0" VerticalAlignment="Center">
+                            <TextBlock
+                                Tag="{x:Bind Uurl}"
+                                VerticalAlignment="Top"
+                                Text="{x:Bind UserName}"
+                                HorizontalAlignment="Left"
+                                Tapped="{x:Bind local:Feeds.FeedButton_Click}"
+                                IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"/>
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Tapped="{x:Bind local:Feeds.OnTapped}">
+                                <TextBlock
+                                    Margin="0,0,5,0"
+                                    x:Name="DatelineTxb"
+                                    Text="{x:Bind Dateline}"
+                                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel
+                        x:Name="btnsPanel"
+                        Grid.Row="4"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+
+                        <Button
+                            Tag="{x:Bind}"
+                            x:Name="likeButton"
+                            x:Load="{x:Bind ShowLikes}"
+                            ToolTipService.ToolTip="点赞"
+                            Style="{StaticResource FeedOpButtonStyle}"
+                            Click="{x:Bind local:Feeds.FeedButton_Click}">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon
+                                    Symbol="Like"
+                                    x:Name="like2"
+                                    Visibility="{x:Bind Liked, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='!bool'}"/>
+                                <SymbolIcon
+                                    Symbol="Like"
+                                    x:Name="like1"
+                                    Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                                    Visibility="{x:Bind Liked, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <TextBlock
+                                    Margin="4,0,0,0"
+                                    Text="{x:Bind LikeNum, Mode=OneWay}"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            Tag="{x:Bind}"
+                            x:Name="makeReplyButton"
+                            x:Load="{x:Bind ShowLikes}"
+                            ToolTipService.ToolTip="回复"
+                            Style="{StaticResource FeedOpButtonStyle}"
+                            Click="{x:Bind local:Feeds.FeedButton_Click}">
+                            <StackPanel Orientation="Horizontal">
+                                <SymbolIcon Symbol="Comment"/>
+                                <TextBlock
+                                    Margin="4,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind ReplyNum, Mode=OneWay}"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            x:Name="MoreButton"
+                            ToolTipService.ToolTip="更多"
+                            Style="{StaticResource FeedOpButtonStyle}">
+                            <SymbolIcon Symbol="More"/>
+                            <Button.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem
+                                        x:Uid="/Feeds/Report"
+                                        x:Name="reportButton"
+                                        Click="{x:Bind local:Feeds.FeedButton_Click}"/>
+                                    <ToggleMenuFlyoutItem
+                                        x:Uid="/Feeds/Copy"
+                                        x:Name="copyButton"
+                                        IsChecked="{x:Bind IsCopyEnabled, Mode=TwoWay}"/>
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </Button>
+                    </StackPanel>
+
+                    <Grid
+                        Margin="4"
+                        Grid.Row="1"
+                        MaxHeight="200">
+                        <controls:HtmlBlock
+                            Source="{x:Bind Message}"
+                            Tapped="{x:Bind local:Feeds.OnTapped}"/>
+                    </Grid>
+
+                    <GridView
+                        Name="picA"
+                        Padding="0"
+                        Grid.Row="2"
+                        MinHeight="0"
+                        Margin="4,8,4,4"
+                        x:Load="{x:Bind ShowPicArr}"
+                        HorizontalContentAlignment="Left"
+                        ItemTemplate="{StaticResource Pic}"
+                        ScrollViewer.VerticalScrollMode="Disabled">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid
+                                    Orientation="Horizontal"
+                                    MaximumRowsOrColumns="3"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                    </GridView>
+
+                    <Border Grid.Row="3"/>
                 </Grid>
             </UserControl>
         </ListViewItem>

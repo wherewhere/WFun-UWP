@@ -56,16 +56,9 @@
                         Height="{x:Bind DetailListHeight, Mode=OneWay}"
                         VerticalScrollMode="{x:Bind MainScrollMode, Mode=OneWay, Converter={StaticResource TrueToFalseConverter}, ConverterParameter='ScrollMode'}">
                         <Grid x:Name="RightGrid">
-                            <!--<ctrl:FeedShellListControl
-                                x:Name="listControl"
-                                x:Load="False"
-                                Margin="-12,0"
-                                NeedProgressRing="listCtrl_NeedProgressRing"/>
-
-                            <winui:ItemsRepeater
-                                x:Name="answersList"
-                                x:Load="False"
-                                ItemTemplate="{StaticResource feed}"/>-->
+                            <ctrl:FeedShellListControl
+                                Margin="0"
+                                x:Name="ListControl"/>
                         </Grid>
                     </ScrollViewer>
                 </Grid>
