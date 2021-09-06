@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="WFunUWP.Pages.FeedPages.ForumListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:WFunUWP.Models"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="List" x:DataType="models:ForumModel">
+                <TextBlock Text="{x:Bind Title}"/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <ListView
+            SelectionMode="None"
+            ItemTemplate="{StaticResource List}"
+            ItemsSource="{x:Bind AllForumDS, Mode=OneWay}"/>
+    </Grid>
+</Page>

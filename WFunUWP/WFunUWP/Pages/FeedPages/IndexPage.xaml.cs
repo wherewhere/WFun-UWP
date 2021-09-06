@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers.DataSource;
+using WFunUWP.Helpers.Tools;
 using WFunUWP.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;

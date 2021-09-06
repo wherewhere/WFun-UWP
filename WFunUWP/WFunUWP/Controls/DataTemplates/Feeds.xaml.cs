@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -129,10 +130,10 @@ namespace WFunUWP.Controls.DataTemplates
 
         internal static void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //UserControl uc = sender as UserControl;
-            //StackPanel bp = uc.FindChildByName("BtnsPanel") as StackPanel;
-            //double width = e is null ? uc.Width : e.NewSize.Width;
-            //bp.SetValue(Grid.RowProperty, width > 600 ? 1 : 10);
+            UserControl uc = sender as UserControl;
+            StackPanel bp = uc.FindChildByName("BtnsPanel") as StackPanel;
+            double width = e is null ? uc.Width : e.NewSize.Width;
+            bp.SetValue(Grid.RowProperty, width > 600 ? 0 : 6);
         }
 
         internal static void UserControl_Loaded(object sender, RoutedEventArgs e)

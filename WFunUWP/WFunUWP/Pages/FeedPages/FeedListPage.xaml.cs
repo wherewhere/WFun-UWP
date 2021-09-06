@@ -116,8 +116,6 @@ namespace WFunUWP.Pages.FeedPages
         {
             HtmlDocument doc = new HtmlDocument();
             ObservableCollection<object> Collection = new ObservableCollection<object>();
-            //doc.LoadHtml(await NetworkHelper.GetHtmlAsync(new Uri("https://www.wpxap.com/thread-1024317-1-1.html")));
-            //HtmlNode heasd = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div");
             switch (_type)
             {
                 case FeedListType.User:
