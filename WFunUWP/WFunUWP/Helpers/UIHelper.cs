@@ -22,6 +22,7 @@ namespace WFunUWP.Helpers
     internal static partial class UIHelper
     {
         public const int Duration = 3000;
+        public static bool IsShowingProgressRing, IsShowingProgressBar, IsShowingMessage;
         public static bool HasStatusBar => ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar");
 
         private static CoreDispatcher shellDispatcher;
@@ -110,6 +111,62 @@ namespace WFunUWP.Helpers
                     view.ButtonForegroundColor = Colors.Black;
                 }
             }
+        }
+
+        /// <summary>
+        /// 显示进度条-正常
+        /// </summary>
+        public static async void ShowProgressBar(uint count = 0)
+        {
+            IsShowingProgressBar = true;
+            if (HasStatusBar)
+            {
+                StatusBar.GetForCurrentView().ProgressIndicator.ProgressValue = null;
+                await StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
+            }
+            else
+            {
+                MainPage?.ShowProgressBar();
+            }
+        }
+
+        /// <summary>
+        /// 显示进度条-暂停
+        /// </summary>
+        public static async void PausedProgressBar()
+        {
+            IsShowingProgressBar = true;
+            if (HasStatusBar)
+            {
+                await StatusBar.GetForCurrentView().ProgressIndicator.HideAsync();
+            }
+            MainPage?.PausedProgressBar();
+        }
+
+        /// <summary>
+        /// 显示进度条-错误
+        /// </summary>
+        public static async void ErrorProgressBar()
+        {
+            IsShowingProgressBar = true;
+            if (HasStatusBar)
+            {
+                await StatusBar.GetForCurrentView().ProgressIndicator.HideAsync();
+            }
+            MainPage?.ErrorProgressBar();
+        }
+
+        /// <summary>
+        /// 隐藏进度条
+        /// </summary>
+        public static async void HideProgressBar(int count = 0)
+        {
+            IsShowingProgressBar = false;
+            if (HasStatusBar)
+            {
+                await StatusBar.GetForCurrentView().ProgressIndicator.HideAsync();
+            }
+            MainPage?.HideProgressBar();
         }
 
         public static bool IsOriginSource(object source, object originalSource)

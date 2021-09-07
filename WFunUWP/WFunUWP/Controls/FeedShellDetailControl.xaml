@@ -53,8 +53,8 @@
                 <Border.Background>
                     <muxm:AcrylicBrush
                         TintOpacity="0.4"
+                        FallbackColor="#55000000"
                         BackgroundSource="Backdrop"
-                        FallbackColor="{ThemeResource SystemChromeMediumHighColor}"
                         TintColor="{x:Bind FeedDetail.UserAvatar.BackgroundColor, Mode=OneWay}"/>
                 </Border.Background>
 

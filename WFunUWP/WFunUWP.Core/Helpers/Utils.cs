@@ -192,13 +192,22 @@ namespace WFunUWP.Core.Helpers
 
         public static string CSStoString(this string str)
         {
-            //换行和段落
-            string s = str.Replace("<br>", "\n").Replace("<br>", "\n").Replace("<br/>", "\n").Replace("<br/>", "\n").Replace("<p>", "").Replace("</p>", "\n").Replace("&nbsp;", " ").Replace("<br />", "").Replace("<br />", "");
-            //链接彻底删除！
-            while (s.IndexOf("<a", StringComparison.Ordinal) > 0)
+            string s;
+            try
             {
-                s = s.Replace(@"<a href=""" + Regex.Split(Regex.Split(s, @"<a href=""")[1], @""">")[0] + @""">", "");
-                s = s.Replace("</a>", "");
+                HtmlToText convert = new HtmlToText();
+                s = convert.Convert(str);
+            }
+            catch
+            {
+                //换行和段落
+                s = str.Replace("<br>", "\n").Replace("<br/>", "\n").Replace("<br />", "").Replace("<p>", "").Replace("</p>", "\n").Replace("&nbsp;", " ").Replace("<i>", "").Replace("<i/>", "").Replace("<i />", "");
+                //链接彻底删除！
+                while (s.IndexOf("<a", StringComparison.Ordinal) > 0)
+                {
+                    s = s.Replace(@"<a href=""" + Regex.Split(Regex.Split(s, @"<a href=""")[1], @""">")[0] + @""">", "");
+                    s = s.Replace("</a>", "");
+                }
             }
             return s;
         }

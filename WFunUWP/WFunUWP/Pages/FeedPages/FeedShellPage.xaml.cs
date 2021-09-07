@@ -1,20 +1,10 @@
 ﻿using HtmlAgilityPack;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using WFunUWP.Core.Helpers;
+using WFunUWP.Helpers;
 using WFunUWP.Models;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -41,6 +31,7 @@ namespace WFunUWP.Pages.FeedPages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            UIHelper.ShowProgressBar();
             HtmlDocument doc = new HtmlDocument();
             object[] vs = e.Parameter as object[];
             if (vs[0] is string id)
@@ -59,6 +50,7 @@ namespace WFunUWP.Pages.FeedPages
             {
                 _ = MainScrollViewer.ChangeView(null, VerticalOffsets[0], null, true);
             }
+            UIHelper.HideProgressBar();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

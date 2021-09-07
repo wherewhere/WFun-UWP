@@ -9,24 +9,31 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
-    <muxc:NavigationView
-        PaneTitle="智机社区"
-        x:Name="NavigationView"
-        Loaded="NavigationView_Loaded"
-        BackRequested="NavigationView_BackRequested"
-        SelectionChanged="NavigationView_SelectionChanged">
-        <muxc:NavigationView.MenuItems>
-            <muxc:NavigationViewItem
-                Tag="Home"
-                Icon="Home"
-                Content="主页"/>
-            <muxc:NavigationViewItem
-                Tag="List"
-                Icon="List"
-                Content="论坛"/>
-        </muxc:NavigationView.MenuItems>
-        <Frame
-            x:FieldModifier="public"
-            x:Name="NavigationViewFrame"/>
-    </muxc:NavigationView>
+    <Grid>
+        <muxc:NavigationView
+            PaneTitle="智机社区"
+            x:Name="NavigationView"
+            Loaded="NavigationView_Loaded"
+            BackRequested="NavigationView_BackRequested"
+            SelectionChanged="NavigationView_SelectionChanged">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem
+                    Tag="Home"
+                    Icon="Home"
+                    Content="主页"/>
+                <muxc:NavigationViewItem
+                    Tag="List"
+                    Icon="List"
+                    Content="论坛"/>
+            </muxc:NavigationView.MenuItems>
+            <Frame
+                x:FieldModifier="public"
+                x:Name="NavigationViewFrame"/>
+        </muxc:NavigationView>
+        <muxc:ProgressBar
+            x:Name="ProgressBar"
+            IsIndeterminate="False"
+            VerticalAlignment="Top"
+            Background="Transparent"/>
+    </Grid>
 </Page>

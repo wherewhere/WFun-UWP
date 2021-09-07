@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WFunUWP.Core.Exceptions;
+using WFunUWP.Helpers;
 using WFunUWP.Pages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -33,6 +35,7 @@ namespace WFunUWP
         {
             InitializeComponent();
             Suspending += OnSuspending;
+            UnhandledException += Application_UnhandledException;
         }
 
         /// <summary>
@@ -42,11 +45,11 @@ namespace WFunUWP
         /// <param name="e">有关启动请求和过程的详细信息。</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+            RegisterExceptionHandlingSynchronizationContext();
 
             // 不要在窗口已包含内容时重复应用程序初始化，
             // 只需确保窗口处于活动状态
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 // 创建要充当导航上下文的框架，并导航到第一页
                 rootFrame = new Frame();
@@ -83,7 +86,7 @@ namespace WFunUWP
         /// </summary>
         ///<param name="sender">导航失败的框架</param>
         ///<param name="e">有关导航失败的详细信息</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
@@ -97,9 +100,47 @@ namespace WFunUWP
         /// <param name="e">有关挂起请求的详细信息。</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
+            SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        private void Application_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
+            {
+//                UIHelper.ShowMessage($"程序出现了错误……\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
+//#if DEBUG
+//                    + $"\n{e.Exception.StackTrace}"
+//#endif
+//                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
+            }
+            SettingsHelper.LogManager.GetLogger("UnhandledException").Error($"\n{e.Exception.Message}\n{e.Exception.HResult}\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
+        }
+
+        /// <summary>
+        /// Should be called from OnActivated and OnLaunched
+        /// </summary>
+        private void RegisterExceptionHandlingSynchronizationContext()
+        {
+            ExceptionHandlingSynchronizationContext
+                .Register()
+                .UnhandledException += SynchronizationContext_UnhandledException;
+        }
+
+        private void SynchronizationContext_UnhandledException(object sender, Core.Exceptions.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
+            {
+//                UIHelper.ShowMessage($"程序出现了错误……\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
+//#if DEBUG
+//                    + $"\n{e.Exception.StackTrace}"
+//#endif
+//                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
+            }
+            SettingsHelper.LogManager.GetLogger("UnhandledException").Error($"\n{e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)})\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
         }
     }
 }

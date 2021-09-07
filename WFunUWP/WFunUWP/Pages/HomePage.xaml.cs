@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System.Collections.ObjectModel;
 using WFunUWP.Core.Helpers;
+using WFunUWP.Helpers;
 using WFunUWP.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -24,6 +25,7 @@ namespace WFunUWP.Pages
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            UIHelper.ShowProgressBar();
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.BaseUri));
             HtmlNode node = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody");
@@ -35,6 +37,7 @@ namespace WFunUWP.Pages
                     Collection.Add(new FeedListModel(item.InnerHtml));
                 }
             }
+            UIHelper.HideProgressBar();
         }
     }
 }

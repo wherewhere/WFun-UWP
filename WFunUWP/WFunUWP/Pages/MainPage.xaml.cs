@@ -135,5 +135,39 @@ namespace WFunUWP.Pages
                 NavigationView.Header = (((muxc.NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString());
             }
         }
+
+        #region 状态栏
+        public void ShowProgressBar()
+        {
+            ProgressBar.Visibility = Visibility.Visible;
+            ProgressBar.IsIndeterminate = true;
+            ProgressBar.ShowError = false;
+            ProgressBar.ShowPaused = false;
+        }
+
+        public void PausedProgressBar()
+        {
+            ProgressBar.Visibility = Visibility.Visible;
+            ProgressBar.IsIndeterminate = true;
+            ProgressBar.ShowError = false;
+            ProgressBar.ShowPaused = true;
+        }
+
+        public void ErrorProgressBar()
+        {
+            ProgressBar.Visibility = Visibility.Visible;
+            ProgressBar.IsIndeterminate = true;
+            ProgressBar.ShowPaused = false;
+            ProgressBar.ShowError = true;
+        }
+
+        public void HideProgressBar()
+        {
+            ProgressBar.Visibility = Visibility.Collapsed;
+            ProgressBar.IsIndeterminate = false;
+            ProgressBar.ShowError = false;
+            ProgressBar.ShowPaused = false;
+        }
+        #endregion
     }
 }

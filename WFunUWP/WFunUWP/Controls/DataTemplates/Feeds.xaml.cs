@@ -69,9 +69,9 @@ namespace WFunUWP.Controls.DataTemplates
                 //    UIHelper.Navigate(typeof(Pages.BrowserPage), new object[] { false, $"https://m.coolapk.com/mp/do?c=feed&m=report&type=feed&id={element.Tag}" });
                 //    break;
 
-                //case "shareButton":
-                //    DisabledCopy();
-                //    break;
+                case "ShareButton":
+                    DisabledCopy();
+                    break;
 
                 //case "deviceButton":
                 //    DisabledCopy();
@@ -121,10 +121,10 @@ namespace WFunUWP.Controls.DataTemplates
             Flyout Flyout = (Flyout)sender;
             if (Flyout.Content == null)
             {
-                //Flyout.Content = new ShowQRCodeControl
-                //{
-                //    QRCodeText = (string)Flyout.Target.Tag
-                //};
+                Flyout.Content = new ShowQRCodeControl
+                {
+                    QRCodeText = (string)Flyout.Target.Tag
+                };
             }
         }
 

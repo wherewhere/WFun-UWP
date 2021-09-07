@@ -139,10 +139,8 @@
                         </Button>
 
                         <Button
-                            Padding="2"
                             Tag="{x:Bind Url}"
                             x:Name="ShareButton"
-                            x:Load="{x:Bind ShowLikes}"
                             HorizontalAlignment="Center"
                             ToolTipService.ToolTip="分享"
                             Style="{StaticResource FeedOpButtonStyle}"
@@ -151,8 +149,10 @@
                                 <SymbolIcon Symbol="Share"/>
                                 <TextBlock
                                     Margin="4,0,0,0"
+                                    x:Name="ShareText"
                                     Text="{x:Bind ShareNum}"
-                                    VerticalAlignment="Center"/>
+                                    VerticalAlignment="Center"
+                                    x:Load="{x:Bind ShowLikes}"/>
                             </StackPanel>
                             <Button.Flyout>
                                 <Flyout Opened="{x:Bind local:Feeds.Flyout_Opened}">

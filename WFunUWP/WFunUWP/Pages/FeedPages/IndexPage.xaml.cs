@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
+using WFunUWP.Helpers;
 using WFunUWP.Helpers.DataSource;
 using WFunUWP.Models;
 using Windows.UI.Xaml.Controls;
@@ -25,6 +26,8 @@ namespace WFunUWP.Pages.FeedPages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            NewsDS.OnLoadMoreStarted += UIHelper.ShowProgressBar;
+            NewsDS.OnLoadMoreCompleted += UIHelper.HideProgressBar;
             _ = Refresh(-2);
         }
 

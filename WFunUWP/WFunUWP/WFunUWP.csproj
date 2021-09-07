@@ -137,6 +137,9 @@
     <Compile Include="Controls\FeedShellListControl.xaml.cs">
       <DependentUpon>FeedShellListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ShowQRCodeControl.xaml.cs">
+      <DependentUpon>ShowQRCodeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\DataHelper.cs" />
     <Compile Include="Helpers\DataSource\DataSourceBase.cs" />
     <Compile Include="Helpers\DataSource\IncrementalLoadingBase.cs" />
@@ -273,6 +276,9 @@
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.6.2</Version>
     </PackageReference>
+    <PackageReference Include="QRCoder">
+      <Version>1.4.1</Version>
+    </PackageReference>
     <PackageReference Include="WindowsAppStudio.Uwp">
       <Version>1.5.3</Version>
     </PackageReference>
@@ -287,6 +293,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\FeedShellListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ShowQRCodeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -340,9 +350,7 @@
   <ItemGroup>
     <PRIResource Include="Strings\zh-CN\SettingsPage.resw" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\Tools\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
