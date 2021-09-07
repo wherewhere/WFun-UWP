@@ -4,11 +4,65 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WFunUWP.Pages.SettingsPages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mxuc="using:Microsoft.UI.Xaml.Controls" xmlns:converter="using:WFunUWP.Helpers.ValueConverters" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <converter:TrueToFalseConverter x:Key="TrueToFalseConverter" />
+        <Style x:Key="HeaderStyle" TargetType="controls:HeaderedContentControl">
+            <Setter Property="Margin" Value="0,8" />
+            <Setter Property="FontSize" Value="18" />
+        </Style>
+    </Page.Resources>
 
     <Grid>
+        <ScrollViewer>
+            <StackPanel Margin="16">
+                <mxuc:RadioButtons
+                    Margin="0,8"
+                    FontSize="18"
+                    x:Name="ThemeMode"
+                    x:Uid="/SettingsPage/ThemeMode"
+                    SelectionChanged="ThemeMode_SelectionChanged">
+                    <RadioButton x:Uid="/SettingsPage/ThemeModeLight"/>
+                    <RadioButton x:Uid="/SettingsPage/ThemeModeDark"/>
+                    <RadioButton x:Uid="/SettingsPage/ThemeModeDefault"/>
+                </mxuc:RadioButtons>
+                <controls:HeaderedContentControl
+                    Style="{StaticResource HeaderStyle}"
+                    x:Uid="/SettingsPage/ContentSettingsHeader">
 
+                </controls:HeaderedContentControl>
+                <controls:HeaderedContentControl
+                    Style="{StaticResource HeaderStyle}"
+                    x:Uid="/SettingsPage/OthersSettingsHeader">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <HyperlinkButton
+                            Margin="0,2"
+                            Grid.Row="0"
+                            Tag="FeedBack"
+                            Click="Button_Click"
+                            x:Uid="/SettingsPage/FeedbackLink"/>
+                        <HyperlinkButton
+                            Margin="0,2"
+                            Grid.Row="1"
+                            Tag="LogFolder"
+                            Click="Button_Click"
+                            x:Uid="/SettingsPage/LogFolderLink"/>
+                        <Button
+                            Margin="0,2"
+                            Grid.Row="2"
+                            Tag="TestPage"
+                            Click="Button_Click"
+                            x:Uid="/SettingsPage/GoToTestPage"
+                            Style="{StaticResource ButtonRevealStyle}"/>
+                    </Grid>
+                </controls:HeaderedContentControl>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

@@ -20,10 +20,10 @@
                 Tag="Home"
                 Icon="Home"
                 Content="主页"/>
-            <!--<muxc:NavigationViewItem
+            <muxc:NavigationViewItem
                 Tag="List"
                 Icon="List"
-                Content="论坛"/>-->
+                Content="论坛"/>
         </muxc:NavigationView.MenuItems>
         <Frame
             x:FieldModifier="public"

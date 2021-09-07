@@ -1,10 +1,15 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using WFunUWP.Helpers.Tools;
+using WFunUWP.Core.Helpers;
+using WFunUWP.Helpers;
+using WFunUWP.Helpers.DataSource;
+using WFunUWP.Models;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -43,6 +48,62 @@ namespace WFunUWP.Pages.FeedPages
             else
             {
                 _ = await AllForumDS.LoadMoreItemsAsync(20);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Provide list of News. <br/>
+    /// You can bind this ds to ItemSource to enable incremental loading ,
+    /// or call LoadMoreItemsAsync to load more.
+    /// </summary>
+    internal class AllForumDS : DataSourceBase<object>
+    {
+        private int num = 1;
+
+        protected async override Task<IList<object>> LoadItemsAsync(uint count)
+        {
+            if (_currentPage == 1)
+            {
+                num = 1;
+            }
+            ObservableCollection<object> Collection = new ObservableCollection<object>();
+            int i = num;
+            while (count-- > 0)
+            {
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, i++, 1)));
+                //await Task.Delay(2000);// 防止 Wind 揍我。。。
+                if (doc.TryGetNode("/html/body/main/div/div", out HtmlNode error) && error.InnerText.Trim() == "版块已关闭")
+                {
+                    if (i - 1 >= 110)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Collection.Add(new ForumModel(string.Empty)
+                        { 
+                            Title = "——————————",
+                        });
+                        continue;
+                    }
+                }
+                HtmlNode node = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div/div");
+                Collection.Add(new ForumModel(node.InnerHtml));
+            }
+            num += Collection.Count;
+            return Collection;
+        }
+
+        protected override void AddItems(IList<object> items)
+        {
+            if (items != null)
+            {
+                foreach (object news in items)
+                {
+                    Add(news);
+                }
             }
         }
     }
