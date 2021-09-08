@@ -23,7 +23,8 @@
         </Grid.ChildrenTransitions>
         <ListView
             SelectionMode="None"
+            IncrementalLoadingTrigger="None"
             ItemTemplate="{StaticResource FeedReply}"
-            ItemsSource="{x:Bind FeedDetail.ReplyList, Mode=OneWay}"/>
+            ItemsSource="{x:Bind ReplyDS, Mode=OneWay}"/>
     </Grid>
 </UserControl>

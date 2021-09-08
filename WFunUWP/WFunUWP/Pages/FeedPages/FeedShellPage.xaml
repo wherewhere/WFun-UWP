@@ -28,6 +28,7 @@
         <Grid>
             <ScrollViewer
                 x:Name="MainScrollViewer"
+                ViewChanged="ScrollViewer_ViewChanged"
                 VerticalScrollMode="{x:Bind MainScrollMode, Mode=OneWay}">
                 <Grid x:Name="MainGrid">
                     <Grid.ColumnDefinitions>
@@ -53,12 +54,11 @@
                         Grid.Row="1"
                         VerticalAlignment="Top"
                         x:Name="RightScrollViewer"
+                        ViewChanged="ScrollViewer_ViewChanged"
                         Height="{x:Bind DetailListHeight, Mode=OneWay}"
                         VerticalScrollMode="{x:Bind MainScrollMode, Mode=OneWay, Converter={StaticResource TrueToFalseConverter}, ConverterParameter='ScrollMode'}">
                         <Grid x:Name="RightGrid">
-                            <ctrl:FeedShellListControl
-                                Margin="0"
-                                x:Name="ListControl"/>
+                            <ctrl:FeedShellListControl x:Name="ListControl"/>
                         </Grid>
                     </ScrollViewer>
                 </Grid>

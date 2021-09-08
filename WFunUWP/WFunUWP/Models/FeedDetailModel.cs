@@ -19,6 +19,7 @@ namespace WFunUWP.Models
         public string MessageTitle { get; private set; }
         public string ReportMessage { get; private set; }
         public ObservableCollection<FeedReplyModel> ReplyList { get; private set; }
+        public ObservableCollection<RelationRowsItem> RelationRows { get; private set; }
 
         public bool IsCopyEnabled { get; set; }
         public bool IsFeedArticle { get; private set; }
@@ -69,7 +70,26 @@ namespace WFunUWP.Models
                 Message = message.InnerHtml.Trim();
                 IsFeedArticle = message.InnerText.Length >= 200;
             }
-            if (token.TryGetNode("/div[3]/div[3]/div", out HtmlNode reportmessage))
+            if (token.TryGetNode("/div[3]/div[3]/p", out HtmlNode tags))
+            {
+                RelationRows = new ObservableCollection<RelationRowsItem>();
+                foreach (HtmlNode item in tags.ChildNodes)
+                {
+                    if (item.HasChildNodes && item.Name == "a")
+                    {
+                        RelationRows.Add(new RelationRowsItem()
+                        {
+                            Url = item.GetAttributeValue("href", string.Empty).Trim(),
+                            Title = item.InnerText.Trim()
+                        });
+                    }
+                }
+                if (token.TryGetNode("/div[3]/div[4]/div", out HtmlNode reportmessage))
+                {
+                    ReportMessage = reportmessage.InnerHtml.Trim();
+                }
+            }
+            else if (token.TryGetNode("/div[3]/div[3]/div", out HtmlNode reportmessage))
             {
                 ReportMessage = reportmessage.InnerHtml.Trim();
             }

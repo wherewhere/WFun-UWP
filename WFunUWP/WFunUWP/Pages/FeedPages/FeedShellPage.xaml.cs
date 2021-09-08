@@ -70,9 +70,18 @@ namespace WFunUWP.Pages.FeedPages
         private void SetLayout()
         {
             DetailControl.FeedDetail = FeedDetailModel;
-            ListControl.FeedDetail = FeedDetailModel;
-
+            ListControl.ReplyDS = new Controls.ReplyDS(FeedDetailModel);
+            _ = ListControl.Refresh(-2);
             Page_SizeChanged(null, null);
+        }
+
+        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            ScrollViewer scrollViewer = sender as ScrollViewer;
+            if (!e.IsIntermediate && scrollViewer.VerticalOffset == scrollViewer.ScrollableHeight)
+            {
+                _ = ListControl.Refresh();
+            }
         }
 
 
