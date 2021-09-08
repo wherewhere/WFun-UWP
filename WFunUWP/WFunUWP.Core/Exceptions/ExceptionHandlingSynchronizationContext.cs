@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 namespace WFunUWP.Core.Exceptions
@@ -53,9 +49,8 @@ namespace WFunUWP.Core.Exceptions
                 throw new InvalidOperationException("Ensure a synchronization context exists before calling this method.");
             }
 
-            ExceptionHandlingSynchronizationContext customSynchronizationContext = syncContext as ExceptionHandlingSynchronizationContext;
 
-            if (customSynchronizationContext == null)
+            if (!(syncContext is ExceptionHandlingSynchronizationContext customSynchronizationContext))
             {
                 customSynchronizationContext = new ExceptionHandlingSynchronizationContext(syncContext);
                 SetSynchronizationContext(customSynchronizationContext);

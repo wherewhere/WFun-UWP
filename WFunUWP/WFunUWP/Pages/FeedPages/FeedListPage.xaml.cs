@@ -29,7 +29,7 @@ namespace WFunUWP.Pages.FeedPages
         {
             base.OnNavigatedTo(e);
             object[] vs = e.Parameter as object[];
-            if(vs[0] is string id && vs[1] is FeedListType type)
+            if (vs[0] is string id && vs[1] is FeedListType type)
             {
                 ForumDS = new ForumDS(id, type);
             }

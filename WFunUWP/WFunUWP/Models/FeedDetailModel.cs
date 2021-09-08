@@ -1,10 +1,6 @@
 ﻿using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
 
@@ -68,11 +64,27 @@ namespace WFunUWP.Models
                 Message = message.InnerHtml.Trim();
                 IsFeedArticle = message.InnerText.Length >= 200;
             }
+            else if (token.TryGetNode("/div/div/div/div", out message))
+            {
+                Message = message.InnerHtml.Trim();
+                IsFeedArticle = message.InnerText.Length >= 200;
+            }
             if (token.TryGetNode("/div[3]/div[3]/div", out HtmlNode reportmessage))
             {
                 ReportMessage = reportmessage.InnerHtml.Trim();
             }
             if (token.TryGetNode("/div[4]", out HtmlNode replylist))
+            {
+                ReplyList = new ObservableCollection<FeedReplyModel>();
+                foreach (HtmlNode item in replylist.ChildNodes)
+                {
+                    if (item.HasChildNodes && !(item.InnerHtml == "全部回复："))
+                    {
+                        ReplyList.Add(new FeedReplyModel(item.InnerHtml));
+                    }
+                }
+            }
+            else if (token.TryGetNode("/div/div/div[2]/div", out replylist))
             {
                 ReplyList = new ObservableCollection<FeedReplyModel>();
                 foreach (HtmlNode item in replylist.ChildNodes)

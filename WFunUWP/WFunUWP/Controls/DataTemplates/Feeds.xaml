@@ -15,13 +15,13 @@
     <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
     <Style
+        TargetType="Button"
         x:Key="FeedOpButtonStyle"
-        BasedOn="{StaticResource ButtonRevealStyle}"
-        TargetType="Button">
+        BasedOn="{StaticResource ButtonRevealStyle}">
         <Setter Property="Height" Value="34"/>
+        <Setter Property="Grid.Row" Value="10"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="Grid.Row" Value="10"/>
     </Style>
     
     <DataTemplate x:Key="Feed" x:DataType="models:FeedListModel">

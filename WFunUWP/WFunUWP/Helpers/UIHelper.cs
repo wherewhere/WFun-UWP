@@ -1,7 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WFunUWP.Pages;

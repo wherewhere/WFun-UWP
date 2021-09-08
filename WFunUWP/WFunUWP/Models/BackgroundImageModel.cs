@@ -1,10 +1,6 @@
 ﻿using ColorThiefDotNet;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WFunUWP.Helpers;
 using Windows.Graphics.Imaging;
 using Windows.UI.Xaml.Media.Imaging;

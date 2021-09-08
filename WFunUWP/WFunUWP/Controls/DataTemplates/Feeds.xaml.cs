@@ -1,20 +1,9 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using WFunUWP.Helpers;
 using WFunUWP.Models;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 //https://go.microsoft.com/fwlink/?LinkId=234236 上介绍了“用户控件”项模板
 
@@ -27,7 +16,7 @@ namespace WFunUWP.Controls.DataTemplates
         internal static void OnTapped(object sender, TappedRoutedEventArgs e)
         {
             FrameworkElement s = sender as FrameworkElement;
-            //if (e != null && !UIHelper.IsOriginSource(sender, e.OriginalSource)) { return; }
+            if (e != null && !UIHelper.IsOriginSource(sender, e.OriginalSource)) { return; }
             if ((s.DataContext as ICanCopy)?.IsCopyEnabled ?? false) { return; }
 
             if (e != null) { e.Handled = true; }
@@ -39,10 +28,10 @@ namespace WFunUWP.Controls.DataTemplates
         {
             void DisabledCopy()
             {
-                //if ((sender as FrameworkElement).DataContext is ICanCopy i)
-                //{
-                //    i.IsCopyEnabled = false;
-                //}
+                if ((sender as FrameworkElement).DataContext is ICanCopy i)
+                {
+                    i.IsCopyEnabled = false;
+                }
             }
 
             FrameworkElement element = sender as FrameworkElement;

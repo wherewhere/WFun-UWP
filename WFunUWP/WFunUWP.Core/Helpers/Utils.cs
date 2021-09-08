@@ -215,6 +215,6 @@ namespace WFunUWP.Core.Helpers
 
     public static partial class Utils
     {
-        
+
     }
 }

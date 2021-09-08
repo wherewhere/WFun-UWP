@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using WFunUWP.Core.Exceptions;
 using WFunUWP.Helpers;
 using WFunUWP.Pages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.ApplicationModel.Resources;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace WFunUWP
@@ -108,15 +100,15 @@ namespace WFunUWP
         private void Application_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
+            if (!(!SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException) || e.Exception is TaskCanceledException || e.Exception is OperationCanceledException))
             {
-//                UIHelper.ShowMessage($"程序出现了错误……\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
-//#if DEBUG
-//                    + $"\n{e.Exception.StackTrace}"
-//#endif
-//                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
+                //                UIHelper.ShowMessage($"程序出现了错误……\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
+                //#if DEBUG
+                //                    + $"\n{e.Exception.StackTrace}"
+                //#endif
+                //                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
             }
-            SettingsHelper.LogManager.GetLogger("UnhandledException").Error($"\n{e.Exception.Message}\n{e.Exception.HResult}\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
+            SettingsHelper.LogManager.GetLogger(e.Exception.GetType()).Error($"\n{e.Exception.Message}\n{e.Exception.HResult}\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
         }
 
         /// <summary>
@@ -132,15 +124,27 @@ namespace WFunUWP
         private void SynchronizationContext_UnhandledException(object sender, Core.Exceptions.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
+            if (!(e.Exception is TaskCanceledException) && !(e.Exception is OperationCanceledException))
             {
-//                UIHelper.ShowMessage($"程序出现了错误……\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
-//#if DEBUG
-//                    + $"\n{e.Exception.StackTrace}"
-//#endif
-//                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
+                ResourceLoader loader = ResourceLoader.GetForViewIndependentUse();
+                if (e.Exception is System.Net.Http.HttpRequestException || e.Exception.HResult <= -2147012721 && e.Exception.HResult >= -2147012895)
+                {
+                    //UIHelper.StatusBar_ShowMessage($"{loader.GetString("NetworkError")}(0x{Convert.ToString(e.Exception.HResult, 16)})");
+                }
+                else if (e.Exception is WFunMessageException)
+                {
+                    //UIHelper.StatusBar_ShowMessage(e.Exception.Message);
+                }
+                else if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
+                {
+                    //                    UIHelper.StatusBar_ShowMessage($"{loader.GetString("ExceptionThrown")}\n{e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)})"
+                    //#if DEBUG
+                    //                        + $"\n{e.Exception.StackTrace}"
+                    //#endif
+                    //                    );
+                }
             }
-            SettingsHelper.LogManager.GetLogger("UnhandledException").Error($"\n{e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)})\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
+            SettingsHelper.LogManager.GetLogger(e.Exception.GetType()).Error($"\n{e.Exception.Message}\n{e.Exception.HResult}\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
         }
     }
 }

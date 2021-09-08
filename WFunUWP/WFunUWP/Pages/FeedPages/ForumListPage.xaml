@@ -4,20 +4,70 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
     xmlns:models="using:WFunUWP.Models"
+    xmlns:local="using:WFunUWP.Pages.FeedPages"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    NavigationCacheMode="Enabled">
     <Page.Resources>
         <ResourceDictionary>
+            <converter:HasValueConverter x:Key="HasValueConverter"/>
             <DataTemplate x:Key="List" x:DataType="models:ForumModel">
-                <TextBlock Text="{x:Bind Title}"/>
+                <ListViewItem
+                    Tag="{x:Bind Url}"
+                    Style="{StaticResource AppListViewItemStyle}"
+                    Tapped="{x:Bind local:ForumListPage.Grid_Tapped}"
+                    KeyDown="{x:Bind local:ForumListPage.ListViewItem_KeyDown}">
+                    <Grid Padding="4,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="56"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <mxuc:PersonPicture
+                            Width="40"
+                            Margin="8"
+                            Height="40"
+                            Grid.RowSpan="3"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left"
+                            DisplayName="{x:Bind Title}"
+                            ProfilePicture="{x:Bind Logo.Pic, Mode=OneWay}"/>
+                        <Grid
+                            Grid.Column="1"
+                            VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Text="{x:Bind Title}"
+                                HorizontalAlignment="Left"/>
+                            <TextBlock
+                                Grid.Row="1"
+                                x:Name="SubTitle"
+                                TextWrapping="Wrap"
+                                Text="{x:Bind SubTitle}"
+                                Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                x:Load="{x:Bind SubTitle, Converter={StaticResource HasValueConverter}, ConverterParameter='string'}"/>
+                        </Grid>
+                    </Grid>
+                </ListViewItem>
             </DataTemplate>
+            <DataTemplate x:Key="Null" x:DataType="local:NullModel">
+                <Border/>
+            </DataTemplate>
+            <local:ForumListPageTemplateSelector
+                x:Key="tempse"
+                Null="{StaticResource Null}"
+                List="{StaticResource List}"/>
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
         <ListView
             SelectionMode="None"
-            ItemTemplate="{StaticResource List}"
-            ItemsSource="{x:Bind AllForumDS, Mode=OneWay}"/>
+            ItemsSource="{x:Bind AllForumDS, Mode=OneWay}"
+            ItemTemplateSelector="{StaticResource tempse}"/>
     </Grid>
 </Page>

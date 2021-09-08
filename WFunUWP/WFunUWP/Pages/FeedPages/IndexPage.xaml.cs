@@ -35,7 +35,7 @@ namespace WFunUWP.Pages.FeedPages
         {
             if (p == -2)
             {
-               await NewsDS.Refresh();
+                await NewsDS.Refresh();
             }
             else
             {
