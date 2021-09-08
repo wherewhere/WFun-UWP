@@ -20,7 +20,11 @@
                 <muxc:NavigationViewItem
                     Tag="Home"
                     Icon="Home"
-                    Content="主页"/>
+                    Content="首页"/>
+                <muxc:NavigationViewItem
+                    Tag="Chat"
+                    Content="社区"
+                    Icon="Message"/>
                 <muxc:NavigationViewItem
                     Tag="List"
                     Icon="List"

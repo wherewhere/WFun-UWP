@@ -106,7 +106,7 @@ namespace WFunUWP.Pages.FeedPages
             {
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, i++, 1)));
-                //await Task.Delay(2000);// 防止 Wind 揍我。。。
+                await Task.Delay(200);// 防止 Wind 揍我。。。
                 if (doc.TryGetNode("/html/body/main/div/div", out HtmlNode error) && error.InnerText.Trim() == "版块已关闭")
                 {
                     if (i - 1 >= 110)

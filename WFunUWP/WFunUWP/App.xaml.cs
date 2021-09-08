@@ -108,7 +108,7 @@ namespace WFunUWP
                 //#endif
                 //                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
             }
-            SettingsHelper.LogManager.GetLogger(e.Exception.GetType()).Error($"\n{e.Exception.Message}\n{e.Exception.HResult}\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
+            SettingsHelper.LogManager.GetLogger(e.Exception.GetType()).Error($"\nMessage: {e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)}){e.Exception.HelpLink}", e.Exception);
         }
 
         /// <summary>
@@ -137,14 +137,14 @@ namespace WFunUWP
                 }
                 else if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
                 {
-                    //                    UIHelper.StatusBar_ShowMessage($"{loader.GetString("ExceptionThrown")}\n{e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)})"
+                    //                    UIHelper.StatusBar_ShowMessage($"{loader.GetString("ExceptionThrown")}\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
                     //#if DEBUG
                     //                        + $"\n{e.Exception.StackTrace}"
                     //#endif
                     //                    );
                 }
             }
-            SettingsHelper.LogManager.GetLogger(e.Exception.GetType()).Error($"\n{e.Exception.Message}\n{e.Exception.HResult}\n{e.Exception.StackTrace}\nHelperLink: {e.Exception.HelpLink}", e.Exception);
+            SettingsHelper.LogManager.GetLogger(e.Exception.GetType()).Error($"\nMessage: {e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)}){e.Exception.HelpLink}", e.Exception);
         }
     }
 }
