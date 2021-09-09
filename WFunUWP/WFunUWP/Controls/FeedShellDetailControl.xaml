@@ -4,14 +4,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:AppStudio.Uwp.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:muxm="using:Microsoft.UI.Xaml.Media"
-    xmlns:converter="using:WFunUWP.Helpers.ValueConverters" xmlns:controls="using:AppStudio.Uwp.Controls"
+    xmlns:templates="using:WFunUWP.Controls.DataTemplates"
+    xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <templates:Feeds/>
+            </ResourceDictionary.MergedDictionaries>
             <converter:HasValueConverter x:Key="HasValueConverter"/>
             <converter:TrueToFalseConverter x:Key="TrueToFalseConverter"/>
             <converter:HTMLToMarkDownConverter x:Key="HTMLToMarkDownConverter"/>
@@ -37,6 +42,7 @@
         </Grid.ChildrenTransitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -186,5 +192,26 @@
             </Grid.RowDefinitions>
             <controls:HtmlBlock Source="{x:Bind FeedDetail.Message, Mode=OneWay}"/>
         </Grid>
+
+        <muxc:ItemsRepeaterScrollHost
+            Margin="8,0"
+            Grid.Row="4"
+            x:Name="RelaRLis"
+            x:Load="{x:Bind FeedDetail.ShowRelationRows, Mode=OneWay}">
+            <ScrollViewer
+                HorizontalScrollMode="Auto"
+                HorizontalScrollBarVisibility="Auto"
+                IsVerticalScrollChainingEnabled="False">
+                <muxc:ItemsRepeater
+                    ItemTemplate="{StaticResource RelationRowsItem}"
+                    ItemsSource="{x:Bind FeedDetail.RelationRows, Mode=OneWay}">
+                    <muxc:ItemsRepeater.Layout>
+                        <muxc:StackLayout
+                            Spacing="8"
+                            Orientation="Horizontal"/>
+                    </muxc:ItemsRepeater.Layout>
+                </muxc:ItemsRepeater>
+            </ScrollViewer>
+        </muxc:ItemsRepeaterScrollHost>
     </Grid>
 </UserControl>

@@ -6,6 +6,7 @@ namespace WFunUWP.Core.Helpers
     public enum UriType
     {
         GetNewsFeeds,
+        GetTagDetail,
         GetUserDetail,
         GetFeedDetail,
         GetForumDetail,
@@ -26,6 +27,7 @@ namespace WFunUWP.Core.Helpers
             switch (type)
             {
                 case UriType.GetNewsFeeds: return "/new/{0}.html";
+                case UriType.GetTagDetail: return "/tag/{0}";
                 case UriType.GetUserDetail: return "/u/{0}";
                 case UriType.GetFeedDetail: return "/thread-{0}-1-1.html";
                 case UriType.GetForumDetail: return "/forum-{0}-{1}.html";

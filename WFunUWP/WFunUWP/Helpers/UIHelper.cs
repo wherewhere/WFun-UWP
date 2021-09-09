@@ -216,6 +216,7 @@ namespace WFunUWP.Helpers
         private static readonly ImmutableArray<string> routes = new string[]
         {
             "/u/",
+            "/tag/",
             "/forum",
             "/thread",
             "http:",
@@ -244,6 +245,11 @@ namespace WFunUWP.Helpers
             {
                 string u = str.Replace(i - 1);
                 Navigate(typeof(FeedListPage), new object[] { u, FeedListType.User });
+            }
+            else if (str.IsFirst(i++))
+            {
+                string u = str.Replace(i - 1);
+                Navigate(typeof(FeedListPage), new object[] { u, FeedListType.Tag });
             }
             else if (str.IsFirst(i++))
             {

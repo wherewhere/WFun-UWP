@@ -8,6 +8,7 @@
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
     mc:Ignorable="d"
+    NavigationCacheMode="Enabled"
     SizeChanged="Page_SizeChanged"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
@@ -58,7 +59,9 @@
                         Height="{x:Bind DetailListHeight, Mode=OneWay}"
                         VerticalScrollMode="{x:Bind MainScrollMode, Mode=OneWay, Converter={StaticResource TrueToFalseConverter}, ConverterParameter='ScrollMode'}">
                         <Grid x:Name="RightGrid">
-                            <ctrl:FeedShellListControl x:Name="ListControl"/>
+                            <ctrl:FeedShellListControl
+                                x:Name="ListControl"
+                                IncrementalLoadingTrigger="None"/>
                         </Grid>
                     </ScrollViewer>
                 </Grid>

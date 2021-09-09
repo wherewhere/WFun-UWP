@@ -28,13 +28,15 @@ namespace WFunUWP.Pages
             UIHelper.ShowProgressBar();
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.BaseUri));
-            HtmlNode node = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody");
-            HtmlNodeCollection CNodes = node.ChildNodes;
-            foreach (HtmlNode item in CNodes)
+            if (doc.TryGetNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody", out HtmlNode node) && node.HasChildNodes)
             {
-                if (item.HasChildNodes)
+                HtmlNodeCollection CNodes = node.ChildNodes;
+                foreach (HtmlNode item in CNodes)
                 {
-                    Collection.Add(new FeedListModel(item.InnerHtml));
+                    if (item.HasChildNodes)
+                    {
+                        Collection.Add(new FeedListModel(item.InnerHtml));
+                    }
                 }
             }
             UIHelper.HideProgressBar();

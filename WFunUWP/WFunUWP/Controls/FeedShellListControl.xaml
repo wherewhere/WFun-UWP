@@ -22,8 +22,9 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
         <ListView
+            x:Name="ListView"
             SelectionMode="None"
-            IncrementalLoadingTrigger="None"
+            Loaded="ListView_Loaded"
             ItemTemplate="{StaticResource FeedReply}"
             ItemsSource="{x:Bind ReplyDS, Mode=OneWay}"/>
     </Grid>

@@ -38,9 +38,11 @@ namespace WFunUWP.Pages.FeedPages
             {
                 doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetFeedDetail, id)));
             }
-            HtmlNode node = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div");
-            FeedDetailModel = new FeedDetailModel(node.InnerHtml);
-            SetLayout();
+            if (doc.TryGetNode("/html/body/main/div/div/div", out HtmlNode node))
+            {
+                FeedDetailModel = new FeedDetailModel(node.InnerHtml);
+                SetLayout();
+            }
             if (MainScrollMode == ScrollMode.Disabled)
             {
                 _ = DetailScrollViewer.ChangeView(null, VerticalOffsets[1], null, true);

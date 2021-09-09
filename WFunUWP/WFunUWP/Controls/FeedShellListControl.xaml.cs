@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +16,8 @@ namespace WFunUWP.Controls
     public sealed partial class FeedShellListControl : UserControl, INotifyPropertyChanged
     {
         private ReplyDS replyDS;
+
+        public ScrollViewer ScrollViewer;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -35,6 +37,26 @@ namespace WFunUWP.Controls
         }
 
         public FeedShellListControl() => InitializeComponent();
+
+        public IncrementalLoadingTrigger IncrementalLoadingTrigger { get => ListView.IncrementalLoadingTrigger; set => ListView.IncrementalLoadingTrigger = value; }
+
+        public ScrollMode VerticalScrollMode
+        {
+            get => (ScrollMode)(ScrollViewer?.VerticalScrollMode);
+
+            set
+            {
+                if (ScrollViewer != null)
+                {
+                    ScrollViewer.VerticalScrollMode = value;
+                }
+            }
+        }
+
+        private void ListView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            ScrollViewer = VisualTree.FindDescendantByName(ListView, "ScrollViewer") as ScrollViewer;
+        }
 
         public async Task Refresh(int p = -1)
         {

@@ -119,11 +119,18 @@ namespace WFunUWP.Pages.FeedPages
                         continue;
                     }
                 }
-                HtmlNode node = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div/div");
-                Collection.Add(new ForumModel(node.InnerHtml)
+                if (doc.TryGetNode("/html/body/main/div/div/div/div", out HtmlNode node))
                 {
-                    Url = $"/forum-{i - 1}-1.html"
-                });
+                    Collection.Add(new ForumModel(node.InnerHtml)
+                    {
+                        Url = $"/forum-{i - 1}-1.html"
+                    });
+                }
+                else
+                {
+                    Collection.Add(new NullModel());
+                    continue;
+                }
             }
             num += Collection.Count;
             return Collection;

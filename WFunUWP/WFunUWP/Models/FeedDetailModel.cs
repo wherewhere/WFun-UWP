@@ -23,6 +23,7 @@ namespace WFunUWP.Models
 
         public bool IsCopyEnabled { get; set; }
         public bool IsFeedArticle { get; private set; }
+        public bool ShowRelationRows { get; private set; }
 
         public BackgroundImageModel UserAvatar { get; private set; }
 
@@ -41,7 +42,7 @@ namespace WFunUWP.Models
             }
             if (token.TryGetNode("/div[2]/div", out HtmlNode messagetitle))
             {
-                MessageTitle = messagetitle.InnerText.Trim();
+                MessageTitle = messagetitle.InnerText.CSStoString().Trim();
             }
             if (token.TryGetNode("/div[3]/div/div/a/img", out HtmlNode useravatar))
             {
@@ -84,6 +85,7 @@ namespace WFunUWP.Models
                         });
                     }
                 }
+                ShowRelationRows = RelationRows.Count > 0;
                 if (token.TryGetNode("/div[3]/div[4]/div", out HtmlNode reportmessage))
                 {
                     ReportMessage = reportmessage.InnerHtml.Trim();

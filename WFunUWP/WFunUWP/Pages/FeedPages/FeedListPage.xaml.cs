@@ -91,6 +91,7 @@ namespace WFunUWP.Pages.FeedPages
 
     public enum FeedListType
     {
+        Tag,
         User,
         Forum,
     }
@@ -112,6 +113,12 @@ namespace WFunUWP.Pages.FeedPages
             ObservableCollection<object> Collection = new ObservableCollection<object>();
             switch (_type)
             {
+                case FeedListType.Tag:
+                    if (_currentPage == 1)
+                    {
+                        doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetTagDetail, _id)));
+                    }
+                    break;
                 case FeedListType.User:
                     if (_currentPage == 1)
                     {
@@ -126,21 +133,50 @@ namespace WFunUWP.Pages.FeedPages
             }
             if (_currentPage == 1)
             {
-                HtmlNode head = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div/div");
+                HtmlNode head;
                 switch (_type)
                 {
-                    case FeedListType.User: Collection.Add(new UserModel(head.InnerHtml)); break;
-                    case FeedListType.Forum: Collection.Add(new ForumModel(head.InnerHtml)); break;
+                    case FeedListType.Tag:
+                        if (doc.TryGetNode("/html/body/main/div/div/div/div/div", out head))
+                        {
+                            Collection.Add(new ForumModel(head.InnerHtml));
+                        }
+                        break;
+                    case FeedListType.User:
+                        if (doc.TryGetNode("/html/body/main/div/div/div/div", out head))
+                        {
+                            Collection.Add(new UserModel(head.InnerHtml));
+                        }
+                        break;
+                    case FeedListType.Forum:
+                        if (doc.TryGetNode("/html/body/main/div/div/div/div", out head))
+                        {
+                            Collection.Add(new ForumModel(head.InnerHtml));
+                        }
+                        break;
                     default: break;
                 }
             }
-            HtmlNode node = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody");
-            HtmlNodeCollection CNodes = node.ChildNodes;
-            foreach (HtmlNode item in CNodes)
+            if (doc.TryGetNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody", out HtmlNode node) && node.HasChildNodes)
             {
-                if (item.InnerHtml.Contains("td"))
+                HtmlNodeCollection CNodes = node.ChildNodes;
+                foreach (HtmlNode item in CNodes)
                 {
-                    Collection.Add(new FeedListModel(item.InnerHtml));
+                    if (item.InnerHtml.Contains("td"))
+                    {
+                        Collection.Add(new FeedListModel(item.InnerHtml));
+                    }
+                }
+            }
+            else if (doc.TryGetNode("/html/body/main/div/div/div/div/div/div/div[2]/table/tbody", out node) && node.HasChildNodes)
+            {
+                HtmlNodeCollection CNodes = node.ChildNodes;
+                foreach (HtmlNode item in CNodes)
+                {
+                    if (item.InnerHtml.Contains("td"))
+                    {
+                        Collection.Add(new FeedListModel(item.InnerHtml));
+                    }
                 }
             }
             return Collection;

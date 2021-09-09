@@ -49,11 +49,11 @@ namespace WFunUWP.Models
             if (token.TryGetNode("/td[2]/div/a", out HtmlNode messagetitle))
             {
                 Url = messagetitle.GetAttributeValue("href", string.Empty);
-                MessageTitle = messagetitle.InnerText.Trim().HTMLEntitytoNormal();
+                MessageTitle = messagetitle.InnerText.CSStoString().Trim();
             }
             if (token.TryGetNode("/td[2]/div[2]", out HtmlNode message))
             {
-                Message = message.InnerText.Trim();
+                Message = message.InnerText.CSStoString().Trim();
             }
             if (token.TryGetNode("/td[3]", out HtmlNode dateline))
             {

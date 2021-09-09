@@ -54,15 +54,17 @@ namespace WFunUWP.Pages.FeedPages
         protected async override Task<IList<object>> LoadItemsAsync(uint count)
         {
             HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetNewsFeeds, _currentPage)));
-            HtmlNode node = doc.DocumentNode.SelectSingleNode("/html/body/main/div/div/div/div/div/div/div/table/tbody");
-            HtmlNodeCollection CNodes = node.ChildNodes;
             ObservableCollection<object> Collection = new ObservableCollection<object>();
-            foreach (HtmlNode item in CNodes)
+            doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetNewsFeeds, _currentPage)));
+            if (doc.TryGetNode("/html/body/main/div/div/div/div/div/div/div/table/tbody", out HtmlNode node) && node.HasChildNodes)
             {
-                if (item.HasChildNodes)
+                HtmlNodeCollection CNodes = node.ChildNodes;
+                foreach (HtmlNode item in CNodes)
                 {
-                    Collection.Add(new FeedListModel(item.InnerHtml));
+                    if (item.HasChildNodes)
+                    {
+                        Collection.Add(new FeedListModel(item.InnerHtml));
+                    }
                 }
             }
             return Collection;

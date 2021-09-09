@@ -4,10 +4,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:AppStudio.Uwp.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:local="using:WFunUWP.Controls.DataTemplates"
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:models="using:WFunUWP.Models" xmlns:controls="using:AppStudio.Uwp.Controls"
+    xmlns:models="using:WFunUWP.Models"
     mc:Ignorable="d">
 
     <converter:HasValueConverter x:Key="HasValueConverter"/>
@@ -198,16 +199,15 @@
                         x:Name="mTitleT"
                         Tag="{x:Bind Url}"
                         FontWeight="Black"
-                        TextWrapping="Wrap"
                         Text="{x:Bind MessageTitle}"
+                        TextTrimming="CharacterEllipsis"
                         Tapped="{x:Bind local:Feeds.OnTapped}"
                         IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
                         x:Load="{x:Bind MessageTitle, Converter={StaticResource HasValueConverter}, ConverterParameter='string'}"/>
 
                     <Grid
                         Margin="4"
-                        Grid.Row="2"
-                        MaxHeight="200">
+                        Grid.Row="2">
                         <TextBlock
                             MaxLines="10"
                             Tag="{x:Bind Url}"
@@ -313,10 +313,10 @@
                     </StackPanel>
 
                     <StackPanel
-                        x:Name="btnsPanel"
                         Grid.Row="4"
-                        HorizontalAlignment="Right"
-                        Orientation="Horizontal">
+                        x:Name="btnsPanel"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
 
                         <Button
                             Tag="{x:Bind}"
@@ -379,8 +379,7 @@
 
                     <Grid
                         Margin="4"
-                        Grid.Row="1"
-                        MaxHeight="200">
+                        Grid.Row="1">
                         <controls:HtmlBlock
                             Source="{x:Bind Message}"
                             Tapped="{x:Bind local:Feeds.OnTapped}"/>
@@ -412,18 +411,14 @@
     </DataTemplate>
 
     <DataTemplate x:Key="RelationRowsItem" x:DataType="models:RelationRowsItem">
-        <StackPanel
-            Margin="2"
-            Padding="4"
-            CornerRadius="8"
+        <Button
+            x:Name="RelaRLis"
+            Tag="{x:Bind Url}"
             BorderThickness="1"
-            Orientation="Horizontal"
-            VerticalAlignment="Center"
+            Content="{x:Bind Title}"
+            Style="{StaticResource ButtonRevealStyle}"
+            Click="{x:Bind local:Feeds.FeedButton_Click}"
             Background="{ThemeResource SystemControlBackgroundListLowBrush}"
-            BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}">
-            <TextBlock
-                Margin="4,0,0,0"
-                Text="{x:Bind Title}"/>
-        </StackPanel>
+            BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}"/>
     </DataTemplate>
 </ResourceDictionary>
