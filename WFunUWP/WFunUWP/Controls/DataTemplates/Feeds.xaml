@@ -27,7 +27,7 @@
     
     <DataTemplate x:Key="Feed" x:DataType="models:FeedListModel">
         <ListViewItem
-            Margin="8"
+            Margin="2,8"
             MaxWidth="800"
             Tag="{x:Bind Url}"
             Style="{StaticResource FixedListViewItemStyle}"
@@ -254,7 +254,7 @@
 
     <DataTemplate x:Key="FeedReply" x:DataType="models:FeedReplyModel">
         <ListViewItem
-            Margin="8"
+            Margin="2,8"
             MaxWidth="800"
             Style="{StaticResource FixedListViewItemStyle}"
             RightTapped="{x:Bind local:Feeds.ListViewItem_RightTapped}">

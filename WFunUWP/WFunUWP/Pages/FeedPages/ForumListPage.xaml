@@ -15,21 +15,22 @@
             <converter:HasValueConverter x:Key="HasValueConverter"/>
             <DataTemplate x:Key="List" x:DataType="models:ForumModel">
                 <ListViewItem
+                    Margin="8"
+                    MaxWidth="800"
                     Tag="{x:Bind Url}"
                     Style="{StaticResource AppListViewItemStyle}"
                     Tapped="{x:Bind local:ForumListPage.Grid_Tapped}"
                     KeyDown="{x:Bind local:ForumListPage.ListViewItem_KeyDown}">
-                    <Grid Padding="4,8">
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="56"/>
+                            <ColumnDefinition Width="48"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <mxuc:PersonPicture
                             Width="40"
-                            Margin="8"
                             Height="40"
                             Grid.RowSpan="3"
-                            VerticalAlignment="Top"
+                            VerticalAlignment="Center"
                             HorizontalAlignment="Left"
                             DisplayName="{x:Bind Title}"
                             ProfilePicture="{x:Bind Logo.Pic, Mode=OneWay}"/>

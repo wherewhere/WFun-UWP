@@ -18,7 +18,7 @@
             <converter:HasValueConverter x:Key="HasValueConverter"/>
             <DataTemplate x:Key="UserDetail" x:DataType="model:UserModel">
                 <ListViewItem
-                    Margin="8"
+                    Margin="2,8"
                     MaxWidth="800"
                     Style="{StaticResource FixedListViewItemStyle}">
                     <Grid
@@ -79,7 +79,7 @@
             </DataTemplate>
             <DataTemplate x:Key="ForumDetail" x:DataType="model:ForumModel">
                 <ListViewItem
-                    Margin="8"
+                    Margin="2,8"
                     MaxWidth="800"
                     Style="{StaticResource FixedListViewItemStyle}">
                     <Grid

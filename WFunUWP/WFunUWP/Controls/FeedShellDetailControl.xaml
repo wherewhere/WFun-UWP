@@ -84,9 +84,9 @@
             Style="{StaticResource FixedListViewItemStyle}"
             Template="{StaticResource AppListViewItemTemplate}">
             <Grid
-                Margin="8"
-                Padding="4"
                 Height="40"
+                Padding="4"
+                Margin="2,8"
                 CornerRadius="8"
                 BorderThickness="1"
                 VerticalAlignment="Center"
