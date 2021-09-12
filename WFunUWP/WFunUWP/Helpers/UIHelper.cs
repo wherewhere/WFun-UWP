@@ -53,11 +53,7 @@ namespace WFunUWP.Helpers
 
         public static bool IsDarkTheme(ElementTheme theme)
         {
-            if (theme == ElementTheme.Default)
-            {
-                return Application.Current.RequestedTheme == ApplicationTheme.Dark;
-            }
-            return theme == ElementTheme.Dark;
+            return theme == ElementTheme.Default ? Application.Current.RequestedTheme == ApplicationTheme.Dark : theme == ElementTheme.Dark;
         }
 
         public static async void CheckTheme()

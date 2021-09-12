@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
+    xmlns:converter="using:WFunUWP.Helpers.ValueConverters" xmlns:local="using:WFunUWP.Pages.SettingsPages"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
     <Page.Resources>
@@ -18,6 +18,11 @@
     </Page.Resources>
 
     <Grid>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
         <ScrollViewer>
             <StackPanel Margin="16">
                 <mxuc:RadioButtons
@@ -33,7 +38,85 @@
                 <controls:HeaderedContentControl
                     Style="{StaticResource HeaderStyle}"
                     x:Uid="/SettingsPage/ContentSettingsHeader">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ToggleSwitch
+                            Margin="0,2"
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2"
+                            x:Uid="/SettingsPage/NoPicsModeCheckBox"
+                            IsOn="{x:Bind IsNoPicsMode, Mode=TwoWay}"/>
 
+                        <Button
+                            Margin="0,2"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Tag="CleanCache"
+                            Click="Button_Click"
+                            x:Uid="/SettingsPage/CleanCacheButton"
+                            Style="{StaticResource ButtonRevealStyle}"
+                            IsEnabled="{x:Bind IsCleanCacheButtonEnabled, Mode=OneWay}"/>
+
+                        <mxuc:ProgressRing
+                            Margin="8,0"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            IsActive="{x:Bind IsCleanCacheButtonEnabled, Converter={StaticResource TrueToFalseConverter}, Mode=OneWay}"/>
+                    </Grid>
+                </controls:HeaderedContentControl>
+                <controls:HeaderedContentControl
+                    Style="{StaticResource HeaderStyle}"
+                    x:Uid="/SettingsPage/UpdateSettingsHeader">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Margin="0,2"
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2"
+                            FontSize="{ThemeResource ContentControlFontSize}"
+                            Text="{x:Bind local:SettingsPage.VersionTextBlockText}"/>
+
+                        <CheckBox
+                            Margin="0,2"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            x:Uid="/SettingsPage/CheckUpdateWhenLuanchingCheckBox"
+                            IsChecked="{x:Bind CheckUpdateWhenLuanching, Mode=TwoWay}"/>
+
+                        <Button
+                            Margin="0,2"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Tag="CheckUpdate"
+                            Click="Button_Click"
+                            x:Uid="/SettingsPage/CheckUpdate"
+                            Style="{StaticResource ButtonRevealStyle}"
+                            IsEnabled="{x:Bind IsCheckUpdateButtonEnabled, Mode=OneWay}"/>
+
+                        <mxuc:ProgressRing
+                            Margin="8,0"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            IsActive="{x:Bind IsCheckUpdateButtonEnabled, Converter={StaticResource TrueToFalseConverter}, Mode=OneWay}"/>
+                    </Grid>
                 </controls:HeaderedContentControl>
                 <controls:HeaderedContentControl
                     Style="{StaticResource HeaderStyle}"
@@ -43,26 +126,53 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2"
+                            x:Uid="/SettingsPage/ShowOtherExceptionCheckBox"
+                            IsChecked="{x:Bind ShowOtherException, Mode=TwoWay}"/>
                         <HyperlinkButton
                             Margin="0,2"
-                            Grid.Row="0"
+                            Grid.Row="1"
                             Tag="FeedBack"
+                            Grid.ColumnSpan="2"
                             Click="Button_Click"
                             x:Uid="/SettingsPage/FeedbackLink"/>
                         <HyperlinkButton
                             Margin="0,2"
-                            Grid.Row="1"
+                            Grid.Row="2"
                             Tag="LogFolder"
+                            Grid.ColumnSpan="2"
                             Click="Button_Click"
                             x:Uid="/SettingsPage/LogFolderLink"/>
                         <Button
                             Margin="0,2"
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Tag="TestPage"
+                            Grid.Column="0"
                             Click="Button_Click"
+                            x:Name="GoToTestPage"
                             x:Uid="/SettingsPage/GoToTestPage"
                             Style="{StaticResource ButtonRevealStyle}"/>
+                    </Grid>
+                </controls:HeaderedContentControl>
+                <controls:HeaderedContentControl
+                    Style="{StaticResource HeaderStyle}"
+                    x:Uid="/SettingsPage/AboutSettingsHeader">
+                    <Grid>
+                        <controls:MarkdownTextBlock
+                            Margin="0,2"
+                            x:Uid="/MarkDown/about"
+                            Background="Transparent"
+                            HorizontalAlignment="Left"
+                            LinkClicked="MarkdownTextBlock_LinkClicked"
+                            FontSize="{x:Bind Path=GoToTestPage.FontSize, Mode=OneWay}"/>
                     </Grid>
                 </controls:HeaderedContentControl>
             </StackPanel>

@@ -18,6 +18,11 @@
     </Page.Resources>
 
     <Grid>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
         <ScrollViewer>
             <StackPanel Margin="16">
                 <controls:HeaderedContentControl

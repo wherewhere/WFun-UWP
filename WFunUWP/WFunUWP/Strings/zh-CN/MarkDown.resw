@@ -117,52 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutSettingsHeader.Header" xml:space="preserve">
-    <value>关于</value>
-  </data>
-  <data name="CheckUpdate.Content" xml:space="preserve">
-    <value>检查更新</value>
-  </data>
-  <data name="CheckUpdateWhenLuanchingCheckBox.Content" xml:space="preserve">
-    <value>启动时检查更新</value>
-  </data>
-  <data name="CleanCacheButton.Content" xml:space="preserve">
-    <value>清理缓存</value>
-  </data>
-  <data name="ContentSettingsHeader.Header" xml:space="preserve">
-    <value>内容</value>
-  </data>
-  <data name="FeedbackLink.Content" xml:space="preserve">
-    <value>在Github上反馈</value>
-  </data>
-  <data name="GoToTestPage.Content" xml:space="preserve">
-    <value>前往测试页面</value>
-  </data>
-  <data name="LogFolderLink.Content" xml:space="preserve">
-    <value>打开日志文件夹</value>
-  </data>
-  <data name="NoPicsModeCheckBox.Header" xml:space="preserve">
-    <value>无图模式</value>
-  </data>
-  <data name="OthersSettingsHeader.Header" xml:space="preserve">
-    <value>其他</value>
-  </data>
-  <data name="ShowOtherExceptionCheckBox.Content" xml:space="preserve">
-    <value>显示未知错误</value>
-  </data>
-  <data name="ThemeMode.Header" xml:space="preserve">
-    <value>主题</value>
-  </data>
-  <data name="ThemeModeDark.Content" xml:space="preserve">
-    <value>深色</value>
-  </data>
-  <data name="ThemeModeDefault.Content" xml:space="preserve">
-    <value>跟随系统</value>
-  </data>
-  <data name="ThemeModeLight.Content" xml:space="preserve">
-    <value>浅色</value>
-  </data>
-  <data name="UpdateSettingsHeader.Header" xml:space="preserve">
-    <value>更新</value>
+  <data name="about.Text" xml:space="preserve">
+    <value>#### 欢迎使用智机博物馆！
+
+##### 声明
+
+1. 本程序是[智机博物馆](https://www.wpxap.com)的第三方客户端，仅用作学习交流使用，禁止用于商业用途。
+2. 本程序是开源软件，因此，在使用时请确保程序是来自[本Github仓库](https://github.com/wherewhere/WFun-UWP)，以确保您的数据安全。
+3. 若程序来源无异常，程序运行过程中您的所有数据都仅用于与智机的服务器交流或储存于本地，开发者不会窃取您的任何数据。但即便如此，也请注意使用环境的安全性。
+
+##### 引用及参考
+
+- [Win UI](https://github.com/microsoft/microsoft-ui-xaml "Win UI")
+- [Color Thief](https://github.com/KSemenenko/ColorThief)
+- [Html2Markdown](https://github.com/baynezy/Html2Markdown)
+- [UWP Community Toolkit](https://github.com/Microsoft/UWPCommunityToolkit)</value>
   </data>
 </root>

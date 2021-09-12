@@ -134,6 +134,11 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
         <ListView
             SelectionMode="None"
             ItemsSource="{x:Bind ForumDS, Mode=OneWay}"

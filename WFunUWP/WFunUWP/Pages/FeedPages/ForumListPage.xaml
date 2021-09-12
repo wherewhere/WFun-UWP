@@ -66,6 +66,11 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
         <ListView
             SelectionMode="None"
             ItemsSource="{x:Bind AllForumDS, Mode=OneWay}"

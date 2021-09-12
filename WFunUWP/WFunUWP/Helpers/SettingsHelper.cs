@@ -51,7 +51,7 @@ namespace WFunUWP.Helpers
         }
     }
 
-    internal enum UISettingChangedType
+    public enum UISettingChangedType
     {
         LightMode,
         DarkMode,
