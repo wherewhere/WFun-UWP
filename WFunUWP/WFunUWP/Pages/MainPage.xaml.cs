@@ -32,6 +32,7 @@ namespace WFunUWP.Pages
             UIHelper.MainPage = this;
             if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
             { Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true; }
+            RectanglePointerExited();
             UIHelper.CheckTheme();
         }
 
@@ -102,15 +103,15 @@ namespace WFunUWP.Pages
             {
                 // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
                 NavigationView.SelectedItem = (muxc.NavigationViewItem)NavigationView.SettingsItem;
-                NavigationView.Header = "设置";
+                HeaderTitle.Text = "设置";
             }
             if (NavigationViewFrame.SourcePageType == typeof(FeedListPage))
             {
-                NavigationView.Header = "论坛";
+                HeaderTitle.Text = "论坛";
             }
             if (NavigationViewFrame.SourcePageType == typeof(TestPage))
             {
-                NavigationView.Header = "测试";
+                HeaderTitle.Text = "测试";
             }
             else if (NavigationViewFrame.SourcePageType != null)
             {
@@ -133,7 +134,7 @@ namespace WFunUWP.Pages
                     catch { }
                 }
 
-                NavigationView.Header = (((muxc.NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString());
+                HeaderTitle.Text = (((muxc.NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString());
             }
         }
 
@@ -169,6 +170,40 @@ namespace WFunUWP.Pages
             ProgressBar.ShowError = false;
             ProgressBar.ShowPaused = false;
         }
+
+        public void ShowMessage(string message, int num, InfoType type)
+        {
+            Message.Text = message;
+            MessageInfo.Value = num;
+            switch(type)
+            {
+                case InfoType.Success:
+                    MessageInfo.Style = (Style)Application.Current.Resources["SuccessIconInfoBadgeStyle"];
+                    break;
+                case InfoType.Critical:
+                    MessageInfo.Style = (Style)Application.Current.Resources["CriticalIconInfoBadgeStyle"];
+                    break;
+                case InfoType.Attention:
+                    MessageInfo.Style = (Style)Application.Current.Resources["AttentionIconInfoBadgeStyle"];
+                    break;
+                case InfoType.Informational:
+                    MessageInfo.Style = (Style)Application.Current.Resources["InformationalIconInfoBadgeStyle"];
+                    break;
+            }
+            RectanglePointerEntered();
+        }
+
+        public void RectanglePointerEntered() => EnterStoryboard.Begin();
+
+        public void RectanglePointerExited() => ExitStoryboard.Begin();
         #endregion
+    }
+
+    public enum InfoType
+    {
+        Success,
+        Critical,
+        Attention,
+        Informational
     }
 }

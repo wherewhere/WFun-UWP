@@ -48,8 +48,7 @@
                         x:Name="ListControl"
                         IncrementalLoadingTrigger="Edge">
                         <ctrl:FeedShellListControl.ListViewHeader>
-                            <Grid x:Name="Pane2Grid">
-                            </Grid>
+                            <Grid x:Name="Pane2Grid"/>
                         </ctrl:FeedShellListControl.ListViewHeader>
                     </ctrl:FeedShellListControl>
                 </Grid>

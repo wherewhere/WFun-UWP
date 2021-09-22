@@ -17,7 +17,7 @@ namespace WFunUWP
     /// <summary>
     /// 提供特定于应用程序的行为，以补充默认的应用程序类。
     /// </summary>
-    sealed partial class App : Application
+    public sealed partial class App : Application
     {
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
@@ -102,11 +102,12 @@ namespace WFunUWP
             e.Handled = true;
             if (!(!SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException) || e.Exception is TaskCanceledException || e.Exception is OperationCanceledException))
             {
-                //                UIHelper.ShowMessage($"程序出现了错误……\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
-                //#if DEBUG
-                //                    + $"\n{e.Exception.StackTrace}"
-                //#endif
-                //                , UIHelper.Warnning, MainPage.MessageColor.Yellow);
+                ResourceLoader loader = ResourceLoader.GetForViewIndependentUse();
+                UIHelper.ShowMessage($"{loader.GetString("ExceptionThrown")}\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
+#if DEBUG
+                                    + $"\n{e.Exception.StackTrace}"
+#endif
+                                , InfoType.Critical);
             }
             SettingsHelper.LogManager.GetLogger(e.Exception.GetType()).Error($"\nMessage: {e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)}){e.Exception.HelpLink}", e.Exception);
         }
@@ -137,11 +138,11 @@ namespace WFunUWP
                 }
                 else if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
                 {
-                    //                    UIHelper.StatusBar_ShowMessage($"{loader.GetString("ExceptionThrown")}\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
-                    //#if DEBUG
-                    //                        + $"\n{e.Exception.StackTrace}"
-                    //#endif
-                    //                    );
+                    UIHelper.ShowMessage($"{loader.GetString("ExceptionThrown")}\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
+#if DEBUG
+                                            + $"\n{e.Exception.StackTrace}"
+#endif
+                                        , InfoType.Critical);
                 }
             }
             SettingsHelper.LogManager.GetLogger(e.Exception.GetType()).Error($"\nMessage: {e.Exception.Message}\n{e.Exception.HResult}(0x{Convert.ToString(e.Exception.HResult, 16)}){e.Exception.HelpLink}", e.Exception);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WFunUWP.Pages;
@@ -21,8 +22,9 @@ namespace WFunUWP.Helpers
     internal static partial class UIHelper
     {
         public const int Duration = 3000;
-        public static bool IsShowingProgressRing, IsShowingProgressBar, IsShowingMessage;
+        public static bool IsShowingProgressBar, IsShowingMessage;
         public static bool HasStatusBar => ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar");
+        private static readonly ObservableCollection<(string message, InfoType type)> MessageList = new ObservableCollection<(string message, InfoType type)>();
 
         private static CoreDispatcher shellDispatcher;
         public static CoreDispatcher ShellDispatcher
@@ -49,7 +51,6 @@ namespace WFunUWP.Helpers
                 }
             }
         }
-
 
         public static bool IsDarkTheme(ElementTheme theme)
         {
@@ -162,6 +163,47 @@ namespace WFunUWP.Helpers
                 await StatusBar.GetForCurrentView().ProgressIndicator.HideAsync();
             }
             MainPage?.HideProgressBar();
+        }
+
+        public static async void ShowMessage(string message, InfoType type = InfoType.Attention)
+        {
+            MessageList.Add((message, type));
+            if (!IsShowingMessage)
+            {
+                IsShowingMessage = true;
+                while (MessageList.Count > 0)
+                {
+                    if (HasStatusBar)
+                    {
+                        StatusBar statusBar = StatusBar.GetForCurrentView();
+                        if (!string.IsNullOrEmpty(MessageList[0].message))
+                        {
+                            statusBar.ProgressIndicator.Text = $"[{MessageList.Count}]{MessageList[0].message.Replace("\n", " ")}";
+                            statusBar.ProgressIndicator.ProgressValue = IsShowingProgressBar ? null : (double?)0;
+                            await statusBar.ProgressIndicator.ShowAsync();
+                            await Task.Delay(3000);
+                        }
+                        MessageList.RemoveAt(0);
+                        if (MessageList.Count == 0 && !IsShowingProgressBar) { await statusBar.ProgressIndicator.HideAsync(); }
+                        statusBar.ProgressIndicator.Text = string.Empty;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(MessageList[0].message))
+                        {
+                            string messages = $"{MessageList[0].message.Replace("\n", " ")}";
+                            MainPage?.ShowMessage(messages, MessageList.Count, MessageList[0].type);
+                            await Task.Delay(3000);
+                        }
+                        MessageList.RemoveAt(0);
+                        if (MessageList.Count == 0)
+                        {
+                            MainPage?.RectanglePointerExited();
+                        }
+                    }
+                }
+                IsShowingMessage = false;
+            }
         }
 
         public static bool IsOriginSource(object source, object originalSource)

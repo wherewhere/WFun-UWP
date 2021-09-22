@@ -14,12 +14,56 @@
                 <EntranceThemeTransition/>
             </TransitionCollection>
         </Grid.ChildrenTransitions>
+        <Grid.Resources>
+            <Storyboard x:Name="EnterStoryboard">
+                <FadeInThemeAnimation Storyboard.TargetName="MessageBar"/>
+            </Storyboard>
+            <Storyboard x:Name="ExitStoryboard">
+                <FadeOutThemeAnimation Storyboard.TargetName="MessageBar"/>
+            </Storyboard>
+        </Grid.Resources>
         <muxc:NavigationView
             PaneTitle="智机社区"
             x:Name="NavigationView"
             Loaded="NavigationView_Loaded"
+            IsTitleBarAutoPaddingEnabled="False"
             BackRequested="NavigationView_BackRequested"
             SelectionChanged="NavigationView_SelectionChanged">
+            <muxc:NavigationView.Header>
+                <Grid
+                    Margin="-40,0,0,0"
+                    x:Name="HeaderGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        x:Name="HeaderTitle"
+                        HorizontalAlignment="Left"
+                        TextTrimming="CharacterEllipsis"/>
+                    <Grid
+                        Margin="10,0"
+                        Grid.Column="1"
+                        x:Name="MessageBar"
+                        HorizontalAlignment="Right">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <muxc:InfoBadge
+                            x:Name="MessageInfo"
+                            Style="{StaticResource AttentionIconInfoBadgeStyle}"/>
+                        <TextBlock
+                            MaxLines="1"
+                            Grid.Column="1"
+                            x:Name="Message"
+                            Margin="2,9,0,0"
+                            TextTrimming="CharacterEllipsis"
+                            FontSize="{ThemeResource PivotTitleFontSize}"/>
+                    </Grid>
+                </Grid>
+            </muxc:NavigationView.Header>
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem
                     Tag="Home"
