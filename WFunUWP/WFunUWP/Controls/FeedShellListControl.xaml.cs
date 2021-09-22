@@ -38,6 +38,8 @@ namespace WFunUWP.Controls
 
         public FeedShellListControl() => InitializeComponent();
 
+        public object ListViewHeader { get => Head.Content; set => Head.Content = value; }
+
         public IncrementalLoadingTrigger IncrementalLoadingTrigger { get => ListView.IncrementalLoadingTrigger; set => ListView.IncrementalLoadingTrigger = value; }
 
         public ScrollMode VerticalScrollMode

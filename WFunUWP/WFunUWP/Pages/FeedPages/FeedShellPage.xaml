@@ -4,13 +4,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:ctrl="using:WFunUWP.Controls"
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
     mc:Ignorable="d"
-    NavigationCacheMode="Enabled"
-    SizeChanged="Page_SizeChanged"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    NavigationCacheMode="Enabled">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,52 +19,41 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource SystemControlBackgroundListLowBrush}">
+    <Grid>
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition/>
             </TransitionCollection>
         </Grid.ChildrenTransitions>
-        <Grid>
-            <ScrollViewer
-                x:Name="MainScrollViewer"
-                ViewChanged="ScrollViewer_ViewChanged"
-                VerticalScrollMode="{x:Bind MainScrollMode, Mode=OneWay}">
-                <Grid x:Name="MainGrid">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition x:Name="LeftColumnDefinition" Width="*"/>
-                        <ColumnDefinition x:Name="RightColumnDefinition" Width="0"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <ScrollViewer
-                        VerticalAlignment="Top"
-                        x:Name="DetailScrollViewer"
-                        Height="{x:Bind DetailListHeight, Mode=OneWay}"
-                        VerticalScrollMode="{x:Bind MainScrollMode, Mode=OneWay, Converter={StaticResource TrueToFalseConverter}, ConverterParameter='ScrollMode'}">
-                        <Border x:Name="DetailBorder">
-                            <ctrl:FeedShellDetailControl x:Name="DetailControl"/>
-                        </Border>
-                    </ScrollViewer>
-
-                    <ScrollViewer
-                        Grid.Row="1"
-                        VerticalAlignment="Top"
-                        x:Name="RightScrollViewer"
-                        ViewChanged="ScrollViewer_ViewChanged"
-                        Height="{x:Bind DetailListHeight, Mode=OneWay}"
-                        VerticalScrollMode="{x:Bind MainScrollMode, Mode=OneWay, Converter={StaticResource TrueToFalseConverter}, ConverterParameter='ScrollMode'}">
-                        <Grid x:Name="RightGrid">
-                            <ctrl:FeedShellListControl
-                                x:Name="ListControl"
-                                IncrementalLoadingTrigger="None"/>
-                        </Grid>
-                    </ScrollViewer>
+        <muxc:TwoPaneView
+            Pane1Length="420"
+            x:Name="TwoPaneView"
+            PanePriority="Pane2"
+            MinWideModeWidth="804"
+            Loaded="TwoPaneView_Loaded"
+            TallModeConfiguration="SinglePane"
+            ModeChanged="TwoPaneView_ModeChanged">
+            <muxc:TwoPaneView.Pane1>
+                <ScrollViewer
+                    VerticalAlignment="Top"
+                    x:Name="DetailScrollViewer">
+                    <Grid x:Name="Pane1Grid">
+                        <ctrl:FeedShellDetailControl x:Name="DetailControl"/>
+                    </Grid>
+                </ScrollViewer>
+            </muxc:TwoPaneView.Pane1>
+            <muxc:TwoPaneView.Pane2>
+                <Grid x:Name="RightGrid">
+                    <ctrl:FeedShellListControl
+                        x:Name="ListControl"
+                        IncrementalLoadingTrigger="Edge">
+                        <ctrl:FeedShellListControl.ListViewHeader>
+                            <Grid x:Name="Pane2Grid">
+                            </Grid>
+                        </ctrl:FeedShellListControl.ListViewHeader>
+                    </ctrl:FeedShellListControl>
                 </Grid>
-            </ScrollViewer>
-        </Grid>
+            </muxc:TwoPaneView.Pane2>
+        </muxc:TwoPaneView>
     </Grid>
 </Page>

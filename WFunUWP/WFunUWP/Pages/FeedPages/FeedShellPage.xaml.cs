@@ -6,6 +6,7 @@ using WFunUWP.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using muxc = Microsoft.UI.Xaml.Controls;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -14,17 +15,9 @@ namespace WFunUWP.Pages.FeedPages
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class FeedShellPage : Page, INotifyPropertyChanged
+    public sealed partial class FeedShellPage : Page
     {
         private FeedDetailModel FeedDetailModel;
-        private double[] VerticalOffsets { get; set; } = new double[3];
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
-        {
-            if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
-        }
 
         public FeedShellPage() => InitializeComponent();
 
@@ -43,29 +36,11 @@ namespace WFunUWP.Pages.FeedPages
                 FeedDetailModel = new FeedDetailModel(node.InnerHtml);
                 SetLayout();
             }
-            if (MainScrollMode == ScrollMode.Disabled)
-            {
-                _ = DetailScrollViewer.ChangeView(null, VerticalOffsets[1], null, true);
-                _ = RightScrollViewer.ChangeView(null, VerticalOffsets[2], null, true);
-            }
-            else
-            {
-                _ = MainScrollViewer.ChangeView(null, VerticalOffsets[0], null, true);
-            }
             UIHelper.HideProgressBar();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            if (MainScrollMode == ScrollMode.Disabled)
-            {
-                VerticalOffsets[1] = DetailScrollViewer.VerticalOffset;
-                VerticalOffsets[2] = RightScrollViewer.VerticalOffset;
-            }
-            else
-            {
-                VerticalOffsets[0] = MainScrollViewer.VerticalOffset;
-            }
             base.OnNavigatingFrom(e);
         }
 
@@ -73,94 +48,36 @@ namespace WFunUWP.Pages.FeedPages
         {
             DetailControl.FeedDetail = FeedDetailModel;
             ListControl.ReplyDS = new Controls.ReplyDS(FeedDetailModel);
+            TwoPaneView.MinWideModeWidth = FeedDetailModel?.IsFeedArticle ?? false ? 876 : 804;
+            TwoPaneView.Pane1Length = new GridLength(FeedDetailModel?.IsFeedArticle ?? false ? 520 : 420);
             _ = ListControl.Refresh(-2);
-            Page_SizeChanged(null, null);
-        }
-
-        private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
-        {
-            ScrollViewer scrollViewer = sender as ScrollViewer;
-            if (!e.IsIntermediate && scrollViewer.VerticalOffset == scrollViewer.ScrollableHeight)
-            {
-                _ = ListControl.Refresh();
-            }
         }
 
 
         #region 界面模式切换
 
-        private double detailListHeight;
-        private ScrollMode mainScrollMode = ScrollMode.Auto;
-
-        private double DetailListHeight
+        private void TwoPaneView_ModeChanged(muxc.TwoPaneView sender, object args)
         {
-            get => detailListHeight;
-            set
-            {
-                detailListHeight = value;
-                RaisePropertyChangedEvent();
-            }
-        }
+            // Remove details content from it's parent panel.
+            _ = (DetailControl.Parent as Panel).Children.Remove(DetailControl);
 
-        public ScrollMode MainScrollMode
-        {
-            get => mainScrollMode;
-            set
+            // Single pane
+            if (sender.Mode == muxc.TwoPaneViewMode.SinglePane)
             {
-                mainScrollMode = value;
-                RaisePropertyChangedEvent();
+                // Add the details content to Pane1.
+                Pane2Grid.Children.Add(DetailControl);
             }
-        }
-
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (DetailControl.FeedArticleTitle != null)
-            {
-                DetailControl.FeedArticleTitle.Height = DetailControl.FeedArticleTitle.Width * 0.44;
-            }
-
-            void SetDualPanelMode()
-            {
-                MainScrollMode = ScrollMode.Disabled;
-                DetailListHeight = e?.NewSize.Height ?? Window.Current.Bounds.Height;
-
-                RightColumnDefinition.Width = new GridLength(1, GridUnitType.Star);
-                DetailBorder.Padding = new Thickness(0, 0, 0, 16);
-                DetailBorder.SetValue(ScrollViewer.VerticalScrollModeProperty, ScrollMode.Auto);
-                MainGrid.SetValue(ScrollViewer.VerticalScrollModeProperty, ScrollMode.Disabled);
-                MainGrid.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Disabled);
-                MainGrid.Padding = new Thickness(0);
-                MainGrid.Margin = new Thickness(0);
-                RightScrollViewer.SetValue(Grid.ColumnProperty, 1);
-                RightScrollViewer.SetValue(Grid.RowProperty, 0);
-                RightGrid.SetValue(ScrollViewer.VerticalScrollModeProperty, ScrollMode.Auto);
-                RightGrid.InvalidateArrange();
-            }
-
-            if ((e?.NewSize.Width ?? ActualWidth) >= 804 && !(FeedDetailModel?.IsFeedArticle ?? false))
-            {
-                LeftColumnDefinition.Width = new GridLength(420);
-                SetDualPanelMode();
-            }
-            else if ((e?.NewSize.Width ?? ActualWidth) >= 876 && (FeedDetailModel?.IsFeedArticle ?? false))
-            {
-                LeftColumnDefinition.Width = new GridLength(520);
-                SetDualPanelMode();
-            }
+            // Dual pane.
             else
             {
-                MainScrollMode = ScrollMode.Auto;
-                DetailListHeight = double.NaN;
-                MainGrid.SetValue(ScrollViewer.VerticalScrollModeProperty, ScrollMode.Auto);
-                MainGrid.SetValue(ScrollViewer.VerticalScrollBarVisibilityProperty, ScrollBarVisibility.Auto);
-                DetailBorder.Padding = RightGrid.Padding = new Thickness(0, 0, 0, 12);
-                DetailBorder.SetValue(ScrollViewer.VerticalScrollModeProperty, ScrollMode.Disabled);
-                LeftColumnDefinition.Width = new GridLength(1, GridUnitType.Star);
-                RightColumnDefinition.Width = new GridLength(0);
-                RightScrollViewer.SetValue(Grid.ColumnProperty, 0);
-                RightScrollViewer.SetValue(Grid.RowProperty, 1);
-                RightGrid.SetValue(ScrollViewer.VerticalScrollModeProperty, ScrollMode.Disabled);
+                // Put details content in Pane2.
+                Pane1Grid.Children.Add(DetailControl);
             }
+        }
+
+        private void TwoPaneView_Loaded(object sender, RoutedEventArgs e)
+        {
+            TwoPaneView_ModeChanged(sender as muxc.TwoPaneView, null);
         }
 
         #endregion 界面模式切换

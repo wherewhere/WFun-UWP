@@ -26,6 +26,10 @@
             SelectionMode="None"
             Loaded="ListView_Loaded"
             ItemTemplate="{StaticResource FeedReply}"
-            ItemsSource="{x:Bind ReplyDS, Mode=OneWay}"/>
+            ItemsSource="{x:Bind ReplyDS, Mode=OneWay}">
+            <ListView.Header>
+                <ContentPresenter x:Name="Head"/>
+            </ListView.Header>
+        </ListView>
     </Grid>
 </UserControl>
