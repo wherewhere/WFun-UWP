@@ -212,6 +212,7 @@
                             MaxLines="10"
                             Tag="{x:Bind Url}"
                             Text="{x:Bind Message}"
+                            TextWrapping="WrapWholeWords"
                             Tapped="{x:Bind local:Feeds.OnTapped}"
                             IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"/>
                     </Grid>

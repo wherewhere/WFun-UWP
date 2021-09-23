@@ -103,20 +103,23 @@ namespace WFunUWP.Pages
             {
                 // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
                 NavigationView.SelectedItem = (muxc.NavigationViewItem)NavigationView.SettingsItem;
-                HeaderTitle.Text = "设置";
+                SetTitle("设置");
             }
-            if (NavigationViewFrame.SourcePageType == typeof(FeedListPage))
+            else if (NavigationViewFrame.SourcePageType == typeof(FeedShellPage))
             {
-                HeaderTitle.Text = "论坛";
+                SetTitle("动态");
             }
-            if (NavigationViewFrame.SourcePageType == typeof(TestPage))
+            else if (NavigationViewFrame.SourcePageType == typeof(FeedListPage))
             {
-                HeaderTitle.Text = "测试";
+                SetTitle("论坛");
+            }
+            else if (NavigationViewFrame.SourcePageType == typeof(TestPage))
+            {
+                SetTitle("测试");
             }
             else if (NavigationViewFrame.SourcePageType != null)
             {
                 (string Tag, Type Page) item = _pages.FirstOrDefault(p => p.Page == e.SourcePageType);
-
                 try
                 {
                     NavigationView.SelectedItem = NavigationView.MenuItems
@@ -133,10 +136,11 @@ namespace WFunUWP.Pages
                     }
                     catch { }
                 }
-
-                HeaderTitle.Text = (((muxc.NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString());
+                SetTitle(((muxc.NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString());
             }
         }
+
+        public void SetTitle(string Title) => HeaderTitle.Text = Title;
 
         #region 状态栏
         public void ShowProgressBar()

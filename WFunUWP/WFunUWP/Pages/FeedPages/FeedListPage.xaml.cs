@@ -140,18 +140,21 @@ namespace WFunUWP.Pages.FeedPages
                         if (doc.TryGetNode("/html/body/main/div/div/div/div/div", out head))
                         {
                             Collection.Add(new ForumModel(head.InnerHtml));
+                            UIHelper.MainPage.SetTitle((Collection[0] as ForumModel).Title);
                         }
                         break;
                     case FeedListType.User:
                         if (doc.TryGetNode("/html/body/main/div/div/div/div", out head))
                         {
                             Collection.Add(new UserModel(head.InnerHtml));
+                            UIHelper.MainPage.SetTitle($"{(Collection[0] as UserModel).UserName}的动态");
                         }
                         break;
                     case FeedListType.Forum:
                         if (doc.TryGetNode("/html/body/main/div/div/div/div", out head))
                         {
                             Collection.Add(new ForumModel(head.InnerHtml));
+                            UIHelper.MainPage.SetTitle((Collection[0] as ForumModel).Title);
                         }
                         break;
                     default: break;

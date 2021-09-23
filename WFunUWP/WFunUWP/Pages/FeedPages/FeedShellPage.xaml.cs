@@ -50,6 +50,7 @@ namespace WFunUWP.Pages.FeedPages
             ListControl.ReplyDS = new Controls.ReplyDS(FeedDetailModel);
             TwoPaneView.MinWideModeWidth = FeedDetailModel?.IsFeedArticle ?? false ? 876 : 804;
             TwoPaneView.Pane1Length = new GridLength(FeedDetailModel?.IsFeedArticle ?? false ? 520 : 420);
+            UIHelper.MainPage.SetTitle(FeedDetailModel.IsFeedArticle ? $"{FeedDetailModel.UserName}的图文" : $"{FeedDetailModel.UserName}的动态");
             _ = ListControl.Refresh(-2);
         }
 

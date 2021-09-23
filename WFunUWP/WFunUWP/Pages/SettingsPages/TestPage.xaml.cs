@@ -1,4 +1,10 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using System.Threading;
+using WFunUWP.Core.Exceptions;
+using WFunUWP.Helpers;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -9,9 +15,53 @@ namespace WFunUWP.Pages.SettingsPages
     /// </summary>
     public sealed partial class TestPage : Page
     {
-        public TestPage()
+        public TestPage() => InitializeComponent();
+
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.InitializeComponent();
+            FrameworkElement element = sender as FrameworkElement;
+            switch (element.Tag.ToString())
+            {
+                case "OpenEdge":
+                    _ = Launcher.LaunchUriAsync(new Uri(WebUrl.Text));
+                    break;
+                case "ShowError":
+                    throw new WFunMessageException(NotifyMessage.Text);
+                case "ShowMessage":
+                    UIHelper.ShowMessage(NotifyMessage.Text);
+                    break;
+                case "OpenBrowser":
+                    //_ = Frame.Navigate(typeof(BrowserPage), new object[] { WebUrl.Text });
+                    break;
+                case "ShowAsyncError":
+                    Thread thread = new Thread(() => throw new WFunMessageException(NotifyMessage.Text));
+                    thread.Start();
+                    break;
+                case "ShowProgressBar":
+                    UIHelper.ShowProgressBar();
+                    break;
+                case "HideProgressBar":
+                    UIHelper.HideProgressBar();
+                    break;
+                case "ErrorProgressBar":
+                    UIHelper.ErrorProgressBar();
+                    break;
+                case "PausedProgressBar":
+                    UIHelper.PausedProgressBar();
+                    break;
+                case "PrograssRingState":
+                    if (UIHelper.IsShowingProgressBar)
+                    {
+                        UIHelper.HideProgressBar();
+                    }
+                    else
+                    {
+                        UIHelper.ShowProgressBar();
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
