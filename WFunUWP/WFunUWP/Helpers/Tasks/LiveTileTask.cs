@@ -47,6 +47,7 @@ namespace WFunUWP.Helpers.Tasks
                     if (item.HasChildNodes)
                     {
                         UpdateTitle(GetFeedTile(item.InnerHtml));
+                        i++;
                     }
                 }
             }

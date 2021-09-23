@@ -147,6 +147,15 @@
   <data name="OthersSettingsHeader.Header" xml:space="preserve">
     <value>其他</value>
   </data>
+  <data name="ResetSettings.Content" xml:space="preserve">
+    <value>重置应用</value>
+  </data>
+  <data name="ResetSettingsConfirm.Content" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="ResetSettingsTitle.Text" xml:space="preserve">
+    <value>您确定要重置应用吗？</value>
+  </data>
   <data name="ShowOtherExceptionCheckBox.Content" xml:space="preserve">
     <value>显示未知错误</value>
   </data>

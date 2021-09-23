@@ -157,6 +157,7 @@
             </Button>
             <Button
                 x:Name="moreButton"
+                Visibility="Collapsed"
                 ToolTipService.ToolTip="更多"
                 Style="{StaticResource FeedOpButtonStyle}">
                 <SymbolIcon Symbol="More"/>

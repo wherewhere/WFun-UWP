@@ -102,7 +102,7 @@ namespace WFunUWP.Controls.DataTemplates
         {
             FrameworkElement s = (FrameworkElement)sender;
             Button b = s.FindName("MoreButton") as Button;
-            b.Flyout.ShowAt(s);
+            //b.Flyout.ShowAt(s);
         }
 
         internal static void Flyout_Opened(object sender, object _)
@@ -122,7 +122,7 @@ namespace WFunUWP.Controls.DataTemplates
             UserControl uc = sender as UserControl;
             StackPanel bp = uc.FindChildByName("BtnsPanel") as StackPanel;
             double width = e is null ? uc.Width : e.NewSize.Width;
-            bp.SetValue(Grid.RowProperty, width > 600 ? 0 : 6);
+            bp.SetValue(Grid.RowProperty, width > 600 ? 0 : 5);
         }
 
         internal static void UserControl_Loaded(object sender, RoutedEventArgs e)

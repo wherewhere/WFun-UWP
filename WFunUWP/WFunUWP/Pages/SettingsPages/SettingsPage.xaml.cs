@@ -1,9 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using WFunUWP.Helpers;
+using WFunUWP.Helpers.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -157,6 +159,16 @@ namespace WFunUWP.Pages.SettingsPages
         {
             switch ((sender as FrameworkElement).Tag as string)
             {
+                case "Reset":
+                    ApplicationData.Current.LocalSettings.Values.Clear();
+                    SettingsHelper.SetDefaultSettings();
+                    if (Reset.Flyout is Flyout flyout_reset)
+                    {
+                        flyout_reset.Hide();
+                    }
+                    _ = Frame.Navigate(typeof(SettingsPage));
+                    Frame.GoBack();
+                    break;
                 case "TestPage":
                     _ = Frame.Navigate(typeof(TestPage));
                     break;
@@ -164,7 +176,17 @@ namespace WFunUWP.Pages.SettingsPages
                     UIHelper.OpenLinkAsync(IssuePath);
                     break;
                 case "LogFolder":
-                    _ = await Windows.System.Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists));
+                    _ = await Launcher.LaunchFolderAsync(await ApplicationData.Current.LocalFolder.CreateFolderAsync("MetroLogs", CreationCollisionOption.OpenIfExists));
+                    break;
+                case "CleanCache":
+                    IsCleanCacheButtonEnabled = false;
+                    await ImageCacheHelper.CleanCacheAsync();
+                    IsCleanCacheButtonEnabled = true;
+                    break;
+                case "CheckUpdate":
+                    IsCheckUpdateButtonEnabled = false;
+                    await CheckUpdate.CheckUpdateAsync(true, false);
+                    IsCheckUpdateButtonEnabled = true;
                     break;
                 default:
                     break;
@@ -173,7 +195,7 @@ namespace WFunUWP.Pages.SettingsPages
 
         private void MarkdownTextBlock_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
         {
-
+            _ = Launcher.LaunchUriAsync(new Uri(e.Link));
         }
     }
 }

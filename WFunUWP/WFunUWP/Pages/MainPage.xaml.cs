@@ -195,6 +195,8 @@ namespace WFunUWP.Pages
                 case InfoType.Informational:
                     MessageInfo.Style = (Style)Application.Current.Resources["InformationalIconInfoBadgeStyle"];
                     break;
+                default:
+                    break;
             }
             RectanglePointerEntered();
         }
