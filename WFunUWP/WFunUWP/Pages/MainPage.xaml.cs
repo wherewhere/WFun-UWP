@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using WFunUWP.Helpers;
+using WFunUWP.Helpers.Tasks;
 using WFunUWP.Pages.FeedPages;
 using WFunUWP.Pages.SettingsPages;
 using Windows.UI.Xaml;
@@ -30,6 +31,7 @@ namespace WFunUWP.Pages
         {
             InitializeComponent();
             UIHelper.MainPage = this;
+            LiveTileTask.UpdateTile();
             if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
             { Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true; }
             RectanglePointerExited();

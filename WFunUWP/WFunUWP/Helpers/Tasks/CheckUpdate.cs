@@ -31,8 +31,9 @@ namespace WFunUWP.Helpers.Tasks
             try
             {
                 string result;
-                try { result = await NetworkHelper.GetHtmlAsync(new Uri("https://api.github.com/repos/Tangent-90/Coolapk-UWP/releases/latest")); }
-                catch { result = await NetworkHelper.GetHtmlAsync(new Uri("https://v2.kkpp.cc/repos/Tangent-90/Coolapk-UWP/releases/latest")); }
+                try { result = await NetworkHelper.GetHtmlAsync(new Uri("https://api.github.com/repos/wherewhere/WFun-UWP/releases/latest")); }
+                catch { result = await NetworkHelper.GetHtmlAsync(new Uri("https://v2.kkpp.cc/repos/wherewhere/WFun-UWP/releases/latest")); }
+                if (string.IsNullOrEmpty(result)) { throw new HttpRequestException(); }
                 JObject keys = JObject.Parse(result);
                 string[] ver = keys.Value<string>("tag_name").Replace("v", string.Empty).Split('.');
                 if (ushort.Parse(ver[0]) > Package.Current.Id.Version.Major ||
@@ -90,9 +91,9 @@ namespace WFunUWP.Helpers.Tasks
                         UIHelper.InAppNotification.Show(grid, 6000);
                     }
                 }
-                else if (showmassage) { /*UIHelper.StatusBar_ShowMessage(loader.GetString("NoUpdate"));*/ }
+                else if (showmassage) { UIHelper.ShowMessage(loader.GetString("NoUpdate")); }
             }
-            catch (HttpRequestException) { /*UIHelper.StatusBar_ShowMessage(loader.GetString("NetworkError"));*/ }
+            catch (HttpRequestException) { UIHelper.ShowMessage(loader.GetString("NetworkError")); }
         }
     }
 }

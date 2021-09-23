@@ -6,6 +6,7 @@ namespace WFunUWP.Helpers
 {
     internal static partial class SettingsHelper
     {
+        public const string TileUrl = "TileUrl";
         public const string IsFirstRun = "IsFirstRun";
         public const string IsDarkMode = "IsDarkMode";
         public const string IsNoPicsMode = "IsNoPicsMode";
@@ -20,6 +21,10 @@ namespace WFunUWP.Helpers
 
         public static void SetDefaultSettings()
         {
+            if (!LocalSettings.Values.ContainsKey(TileUrl))
+            {
+                LocalSettings.Values.Add(TileUrl, "https://www.wpxap.com/");
+            }
             if (!LocalSettings.Values.ContainsKey(IsFirstRun))
             {
                 LocalSettings.Values.Add(IsFirstRun, true);

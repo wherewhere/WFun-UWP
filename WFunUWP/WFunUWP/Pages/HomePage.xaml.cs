@@ -17,10 +17,7 @@ namespace WFunUWP.Pages
     {
         internal ObservableCollection<object> Collection = new ObservableCollection<object>();
 
-        public HomePage()
-        {
-            InitializeComponent();
-        }
+        public HomePage() => InitializeComponent();
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
