@@ -103,7 +103,7 @@ namespace WFunUWP
             if (!(!SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException) || e.Exception is TaskCanceledException || e.Exception is OperationCanceledException))
             {
                 ResourceLoader loader = ResourceLoader.GetForViewIndependentUse();
-                UIHelper.ShowMessage($"{loader.GetString("ExceptionThrown")}\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
+                UIHelper.ShowMessage($"{(string.IsNullOrEmpty(e.Exception.Message) ? loader.GetString("ExceptionThrown") : e.Exception.Message)}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
 #if DEBUG
                                     + $"\n{e.Exception.StackTrace}"
 #endif
@@ -128,17 +128,17 @@ namespace WFunUWP
             if (!(e.Exception is TaskCanceledException) && !(e.Exception is OperationCanceledException))
             {
                 ResourceLoader loader = ResourceLoader.GetForViewIndependentUse();
-                if (e.Exception is System.Net.Http.HttpRequestException || e.Exception.HResult <= -2147012721 && e.Exception.HResult >= -2147012895)
+                if (e.Exception is System.Net.Http.HttpRequestException || (e.Exception.HResult <= -2147012721 && e.Exception.HResult >= -2147012895))
                 {
-                    //UIHelper.StatusBar_ShowMessage($"{loader.GetString("NetworkError")}(0x{Convert.ToString(e.Exception.HResult, 16)})");
+                    UIHelper.ShowMessage($"{loader.GetString("NetworkError")}(0x{Convert.ToString(e.Exception.HResult, 16)})", InfoType.Attention);
                 }
                 else if (e.Exception is WFunMessageException)
                 {
-                    //UIHelper.StatusBar_ShowMessage(e.Exception.Message);
+                    UIHelper.ShowMessage(e.Exception.Message, InfoType.Attention);
                 }
                 else if (SettingsHelper.Get<bool>(SettingsHelper.ShowOtherException))
                 {
-                    UIHelper.ShowMessage($"{loader.GetString("ExceptionThrown")}\n{e.Exception.Message}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
+                    UIHelper.ShowMessage($"{(string.IsNullOrEmpty(e.Exception.Message) ? loader.GetString("ExceptionThrown") : e.Exception.Message)}\n(0x{Convert.ToString(e.Exception.HResult, 16)})"
 #if DEBUG
                                             + $"\n{e.Exception.StackTrace}"
 #endif

@@ -122,7 +122,7 @@ namespace WFunUWP.Controls.DataTemplates
             UserControl uc = sender as UserControl;
             StackPanel bp = uc.FindChildByName("BtnsPanel") as StackPanel;
             double width = e is null ? uc.Width : e.NewSize.Width;
-            bp.SetValue(Grid.RowProperty, width > 600 ? 0 : 5);
+            bp.SetValue(Grid.RowProperty, width > 600 ? 0 : 4);
         }
 
         internal static void UserControl_Loaded(object sender, RoutedEventArgs e)

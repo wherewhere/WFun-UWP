@@ -9,17 +9,11 @@ namespace WFunUWP.Models
     {
         public string UID { get; private set; }
         public string Uurl { get; private set; }
-        public string LikeNum { get; private set; }
         public string Message { get; private set; }
-        public string ReplyNum { get; private set; }
-        public string ShareNum { get; private set; }
         public string UserName { get; private set; }
         public string Dateline { get; private set; }
 
-        public bool Liked { get; private set; }
         public bool IsCopyEnabled { get; set; }
-        public bool ShowLikes { get; private set; }
-        public bool ShowPicArr { get; private set; }
 
         public ImageModel UserAvatar { get; private set; }
 

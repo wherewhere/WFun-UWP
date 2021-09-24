@@ -58,7 +58,7 @@
                             MaxLines="1"
                             Grid.Column="1"
                             x:Name="Message"
-                            Margin="2,9,0,0"
+                            Margin="2,8,0,0"
                             TextTrimming="CharacterEllipsis"
                             FontSize="{ThemeResource PivotTitleFontSize}"/>
                     </Grid>

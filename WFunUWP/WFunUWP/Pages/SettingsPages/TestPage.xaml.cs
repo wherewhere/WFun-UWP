@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Threading;
 using WFunUWP.Core.Exceptions;
 using WFunUWP.Helpers;
+using WFunUWP.Helpers.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -19,8 +19,7 @@ namespace WFunUWP.Pages.SettingsPages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
-            switch (element.Tag.ToString())
+            switch ((sender as FrameworkElement).Tag as string)
             {
                 case "OpenEdge":
                     _ = Launcher.LaunchUriAsync(new Uri(WebUrl.Text));
@@ -34,8 +33,8 @@ namespace WFunUWP.Pages.SettingsPages
                     //_ = Frame.Navigate(typeof(BrowserPage), new object[] { WebUrl.Text });
                     break;
                 case "ShowAsyncError":
-                    Thread thread = new Thread(() => throw new WFunMessageException(NotifyMessage.Text));
-                    thread.Start();
+                    //Thread thread = new Thread(() => throw new WFunMessageException(NotifyMessage.Text));
+                    //thread.Start();
                     break;
                 case "ShowProgressBar":
                     UIHelper.ShowProgressBar();

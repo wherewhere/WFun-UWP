@@ -15,7 +15,7 @@
             <converter:HasValueConverter x:Key="HasValueConverter"/>
             <DataTemplate x:Key="List" x:DataType="models:ForumModel">
                 <ListViewItem
-                    Margin="8"
+                    Margin="14,8"
                     MaxWidth="800"
                     Tag="{x:Bind Url}"
                     Style="{StaticResource AppListViewItemStyle}"

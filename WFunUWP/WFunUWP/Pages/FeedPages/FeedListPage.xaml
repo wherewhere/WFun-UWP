@@ -18,12 +18,12 @@
             <converter:HasValueConverter x:Key="HasValueConverter"/>
             <DataTemplate x:Key="UserDetail" x:DataType="model:UserModel">
                 <ListViewItem
-                    Margin="2,8"
+                    Margin="4,0"
                     MaxWidth="800"
                     Style="{StaticResource FixedListViewItemStyle}">
                     <Grid
                         Padding="8"
-                        Margin="0,0,0,8"
+                        Margin="0,0,0,4"
                         x:Name="DetailGrid"
                         CornerRadius="0,0,8,8"
                         Background="{ThemeResource SystemControlChromeLowAcrylicWindowBrush}">
@@ -79,12 +79,12 @@
             </DataTemplate>
             <DataTemplate x:Key="ForumDetail" x:DataType="model:ForumModel">
                 <ListViewItem
-                    Margin="2,8"
+                    Margin="4,0"
                     MaxWidth="800"
                     Style="{StaticResource FixedListViewItemStyle}">
                     <Grid
                         Padding="8"
-                        Margin="0,0,0,8"
+                        Margin="0,0,0,4"
                         x:Name="DetailGrid"
                         CornerRadius="0,0,8,8"
                         Background="{ThemeResource SystemControlChromeLowAcrylicWindowBrush}">

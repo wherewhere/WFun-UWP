@@ -7,8 +7,7 @@
     xmlns:control="using:AppStudio.Uwp.Controls"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
-    mc:Ignorable="d"
-    NavigationCacheMode="Enabled">
+    mc:Ignorable="d">
     <Page.Resources>
         <converter:TrueToFalseConverter x:Key="TrueToFalseConverter" />
         <Style x:Key="HeaderStyle" TargetType="controls:HeaderedContentControl">
@@ -44,7 +43,7 @@
                             <Button
                                 Margin="2,0"
                                 Click="Button_Click"
-                                Content="切换进度圈状态"
+                                Content="切换进度条状态"
                                 Tag="PrograssRingState"/>
                         </StackPanel>
                         <StackPanel
