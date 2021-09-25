@@ -9,10 +9,12 @@
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
     mc:Ignorable="d">
     <Page.Resources>
-        <converter:TrueToFalseConverter x:Key="TrueToFalseConverter" />
+        <converter:TrueToFalseConverter x:Key="TrueToFalseConverter"/>
         <Style x:Key="HeaderStyle" TargetType="controls:HeaderedContentControl">
-            <Setter Property="Margin" Value="0,8" />
-            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Margin" Value="0,8"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
     </Page.Resources>
 

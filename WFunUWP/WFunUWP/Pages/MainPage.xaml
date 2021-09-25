@@ -77,7 +77,17 @@
                     Tag="List"
                     Icon="List"
                     Content="论坛"/>
+                <muxc:NavigationViewItem
+                    Tag="Find"
+                    Icon="Find"
+                    Content="搜索"/>
             </muxc:NavigationView.MenuItems>
+            <muxc:NavigationView.AutoSuggestBox>
+                <AutoSuggestBox
+                    QueryIcon="Find"
+                    KeyDown="AutoSuggestBox_KeyDown"
+                    QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
+            </muxc:NavigationView.AutoSuggestBox>
             <Frame
                 x:FieldModifier="public"
                 x:Name="NavigationViewFrame"/>

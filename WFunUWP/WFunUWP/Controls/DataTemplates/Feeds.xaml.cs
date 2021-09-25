@@ -24,7 +24,7 @@ namespace WFunUWP.Controls.DataTemplates
             UIHelper.OpenLinkAsync(s.Tag as string);
         }
 
-        internal static async void FeedButton_Click(object sender, RoutedEventArgs _)
+        internal static void FeedButton_Click(object sender, RoutedEventArgs _)
         {
             void DisabledCopy()
             {
@@ -37,44 +37,9 @@ namespace WFunUWP.Controls.DataTemplates
             FrameworkElement element = sender as FrameworkElement;
             switch (element.Name)
             {
-                //case "makeReplyButton":
-                //    DisabledCopy();
-                //    ListViewItem item = element.FindAscendant<ListViewItem>();
-                //    MakeFeedControl ctrl = item.FindName("makeFeed") as MakeFeedControl;
-                //    ctrl.Visibility = ctrl.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-                //    break;
-
-                //case "likeButton":
-                //    DisabledCopy();
-                //    await DataHelper.MakeLikeAsync(
-                //        element.Tag as ICanChangeLikModel,
-                //        element.Dispatcher,
-                //        (SymbolIcon)element.FindName("like1"),
-                //        (SymbolIcon)element.FindName("like2"));
-                //    break;
-
-                //case "reportButton":
-                //    DisabledCopy();
-                //    UIHelper.Navigate(typeof(Pages.BrowserPage), new object[] { false, $"https://m.coolapk.com/mp/do?c=feed&m=report&type=feed&id={element.Tag}" });
-                //    break;
-
                 case "ShareButton":
                     DisabledCopy();
                     break;
-
-                //case "deviceButton":
-                //    DisabledCopy();
-                //    FeedListPageViewModelBase f = FeedListPageViewModelBase.GetProvider(FeedListType.DevicePageList, (sender as FrameworkElement).Tag as string);
-                //    if (f != null)
-                //    {
-                //        UIHelper.NavigateInSplitPane(typeof(FeedListPage), f);
-                //    }
-                //    break;
-
-                //case "changeButton":
-                //    DisabledCopy();
-                //    UIHelper.NavigateInSplitPane(typeof(AdaptivePage), new ViewModels.AdaptivePage.ViewModel((sender as FrameworkElement).Tag as string, ViewModels.AdaptivePage.ListType.FeedInfo, "changeHistory"));
-                //    break;
 
                 default:
                     DisabledCopy();

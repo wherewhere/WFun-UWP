@@ -51,6 +51,21 @@ namespace WFunUWP.Pages.FeedPages
     /// </summary>
     internal class NewsDS : DataSourceBase<object>
     {
+        private object[] _vs;
+        public string SearchWord;
+
+        internal NewsDS(string searchword = null, object[] vs = null)
+        {
+            SearchWord = searchword;
+            _vs = vs;
+        }
+
+        internal void Reset(string searchword = null, object[] vs = null)
+        {
+            SearchWord = searchword;
+            _vs = vs;
+        }
+
         protected async override Task<IList<object>> LoadItemsAsync(uint count)
         {
             HtmlDocument doc = new HtmlDocument();
@@ -76,7 +91,27 @@ namespace WFunUWP.Pages.FeedPages
             {
                 foreach (object news in items)
                 {
-                    Add(news);
+                    if (SearchWord != null && news is FeedListModel Feed)
+                    {
+                        if (_vs != null)
+                        {
+                            if (((bool)_vs[0] && Feed.MessageTitle.Contains(SearchWord)) || ((bool)_vs[1] && Feed.Message.Contains(SearchWord)) || ((bool)_vs[2] && Feed.UserName.Contains(SearchWord)) || ((bool)_vs[3] && Feed.RelationRows.Title.Contains(SearchWord)))
+                            {
+                                Add(news);
+                            }
+                        }
+                        else
+                        {
+                            if (Feed.MessageTitle.Contains(SearchWord) || Feed.Message.Contains(SearchWord))
+                            {
+                                Add(news);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Add(news);
+                    }
                 }
             }
         }

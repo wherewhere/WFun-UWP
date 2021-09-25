@@ -24,6 +24,7 @@ namespace WFunUWP.Pages
         {
             ("Home", typeof(HomePage)),
             ("Chat", typeof(IndexPage)),
+            ("Find", typeof(SearchPage)),
             ("List", typeof(ForumListPage)),
         };
 
@@ -45,7 +46,7 @@ namespace WFunUWP.Pages
             NavigationView.SelectedItem = NavigationView.MenuItems[0];
         }
 
-        private void NavigationView_Navigate(string NavItemTag, NavigationTransitionInfo TransitionInfo)
+        private void NavigationView_Navigate(string NavItemTag, NavigationTransitionInfo TransitionInfo, object[] vs = null)
         {
             Type _page = null;
             if (NavItemTag == "settings")
@@ -64,7 +65,7 @@ namespace WFunUWP.Pages
             // Only navigate if the selected page isn't currently loaded.
             if (!(_page is null) && !Equals(PreNavPageType, _page))
             {
-                _ = NavigationViewFrame.Navigate(_page, null, TransitionInfo);
+                _ = NavigationViewFrame.Navigate(_page, vs, TransitionInfo);
             }
         }
 
@@ -205,6 +206,22 @@ namespace WFunUWP.Pages
 
         public void RectanglePointerExited() => ExitStoryboard.Begin();
         #endregion
+
+        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (sender.Text != null)
+            {
+                NavigationView_Navigate("Find", null, new object[] { sender.Text });
+            }
+        }
+
+        private void AutoSuggestBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if(e.Key == Windows.System.VirtualKey.Enter)
+            {
+                AutoSuggestBox_QuerySubmitted(sender as AutoSuggestBox, null);
+            }
+        }
     }
 
     public enum InfoType

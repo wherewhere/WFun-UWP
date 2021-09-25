@@ -1,0 +1,94 @@
+﻿<Page
+    x:Class="WFunUWP.Pages.SearchPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:templates="using:WFunUWP.Controls.DataTemplates"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <templates:Feeds/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <ListView
+            x:Name="ListView"
+            SelectionMode="None"
+            ItemTemplate="{StaticResource Feed}"
+            ItemsSource="{x:Bind NewsDS, Mode=OneWay}">
+            <ListView.Header>
+                <muxc:Expander
+                    Margin="4"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left">
+                    <muxc:Expander.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Text="基础搜索："
+                                VerticalAlignment="Center"/>
+                            <AutoSuggestBox
+                                Grid.Column="1"
+                                QueryIcon="Find"
+                                x:Name="SearchBox"
+                                KeyDown="SearchBox_KeyDown"
+                                QuerySubmitted="SearchBox_QuerySubmitted"/>
+                        </Grid>
+                    </muxc:Expander.Header>
+                    <Grid HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Margin="0,2"
+                            Grid.Row="0"
+                            Text="高级搜索"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Style="{ThemeResource BaseTextBlockStyle}"/>
+                        <GridView
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            SelectionMode="None">
+                            <CheckBox
+                                Margin="0,2"
+                                Content="搜索标题"
+                                IsChecked="{x:Bind IsSearchTitle, Mode=TwoWay}"/>
+                            <CheckBox
+                                Margin="0,2"
+                                Content="搜索内容"
+                                IsChecked="{x:Bind IsSearchContent, Mode=TwoWay}"/>
+                            <CheckBox
+                                Margin="0,2"
+                                Content="搜索论坛"
+                                IsChecked="{x:Bind IsSearchForum, Mode=TwoWay}"/>
+                            <CheckBox
+                                Margin="0,2"
+                                Content="搜索用户"
+                                IsChecked="{x:Bind IsSearchUser, Mode=TwoWay}"/>
+                        </GridView>
+                    </Grid>
+                </muxc:Expander>
+            </ListView.Header>
+        </ListView>
+    </Grid>
+</Page>
