@@ -374,6 +374,12 @@
   <ItemGroup>
     <PRIResource Include="Strings\zh-CN\MarkDown.resw" />
   </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\zh-CN\SearchPage.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\zh-CN\MainPage.resw" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

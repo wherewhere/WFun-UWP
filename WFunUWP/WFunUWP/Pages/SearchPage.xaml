@@ -40,8 +40,8 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock
                                 Grid.Column="0"
-                                Text="基础搜索："
-                                VerticalAlignment="Center"/>
+                                VerticalAlignment="Center"
+                                x:Uid="/SearchPage/BasicSearch"/>
                             <AutoSuggestBox
                                 Grid.Column="1"
                                 QueryIcon="Find"
@@ -61,9 +61,9 @@
                         <TextBlock
                             Margin="0,2"
                             Grid.Row="0"
-                            Text="高级搜索"
                             Grid.Column="0"
                             HorizontalAlignment="Left"
+                            x:Uid="/SearchPage/AdvanceSearch"
                             Style="{ThemeResource BaseTextBlockStyle}"/>
                         <GridView
                             Grid.Row="1"
@@ -71,19 +71,19 @@
                             SelectionMode="None">
                             <CheckBox
                                 Margin="0,2"
-                                Content="搜索标题"
+                                x:Uid="/SearchPage/SearchTitle"
                                 IsChecked="{x:Bind IsSearchTitle, Mode=TwoWay}"/>
                             <CheckBox
                                 Margin="0,2"
-                                Content="搜索内容"
+                                x:Uid="/SearchPage/SearchContent"
                                 IsChecked="{x:Bind IsSearchContent, Mode=TwoWay}"/>
                             <CheckBox
                                 Margin="0,2"
-                                Content="搜索论坛"
+                                x:Uid="/SearchPage/SearchForum"
                                 IsChecked="{x:Bind IsSearchForum, Mode=TwoWay}"/>
                             <CheckBox
                                 Margin="0,2"
-                                Content="搜索用户"
+                                x:Uid="/SearchPage/SearchUser"
                                 IsChecked="{x:Bind IsSearchUser, Mode=TwoWay}"/>
                         </GridView>
                     </Grid>

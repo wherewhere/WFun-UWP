@@ -23,9 +23,9 @@
             </Storyboard>
         </Grid.Resources>
         <muxc:NavigationView
-            PaneTitle="智机社区"
             x:Name="NavigationView"
             Loaded="NavigationView_Loaded"
+            x:Uid="/MainPage/NavigationView"
             IsTitleBarAutoPaddingEnabled="False"
             BackRequested="NavigationView_BackRequested"
             SelectionChanged="NavigationView_SelectionChanged">
@@ -68,19 +68,19 @@
                 <muxc:NavigationViewItem
                     Tag="Home"
                     Icon="Home"
-                    Content="首页"/>
+                    x:Uid="/MainPage/Home"/>
                 <muxc:NavigationViewItem
                     Tag="Chat"
-                    Content="社区"
-                    Icon="Message"/>
+                    Icon="Message"
+                    x:Uid="/MainPage/Chat"/>
                 <muxc:NavigationViewItem
                     Tag="List"
                     Icon="List"
-                    Content="论坛"/>
+                    x:Uid="/MainPage/List"/>
                 <muxc:NavigationViewItem
                     Tag="Find"
                     Icon="Find"
-                    Content="搜索"/>
+                    x:Uid="/MainPage/Find"/>
             </muxc:NavigationView.MenuItems>
             <muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox

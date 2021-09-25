@@ -142,7 +142,10 @@ namespace WFunUWP.Pages.FeedPages
             {
                 foreach (object news in items)
                 {
-                    Add(news);
+                    if (!(news is NullModel))
+                    {
+                        Add(news);
+                    }
                 }
             }
         }
