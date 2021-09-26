@@ -6,11 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:converter="using:WFunUWP.Helpers.ValueConverters" xmlns:local="using:WFunUWP.Pages.SettingsPages"
+    xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
+    xmlns:local="using:WFunUWP.Pages.SettingsPages"
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
     <Page.Resources>
-        <converter:TrueToFalseConverter x:Key="TrueToFalseConverter" />
+        <converter:TrueToFalseConverter x:Key="TrueToFalseConverter"/>
         <Style x:Key="HeaderStyle" TargetType="controls:HeaderedContentControl">
             <Setter Property="Margin" Value="0,8"/>
             <Setter Property="FontSize" Value="18"/>

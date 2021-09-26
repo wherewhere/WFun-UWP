@@ -69,6 +69,11 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             SelectionMode="None">
+                            <GridView.ItemContainerStyle>
+                                <Style TargetType="GridViewItem">
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                </Style>
+                            </GridView.ItemContainerStyle>
                             <CheckBox
                                 Margin="0,2"
                                 x:Uid="/SearchPage/SearchTitle"
