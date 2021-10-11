@@ -1,0 +1,3 @@
+files:
+  - source: /WFunUWP/WFunUWP/Strings/zh-CN/
+    translation: /WFunUWP/WFunUWP/Strings/%locale%/%original_file_name%
