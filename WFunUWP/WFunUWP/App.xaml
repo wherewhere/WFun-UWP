@@ -6,6 +6,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
+                <SettingsThemeResources xmlns="using:Microsoft.PowerToys.Settings.UI"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!--<Color x:Key="SystemAccentColor">#4CAF50</Color>-->

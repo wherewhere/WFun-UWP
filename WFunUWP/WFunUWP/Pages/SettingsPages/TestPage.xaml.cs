@@ -29,6 +29,9 @@ namespace WFunUWP.Pages.SettingsPages
                 case "ShowMessage":
                     UIHelper.ShowMessage(NotifyMessage.Text);
                     break;
+                case "NewSettings":
+                    _ = Frame.Navigate(typeof(NewSettingsPage));
+                    break;
                 case "OpenBrowser":
                     //_ = Frame.Navigate(typeof(BrowserPage), new object[] { WebUrl.Text });
                     break;

@@ -113,6 +113,21 @@
                     </StackPanel>
                 </controls:HeaderedContentControl>
                 <controls:HeaderedContentControl
+                    Header="界面测试"
+                    Style="{StaticResource HeaderStyle}">
+                    <StackPanel>
+                        <StackPanel
+                            Margin="0,2"
+                            Orientation="Horizontal">
+                            <Button
+                                Margin="0,0,2,0"
+                                Tag="NewSettings"
+                                Click="Button_Click"
+                                Content="打开新的设置"/>
+                        </StackPanel>
+                    </StackPanel>
+                </controls:HeaderedContentControl>
+                <controls:HeaderedContentControl
                     Header="文本测试"
                     Style="{StaticResource HeaderStyle}">
                     <StackPanel>
