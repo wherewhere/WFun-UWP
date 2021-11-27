@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="wherewhere.WFunUWP"
-    Publisher="CN=where"
+    Name="18184wherewhere.388878CF1EB92"
+    Publisher="CN=2C3A37C0-35FC-4839-B08C-751C1C1AFBF5"
     Version="0.0.1.0" />
 
-  <mp:PhoneIdentity PhoneProductId="ba539cb3-4fbf-40c2-8eb4-f0e96e7637f0" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="960e21bb-53ca-4650-87c3-dc45265fac2c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>智机社区</DisplayName>
+    <DisplayName>智机博物馆</DisplayName>
     <PublisherDisplayName>wherewhere</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
