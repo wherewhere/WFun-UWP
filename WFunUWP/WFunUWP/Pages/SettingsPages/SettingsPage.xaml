@@ -28,6 +28,11 @@
         </Grid.ChildrenTransitions>
         <ScrollViewer>
             <StackPanel Margin="16">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <ReorderThemeTransition/>
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
                 <mxuc:RadioButtons
                     Margin="0,8"
                     FontSize="18"

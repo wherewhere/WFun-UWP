@@ -84,14 +84,14 @@ namespace WFunUWP.Helpers
                         StatusBar statusBar = StatusBar.GetForCurrentView();
                         statusBar.BackgroundColor = AccentColor;
                         statusBar.ForegroundColor = Colors.White;
-                        statusBar.BackgroundOpacity = 0; // 透明度
+                        statusBar.BackgroundOpacity = 1; // 透明度
                     }
                     else
                     {
                         StatusBar statusBar = StatusBar.GetForCurrentView();
                         statusBar.BackgroundColor = AccentColor;
                         statusBar.ForegroundColor = Colors.Black;
-                        statusBar.BackgroundOpacity = 0; // 透明度
+                        statusBar.BackgroundOpacity = 1; // 透明度
                     }
                 }
                 else if (IsDark)

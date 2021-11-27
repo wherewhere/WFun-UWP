@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     mc:Ignorable="d"
@@ -25,7 +26,8 @@
             x:Name="ListView"
             SelectionMode="None"
             ItemTemplate="{StaticResource Feed}"
-            ItemsSource="{x:Bind NewsDS, Mode=OneWay}">
+            ItemsSource="{x:Bind NewsDS, Mode=OneWay}"
+            ui:ListViewExtensions.StretchItemContainerDirection="Horizontal">
             <ListView.Header>
                 <muxc:Expander
                     Margin="4"

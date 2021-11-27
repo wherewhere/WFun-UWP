@@ -26,6 +26,11 @@
         </Grid.ChildrenTransitions>
         <ScrollViewer>
             <StackPanel Margin="16">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <ReorderThemeTransition/>
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
                 <controls:HeaderedContentControl
                     Header="通知测试"
                     Style="{StaticResource HeaderStyle}">

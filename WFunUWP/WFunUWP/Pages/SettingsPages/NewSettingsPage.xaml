@@ -11,6 +11,11 @@
     <controls:SettingsPageControl>
         <controls:SettingsPageControl.ModuleContent>
             <StackPanel>
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <ReorderThemeTransition/>
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
                 <controls:SettingsGroup
                     Header="Version"
                     Margin="0,-32,0,0">

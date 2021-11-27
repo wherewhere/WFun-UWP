@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
     xmlns:model="using:WFunUWP.Models"
@@ -142,6 +143,7 @@
         <ListView
             SelectionMode="None"
             ItemsSource="{x:Bind ForumDS, Mode=OneWay}"
-            ItemTemplateSelector="{StaticResource tempse}"/>
+            ItemTemplateSelector="{StaticResource tempse}"
+            ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"/>
     </Grid>
 </Page>

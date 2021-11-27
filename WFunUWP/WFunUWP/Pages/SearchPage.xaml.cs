@@ -111,6 +111,7 @@ namespace WFunUWP.Pages
         {
             if (sender.Text != null)
             {
+                NewsDS = NewsDS ?? new NewsDS();
                 NewsDS.Reset(sender.Text, new object[] { IsSearchTitle, IsSearchContent, IsSearchUser, IsSearchForum });
                 UIHelper.MainPage.SetTitle($"搜索:{NewsDS.SearchWord}");
                 _ = Refresh(-2);

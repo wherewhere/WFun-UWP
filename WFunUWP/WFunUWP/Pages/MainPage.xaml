@@ -84,6 +84,7 @@
             </muxc:NavigationView.MenuItems>
             <muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
+                    IsTabStop="True"
                     QueryIcon="Find"
                     KeyDown="AutoSuggestBox_KeyDown"
                     QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
