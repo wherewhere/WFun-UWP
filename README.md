@@ -6,7 +6,7 @@
 <a href="https://github.com/wherewhere/WFun-UWP/stargazers"><img alt="GitHub" src="https://img.shields.io/github/stars/wherewhere/WFun-UWP.svg?label=Stars&style=flat-square"></a>
 
 <a href="https://github.com/wherewhere/WFun-UWP/releases/latest"><img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/wherewhere/WFun-UWP/total.svg?label=DOWNLOAD&logo=github&style=for-the-badge"></a>
-<a href="https://www.microsoft.com/store/productId/9NBFN3KXM0XB"><img alt="Baidu Netdisk" src="https://img.shields.io/badge/download-%e4%b8%8b%e8%bd%bd-magenta.svg?label=Microsoft Store&logo=Microsoft&style=for-the-badge&color=11a2f8"></a>
+<a href="https://www.microsoft.com/store/productId/9NBFN3KXM0XB"><img alt="Microsoft Store" src="https://img.shields.io/badge/download-%e4%b8%8b%e8%bd%bd-magenta.svg?label=Microsoft Store&logo=Microsoft&style=for-the-badge&color=11a2f8"></a>
 ## 目录
 - [WFun-UWP](#wfun-uwp)
   - [目录](#目录)
