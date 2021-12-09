@@ -5,68 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Windows10FallCreatorsUpdate="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.PowerToys.Settings.UI.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
-    <controls:SettingsPageControl>
-        <controls:SettingsPageControl.ModuleContent>
-            <StackPanel>
-                <StackPanel.ChildrenTransitions>
-                    <TransitionCollection>
-                        <ReorderThemeTransition/>
-                    </TransitionCollection>
-                </StackPanel.ChildrenTransitions>
-                <controls:SettingsGroup
-                    Header="Version"
-                    Margin="0,-32,0,0">
-                    <controls:Setting
-                        Header="v0.45.0"
-                        Icon="&#xE117;">
-                        <controls:Setting.Description>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Style="{StaticResource SecondaryTextStyle}">
-                                    <Run Text="Last Checked" />
-                                    <Run Text="2021/09/10" />
-                                </TextBlock>
-                                <HyperlinkButton
-                                    Margin="0,2,0,0"
-                                    Content="Release notes"
-                                    NavigateUri="https://github.com/microsoft/PowerToys/releases/" />
-                            </StackPanel>
-                        </controls:Setting.Description>
-                        <controls:Setting.ActionContent>
-                            <StackPanel
-                                Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                Windows10FallCreatorsUpdate:Spacing="18">
-                                <muxc:ProgressRing
-                                    Width="24"
-                                    Height="24" />
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    FontWeight="SemiBold"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Text="Checking For Updates" />
-                                <Button
-                                    HorizontalAlignment="Right"
-                                    Content="Check For Updates" />
-                            </StackPanel>
-                        </controls:Setting.ActionContent>
-                    </controls:Setting>
-
-                    <muxc:InfoBar
-                        Title="Up To Date"
-                        IsClosable="False"
-                        IsOpen="True"
-                        Severity="Success" />
-
-                    <controls:Setting
-                        Description="Except on metered conections"
-                        Header="Download updates automatically">
-                        <ToggleSwitch />
-                    </controls:Setting>
-                </controls:SettingsGroup>
-            </StackPanel>
-        </controls:SettingsPageControl.ModuleContent>
-    </controls:SettingsPageControl>
+    <Grid>
+        
+    </Grid>
 </Page>

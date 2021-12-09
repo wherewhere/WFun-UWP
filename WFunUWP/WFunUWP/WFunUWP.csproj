@@ -361,10 +361,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.PowerToys.Settings.UI\Microsoft.PowerToys.Settings.UI.csproj">
-      <Project>{123d7523-1b05-4c05-a2fa-6a14314a16f3}</Project>
-      <Name>Microsoft.PowerToys.Settings.UI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WFunUWP.Core\WFunUWP.Core.csproj">
       <Project>{70bbe4dd-dddb-4d76-8906-d121bb87924d}</Project>
       <Name>WFunUWP.Core</Name>
