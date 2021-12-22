@@ -76,7 +76,7 @@ namespace WFunUWP.Helpers
                 }
 
                 bool IsDark = IsDarkTheme(SettingsHelper.Theme);
-                SolidColorBrush AccentColor = (SolidColorBrush)Application.Current.Resources["SystemControlPageBackgroundChromeMediumLowBrush"];
+                SolidColorBrush AccentColor = (SolidColorBrush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
 
                 if (HasStatusBar)
                 {
@@ -85,14 +85,14 @@ namespace WFunUWP.Helpers
                         StatusBar statusBar = StatusBar.GetForCurrentView();
                         statusBar.BackgroundColor = AccentColor.Color;
                         statusBar.ForegroundColor = Colors.White;
-                        statusBar.BackgroundOpacity = 1; // 透明度
+                        statusBar.BackgroundOpacity = 0; // 透明度
                     }
                     else
                     {
                         StatusBar statusBar = StatusBar.GetForCurrentView();
                         statusBar.BackgroundColor = AccentColor.Color;
                         statusBar.ForegroundColor = Colors.Black;
-                        statusBar.BackgroundOpacity = 1; // 透明度
+                        statusBar.BackgroundOpacity = 0; // 透明度
                     }
                 }
                 else if (IsDark)

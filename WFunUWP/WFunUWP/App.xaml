@@ -226,8 +226,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-            <SolidColorBrush x:Key="SystemControlPageBackgroundChromeMediumLowBrush" Color="{StaticResource SystemChromeMediumLowColor}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
