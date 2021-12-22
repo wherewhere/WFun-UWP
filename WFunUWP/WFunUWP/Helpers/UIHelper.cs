@@ -14,6 +14,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using InAppNotify = Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification;
 
@@ -75,21 +76,21 @@ namespace WFunUWP.Helpers
                 }
 
                 bool IsDark = IsDarkTheme(SettingsHelper.Theme);
-                Color AccentColor = (Color)Application.Current.Resources["SystemChromeMediumLowColor"];
+                SolidColorBrush AccentColor = (SolidColorBrush)Application.Current.Resources["SystemControlPageBackgroundChromeMediumLowBrush"];
 
                 if (HasStatusBar)
                 {
                     if (IsDark)
                     {
                         StatusBar statusBar = StatusBar.GetForCurrentView();
-                        statusBar.BackgroundColor = AccentColor;
+                        statusBar.BackgroundColor = AccentColor.Color;
                         statusBar.ForegroundColor = Colors.White;
                         statusBar.BackgroundOpacity = 1; // 透明度
                     }
                     else
                     {
                         StatusBar statusBar = StatusBar.GetForCurrentView();
-                        statusBar.BackgroundColor = AccentColor;
+                        statusBar.BackgroundColor = AccentColor.Color;
                         statusBar.ForegroundColor = Colors.Black;
                         statusBar.BackgroundOpacity = 1; // 透明度
                     }
