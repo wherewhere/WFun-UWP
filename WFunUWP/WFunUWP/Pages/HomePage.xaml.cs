@@ -23,9 +23,8 @@ namespace WFunUWP.Pages
         {
             base.OnNavigatedTo(e);
             UIHelper.ShowProgressBar();
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.BaseUri));
-            if (doc.TryGetNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody", out HtmlNode node) && node.HasChildNodes)
+            (bool isSucceed, HtmlDocument result) Results = await Utils.GetHtmlAsync(UriHelper.BaseUri);
+            if (Results.isSucceed && Results.result.TryGetNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody", out HtmlNode node) && node.HasChildNodes)
             {
                 HtmlNodeCollection CNodes = node.ChildNodes;
                 foreach (HtmlNode item in CNodes)

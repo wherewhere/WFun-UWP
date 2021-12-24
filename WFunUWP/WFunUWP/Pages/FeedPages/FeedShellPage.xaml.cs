@@ -25,13 +25,13 @@ namespace WFunUWP.Pages.FeedPages
         {
             base.OnNavigatedTo(e);
             UIHelper.ShowProgressBar();
-            HtmlDocument doc = new HtmlDocument();
             object[] vs = e.Parameter as object[];
+            (bool isSucceed, HtmlDocument result) Results = (false, null);
             if (vs[0] is string id)
             {
-                doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetFeedDetail, id)));
+                Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetFeedDetail, id));
             }
-            if (doc.TryGetNode("/html/body/main/div/div/div", out HtmlNode node))
+            if (Results.isSucceed && Results.result.TryGetNode("/html/body/main/div/div/div", out HtmlNode node))
             {
                 FeedDetailModel = new FeedDetailModel(node.InnerHtml);
                 SetLayout();

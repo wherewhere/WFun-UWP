@@ -1,8 +1,11 @@
 ﻿using Html2Markdown;
+using HtmlAgilityPack;
 using System;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace WFunUWP.Core.Helpers
 {
@@ -18,11 +21,19 @@ namespace WFunUWP.Core.Helpers
 
     public static partial class Utils
     {
-        public static event EventHandler<(MessageType, string)> NeedShowInAppMessageEvent;
+        public static event EventHandler<(MessageType Type, string Message)> NeedShowInAppMessageEvent;
 
         internal static void ShowInAppMessage(MessageType type, string message = null)
         {
             NeedShowInAppMessageEvent?.Invoke(null, (type, message));
+        }
+
+        public static void ShowHttpExceptionMessage(HttpRequestException e)
+        {
+            if (e.Message.IndexOfAny(new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' }) != -1)
+            { NeedShowInAppMessageEvent?.Invoke(null, (MessageType.Message, $"服务器错误： {e.Message.Replace("Response status code does not indicate success: ", string.Empty)}")); }
+            else if (e.Message == "An error occurred while sending the request.") { NeedShowInAppMessageEvent?.Invoke(null, (MessageType.Message, "无法连接网络。")); }
+            else { NeedShowInAppMessageEvent?.Invoke(null, (MessageType.Message, $"请检查网络连接。 {e.Message}")); }
         }
 
         public static string GetMD5(string input)
@@ -215,6 +226,18 @@ namespace WFunUWP.Core.Helpers
 
     public static partial class Utils
     {
+        public static async Task<(bool isSucceed, HtmlDocument result)> GetHtmlAsync(Uri uri, bool isBackground = false)
+        {
+            string json = await NetworkHelper.GetHtmlAsync(uri, isBackground);
+            return GetResult(json);
+        }
 
+        private static (bool, HtmlDocument) GetResult(string json)
+        {
+            if (json == null) { return (false, null); }
+            HtmlDocument doc = new HtmlDocument();
+            try { doc.LoadHtml(json); } catch { return (false, null); }
+            return (true, doc);
+        }
     }
 }

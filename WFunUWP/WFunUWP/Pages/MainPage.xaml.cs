@@ -5,6 +5,8 @@ using WFunUWP.Helpers;
 using WFunUWP.Helpers.Tasks;
 using WFunUWP.Pages.FeedPages;
 using WFunUWP.Pages.SettingsPages;
+using Windows.ApplicationModel.Core;
+using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -33,8 +35,11 @@ namespace WFunUWP.Pages
             InitializeComponent();
             UIHelper.MainPage = this;
             LiveTileTask.UpdateTile();
-            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
-            { Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true; }
+            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
+            {
+                Window.Current.SetTitleBar(null);
+                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+            }
             RectanglePointerExited();
             UIHelper.CheckTheme();
         }

@@ -9,8 +9,7 @@
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
     xmlns:model="using:WFunUWP.Models"
     xmlns:local="using:WFunUWP.Pages.FeedPages"
-    mc:Ignorable="d"
-    NavigationCacheMode="Enabled">
+    mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -6,14 +6,22 @@ namespace WFunUWP.Core.Helpers
 {
     public static class NetworkHelper
     {
-        public static async Task<string> GetHtmlAsync(Uri uri)
+        public static async Task<string> GetHtmlAsync(Uri uri, bool isBackground = false)
         {
             try
             {
                 HttpClient client = new HttpClient();
                 return await client.GetStringAsync(uri);
             }
-            catch { throw; }
+            catch (HttpRequestException e)
+            {
+                if (!isBackground) { Utils.ShowHttpExceptionMessage(e); }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

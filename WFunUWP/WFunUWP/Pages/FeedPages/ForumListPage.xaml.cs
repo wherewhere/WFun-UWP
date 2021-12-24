@@ -104,10 +104,8 @@ namespace WFunUWP.Pages.FeedPages
             int i = num;
             while (count-- > 0)
             {
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, i++, 1)));
-                await Task.Delay(200);// 防止 Wind 揍我。。。
-                if (doc.TryGetNode("/html/body/main/div/div", out HtmlNode error) && error.InnerText.Trim() == "版块已关闭")
+                (bool isSucceed, HtmlDocument result) Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, i++, 1));
+                if (!Results.isSucceed || (Results.result.TryGetNode("/html/body/main/div/div", out HtmlNode error) && error.InnerText.Trim() == "版块已关闭"))
                 {
                     if (i - 1 >= 110)
                     {
@@ -115,11 +113,15 @@ namespace WFunUWP.Pages.FeedPages
                     }
                     else
                     {
+                        if (Results.isSucceed)
+                        {
+                            await Task.Delay(200);// 防止 Wind 揍我。。。
+                        }
                         Collection.Add(new NullModel());
                         continue;
                     }
                 }
-                if (doc.TryGetNode("/html/body/main/div/div/div/div", out HtmlNode node))
+                if (Results.result.TryGetNode("/html/body/main/div/div/div/div", out HtmlNode node))
                 {
                     Collection.Add(new ForumModel(node.InnerHtml)
                     {

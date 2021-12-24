@@ -109,49 +109,50 @@ namespace WFunUWP.Pages.FeedPages
 
         protected async override Task<IList<object>> LoadItemsAsync(uint count)
         {
-            HtmlDocument doc = new HtmlDocument();
+            (bool isSucceed, HtmlDocument result) Results = (false, null);
             ObservableCollection<object> Collection = new ObservableCollection<object>();
             switch (_type)
             {
                 case FeedListType.Tag:
                     if (_currentPage == 1)
                     {
-                        doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetTagDetail, _id)));
+                        Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetTagDetail, _id));
                     }
                     break;
                 case FeedListType.User:
                     if (_currentPage == 1)
                     {
-                        doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetUserDetail, _id)));
+                        Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetUserDetail, _id));
                     }
                     break;
                 case FeedListType.Forum:
-                    doc.LoadHtml(await NetworkHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, _id, _currentPage)));
+                    Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, _id, _currentPage));
                     break;
                 default:
                     break;
             }
+            if (!Results.isSucceed) { return Collection; }
             if (_currentPage == 1)
             {
                 HtmlNode head;
                 switch (_type)
                 {
                     case FeedListType.Tag:
-                        if (doc.TryGetNode("/html/body/main/div/div/div/div/div", out head))
+                        if (Results.result.TryGetNode("/html/body/main/div/div/div/div/div", out head))
                         {
                             Collection.Add(new ForumModel(head.InnerHtml));
                             UIHelper.MainPage.SetTitle((Collection[0] as ForumModel).Title);
                         }
                         break;
                     case FeedListType.User:
-                        if (doc.TryGetNode("/html/body/main/div/div/div/div", out head))
+                        if (Results.result.TryGetNode("/html/body/main/div/div/div/div", out head))
                         {
                             Collection.Add(new UserModel(head.InnerHtml));
                             UIHelper.MainPage.SetTitle($"{(Collection[0] as UserModel).UserName}的动态");
                         }
                         break;
                     case FeedListType.Forum:
-                        if (doc.TryGetNode("/html/body/main/div/div/div/div", out head))
+                        if (Results.result.TryGetNode("/html/body/main/div/div/div/div", out head))
                         {
                             Collection.Add(new ForumModel(head.InnerHtml));
                             UIHelper.MainPage.SetTitle((Collection[0] as ForumModel).Title);
@@ -160,7 +161,7 @@ namespace WFunUWP.Pages.FeedPages
                     default: break;
                 }
             }
-            if (doc.TryGetNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody", out HtmlNode node) && node.HasChildNodes)
+            if (Results.result.TryGetNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody", out HtmlNode node) && node.HasChildNodes)
             {
                 HtmlNodeCollection CNodes = node.ChildNodes;
                 foreach (HtmlNode item in CNodes)
@@ -171,7 +172,7 @@ namespace WFunUWP.Pages.FeedPages
                     }
                 }
             }
-            else if (doc.TryGetNode("/html/body/main/div/div/div/div/div/div/div[2]/table/tbody", out node) && node.HasChildNodes)
+            else if (Results.result.TryGetNode("/html/body/main/div/div/div/div/div/div/div[2]/table/tbody", out node) && node.HasChildNodes)
             {
                 HtmlNodeCollection CNodes = node.ChildNodes;
                 foreach (HtmlNode item in CNodes)

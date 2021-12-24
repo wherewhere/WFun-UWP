@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using WFunUWP.Core.Exceptions;
+using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
 using WFunUWP.Pages;
 using Windows.ApplicationModel;
@@ -120,6 +121,19 @@ namespace WFunUWP
             ExceptionHandlingSynchronizationContext
                 .Register()
                 .UnhandledException += SynchronizationContext_UnhandledException;
+
+            Utils.NeedShowInAppMessageEvent += (_, arg) =>
+            {
+                switch (arg.Type)
+                {
+                    case MessageType.Message:
+                        UIHelper.ShowMessage(arg.Message);
+                        break;
+                    default:
+                        UIHelper.ShowMessage(arg.Type.ToString());
+                        break;
+                }
+            };
         }
 
         private void SynchronizationContext_UnhandledException(object sender, Core.Exceptions.UnhandledExceptionEventArgs e)
