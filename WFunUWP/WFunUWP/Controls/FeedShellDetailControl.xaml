@@ -49,34 +49,8 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         
-        <Grid
-            Grid.Row="0"
-            CornerRadius="0,0,8,8"
-            x:Name="feedArticleTitle">
-            <Border
-                CornerRadius="0,0,8,8"
-                VerticalAlignment="Bottom">
-                <Border.Background>
-                    <muxm:AcrylicBrush
-                        TintOpacity="0.4"
-                        FallbackColor="#55000000"
-                        BackgroundSource="Backdrop"
-                        TintColor="{x:Bind FeedDetail.UserAvatar.BackgroundColor, Mode=OneWay}"/>
-                </Border.Background>
-
-                <TextBlock
-                    MaxLines="2"
-                    FontSize="20"
-                    Margin="16,16,16,8"
-                    TextWrapping="Wrap"
-                    Foreground="White"
-                    TextTrimming="CharacterEllipsis"
-                    Text="{x:Bind FeedDetail.MessageTitle, Mode=OneWay}"/>
-            </Border>
-        </Grid>
-        
         <ListViewItem
-            Grid.Row="1"
+            Grid.Row="0"
             x:Name="TTitle"
             Tapped="StackPanel_Tapped"
             HorizontalContentAlignment="Stretch"
@@ -106,6 +80,24 @@
             </Grid>
         </ListViewItem>
 
+        <Grid
+            Grid.Row="1"
+            CornerRadius="8"
+            x:Name="feedArticleTitle">
+            <Border
+                CornerRadius="8"
+                VerticalAlignment="Bottom">
+                <TextBlock
+                    MaxLines="2"
+                    FontSize="20"
+                    Margin="12,8"
+                    TextWrapping="Wrap"
+                    Foreground="White"
+                    TextTrimming="CharacterEllipsis"
+                    Text="{x:Bind FeedDetail.MessageTitle, Mode=OneWay}"/>
+            </Border>
+        </Grid>
+        
         <StackPanel
             Grid.Row="2"
             Orientation="Horizontal">

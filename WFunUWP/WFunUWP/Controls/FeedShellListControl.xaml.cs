@@ -64,11 +64,11 @@ namespace WFunUWP.Controls
         {
             if (p == -2)
             {
-                await ReplyDS.Refresh();
+                await ReplyDS?.Refresh();
             }
             else
             {
-                _ = await ReplyDS.LoadMoreItemsAsync(20);
+                _ = await ReplyDS?.LoadMoreItemsAsync(20);
             }
         }
     }
@@ -90,9 +90,7 @@ namespace WFunUWP.Controls
             OnLoadMoreCompleted += UIHelper.HideProgressBar;
         }
 
-#pragma warning disable CS1998 // 异步方法缺少 "await" 运算符，将以同步方式运行
         protected override async Task<IList<FeedReplyModel>> LoadItemsAsync(uint count)
-#pragma warning restore CS1998 // 异步方法缺少 "await" 运算符，将以同步方式运行
         {
             if (_currentPage == 1)
             {
@@ -106,6 +104,7 @@ namespace WFunUWP.Controls
             {
                 List<FeedReplyModel> results = _FeedDetail.ReplyList.ToList().GetRange(_loaditems, _FeedDetail.ReplyList.Count() - _loaditems);
                 _loaditems = _FeedDetail.ReplyList.Count();
+                await Task.Delay(500);
                 return results;
             }
             else
