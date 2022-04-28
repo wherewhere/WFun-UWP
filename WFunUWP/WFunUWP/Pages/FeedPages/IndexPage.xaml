@@ -23,8 +23,8 @@
         </Grid.ChildrenTransitions>
         <ListView
             ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
+            ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplate="{StaticResource Feed}"
-            ItemsSource="{x:Bind NewsDS, Mode=OneWay}"
-            SelectionMode="None" />
+            ItemsSource="{x:Bind NewsDS, Mode=OneWay}" />
     </Grid>
 </Page>

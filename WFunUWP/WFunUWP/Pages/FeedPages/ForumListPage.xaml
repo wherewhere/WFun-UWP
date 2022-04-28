@@ -1,80 +1,73 @@
 ﻿<Page
     x:Class="WFunUWP.Pages.FeedPages.ForumListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
-    xmlns:models="using:WFunUWP.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:WFunUWP.Pages.FeedPages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:WFunUWP.Models"
+    xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
-            <converter:HasValueConverter x:Key="HasValueConverter"/>
+            <converter:HasValueConverter x:Key="HasValueConverter" />
             <DataTemplate x:Key="List" x:DataType="models:ForumModel">
-                <ListViewItem
-                    Margin="14,8"
-                    MaxWidth="800"
+                <Grid
+                    KeyDown="{x:Bind local:ForumListPage.ListViewItem_KeyDown}"
                     Tag="{x:Bind Url}"
-                    Style="{StaticResource AppListViewItemStyle}"
-                    Tapped="{x:Bind local:ForumListPage.Grid_Tapped}"
-                    KeyDown="{x:Bind local:ForumListPage.ListViewItem_KeyDown}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="48"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <mxuc:PersonPicture
-                            Width="40"
-                            Height="40"
-                            Grid.RowSpan="3"
-                            VerticalAlignment="Center"
+                    Tapped="{x:Bind local:ForumListPage.Grid_Tapped}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <mxuc:PersonPicture
+                        Grid.RowSpan="3"
+                        Width="40"
+                        Height="40"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        DisplayName="{x:Bind Title}"
+                        ProfilePicture="{x:Bind Logo.Pic, Mode=OneWay}" />
+                    <Grid Grid.Column="1" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
                             HorizontalAlignment="Left"
-                            DisplayName="{x:Bind Title}"
-                            ProfilePicture="{x:Bind Logo.Pic, Mode=OneWay}"/>
-                        <Grid
-                            Grid.Column="1"
-                            VerticalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                                Grid.Row="0"
-                                Text="{x:Bind Title}"
-                                HorizontalAlignment="Left"/>
-                            <TextBlock
-                                Grid.Row="1"
-                                x:Name="SubTitle"
-                                TextWrapping="Wrap"
-                                Text="{x:Bind SubTitle}"
-                                Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
-                                x:Load="{x:Bind SubTitle, Converter={StaticResource HasValueConverter}, ConverterParameter='string'}"/>
-                        </Grid>
+                            Text="{x:Bind Title}" />
+                        <TextBlock
+                            x:Name="SubTitle"
+                            Grid.Row="1"
+                            x:Load="{x:Bind SubTitle, Converter={StaticResource HasValueConverter}, ConverterParameter='string'}"
+                            Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                            Text="{x:Bind SubTitle}"
+                            TextWrapping="Wrap" />
                     </Grid>
-                </ListViewItem>
+                </Grid>
             </DataTemplate>
             <DataTemplate x:Key="Null" x:DataType="local:NullModel">
-                <Border/>
+                <Border />
             </DataTemplate>
             <local:ForumListPageTemplateSelector
                 x:Key="tempse"
-                Null="{StaticResource Null}"
-                List="{StaticResource List}"/>
+                List="{StaticResource List}"
+                Null="{StaticResource Null}" />
         </ResourceDictionary>
     </Page.Resources>
     <Grid>
         <Grid.ChildrenTransitions>
             <TransitionCollection>
-                <EntranceThemeTransition/>
+                <EntranceThemeTransition />
             </TransitionCollection>
         </Grid.ChildrenTransitions>
         <ListView
-            SelectionMode="None"
-            ItemsSource="{x:Bind AllForumDS, Mode=OneWay}"
+            ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
+            ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplateSelector="{StaticResource tempse}"
-            ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"/>
+            ItemsSource="{x:Bind AllForumDS, Mode=OneWay}" />
     </Grid>
 </Page>
