@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Copy.Text" xml:space="preserve">
-    <value>全局复制</value>
+    <value>Global Copy</value>
   </data>
   <data name="Report.Text" xml:space="preserve">
-    <value>举报</value>
+    <value>Report</value>
   </data>
 </root>
