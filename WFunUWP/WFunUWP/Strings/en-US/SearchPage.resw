@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AdvanceSearch.Text" xml:space="preserve">
-    <value>高级搜索</value>
+    <value>Advanced Search</value>
   </data>
   <data name="BasicSearch.Text" xml:space="preserve">
-    <value>基础搜索：</value>
+    <value>Base Search: </value>
   </data>
   <data name="SearchContent.Content" xml:space="preserve">
-    <value>搜索内容</value>
+    <value>Search Content</value>
   </data>
   <data name="SearchForum.Content" xml:space="preserve">
-    <value>搜索论坛</value>
+    <value>Search Forums</value>
   </data>
   <data name="SearchTitle.Content" xml:space="preserve">
-    <value>搜索标题</value>
+    <value>Search Title</value>
   </data>
   <data name="SearchUser.Content" xml:space="preserve">
-    <value>搜索用户</value>
+    <value>Search Users</value>
   </data>
 </root>
