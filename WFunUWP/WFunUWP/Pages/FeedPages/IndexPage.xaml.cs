@@ -69,7 +69,7 @@ namespace WFunUWP.Pages.FeedPages
         protected async override Task<IList<object>> LoadItemsAsync(uint count)
         {
             ObservableCollection<object> Collection = new ObservableCollection<object>();
-            (bool isSucceed, HtmlDocument result) Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetNewsFeeds, _currentPage));
+            (bool isSucceed, HtmlDocument result) Results = await RequestHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetNewsFeeds, _currentPage));
             if (Results.isSucceed && Results.result.TryGetNode("/html/body/main/div/div/div/div/div/div/div/table/tbody", out HtmlNode node) && node.HasChildNodes)
             {
                 HtmlNodeCollection CNodes = node.ChildNodes;

@@ -104,7 +104,7 @@ namespace WFunUWP.Pages.FeedPages
             int i = num;
             while (count-- > 0)
             {
-                (bool isSucceed, HtmlDocument result) Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, i++, 1));
+                (bool isSucceed, HtmlDocument result) Results = await RequestHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, i++, 1));
                 if (!Results.isSucceed || (Results.result.TryGetNode("/html/body/main/div/div", out HtmlNode error) && error.InnerText.Trim() == "版块已关闭"))
                 {
                     if (i - 1 >= 110)

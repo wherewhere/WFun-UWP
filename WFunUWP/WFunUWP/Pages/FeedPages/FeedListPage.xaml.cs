@@ -116,17 +116,17 @@ namespace WFunUWP.Pages.FeedPages
                 case FeedListType.Tag:
                     if (_currentPage == 1)
                     {
-                        Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetTagDetail, _id));
+                        Results = await RequestHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetTagDetail, _id));
                     }
                     break;
                 case FeedListType.User:
                     if (_currentPage == 1)
                     {
-                        Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetUserDetail, _id));
+                        Results = await RequestHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetUserDetail, _id));
                     }
                     break;
                 case FeedListType.Forum:
-                    Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, _id, _currentPage));
+                    Results = await RequestHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetForumDetail, _id, _currentPage));
                     break;
                 default:
                     break;

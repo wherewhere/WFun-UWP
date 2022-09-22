@@ -18,7 +18,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <templates:Feeds />
             </ResourceDictionary.MergedDictionaries>
-            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <Style
                 x:Key="FeedOpButtonStyle"
                 BasedOn="{StaticResource DefaultButtonStyle}"

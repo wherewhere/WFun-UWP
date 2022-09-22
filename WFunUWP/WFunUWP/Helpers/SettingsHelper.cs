@@ -1,11 +1,19 @@
-﻿using Windows.Storage;
+﻿using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
+using System;
+using WFunUWP.Core.Helpers;
+using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.Web.Http.Filters;
+using Windows.Web.Http;
+using System.Security.Cryptography;
 
 namespace WFunUWP.Helpers
 {
     internal static partial class SettingsHelper
     {
+        public const string Auth = "Auth";
         public const string TileUrl = "TileUrl";
         public const string IsFirstRun = "IsFirstRun";
         public const string IsDarkMode = "IsDarkMode";
@@ -21,6 +29,10 @@ namespace WFunUWP.Helpers
 
         public static void SetDefaultSettings()
         {
+            if (!LocalSettings.Values.ContainsKey(Auth))
+            {
+                LocalSettings.Values.Add(Auth, string.Empty);
+            }
             if (!LocalSettings.Values.ContainsKey(TileUrl))
             {
                 LocalSettings.Values.Add(TileUrl, "https://www.wpxap.com/");
@@ -87,6 +99,71 @@ namespace WFunUWP.Helpers
                 Set(IsDarkMode, value);
                 UISettingChanged.Invoke(value ? UISettingChangedType.DarkMode : UISettingChangedType.LightMode);
             }
+        }
+
+        public static async Task<bool> LoginIn(string auth)
+        {
+            using (HttpBaseProtocolFilter filter = new HttpBaseProtocolFilter())
+            {
+                HttpCookieManager cookieManager = filter.CookieManager;
+                HttpCookie auth1 = new HttpCookie("auth", "wfun.com", "/");
+                HttpCookie auth2 = new HttpCookie("auth", "wpxap.com", "/");
+                auth1.Value = auth2.Value=auth;
+                DateTime Expires = DateTime.UtcNow.AddDays(365);
+                auth1.Expires = auth2.Expires = Expires;
+                cookieManager.SetCookie(auth1);
+                cookieManager.SetCookie(auth2);
+                return await CheckLoginInfo();
+            }
+        }
+
+        public static async Task<bool> CheckLoginInfo()
+        {
+            try
+            {
+                using (HttpBaseProtocolFilter filter = new HttpBaseProtocolFilter())
+                {
+                    HttpCookieManager cookieManager = filter.CookieManager;
+                    string auth = string.Empty;
+                    foreach (HttpCookie item in cookieManager.GetCookies(UriHelper.BaseUri))
+                    {
+                        switch (item.Name)
+                        {
+                            case "auth":
+                                auth = item.Value;
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(auth))
+                    {
+                        Logout();
+                        return false;
+                    }
+                    else
+                    {
+                        Set(Auth, auth);
+                        return true;
+                    }
+                }
+            }
+            catch { throw; }
+        }
+
+        public static void Logout()
+        {
+            using (HttpBaseProtocolFilter filter = new HttpBaseProtocolFilter())
+            {
+                HttpCookieManager cookieManager = filter.CookieManager;
+                foreach (HttpCookie item in cookieManager.GetCookies(UriHelper.BaseUri))
+                {
+                    cookieManager.DeleteCookie(item);
+                }
+            }
+            Set(Auth, string.Empty);
         }
     }
 }

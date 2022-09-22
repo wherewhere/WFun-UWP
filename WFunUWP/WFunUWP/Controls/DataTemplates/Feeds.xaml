@@ -10,17 +10,6 @@
     xmlns:models="using:WFunUWP.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary>
-            <converter:EmptyStringToObjectConverter
-                x:Key="EmptyStringToBoolConverter"
-                EmptyValue="False"
-                NotEmptyValue="True" />
-            <converter:BoolNegationConverter x:Key="BoolNegationConverter" />
-            <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        </ResourceDictionary>
-    </ResourceDictionary.MergedDictionaries>
-
     <Style
         x:Key="FeedOpButtonStyle"
         BasedOn="{StaticResource DefaultButtonStyle}"

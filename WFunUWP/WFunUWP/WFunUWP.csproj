@@ -110,7 +110,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -141,6 +141,9 @@
     <Compile Include="Controls\CheckBoxWithDescriptionControl.cs" />
     <Compile Include="Controls\DataTemplates\Feeds.xaml.cs">
       <DependentUpon>Feeds.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\LoginDialog.xaml.cs">
+      <DependentUpon>LoginDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\FeedShellDetailControl.xaml.cs">
       <DependentUpon>FeedShellDetailControl.xaml</DependentUpon>
@@ -279,6 +282,13 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <PRIResource Include="Strings\zh-CN\LoginDialog.resw" />
+    <PRIResource Include="Strings\en-US\SettingsPage.resw" />
+    <PRIResource Include="Strings\en-US\SearchPage.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\en-US\MarkDown.resw" />
+    <PRIResource Include="Strings\en-US\MainPage.resw" />
+    <PRIResource Include="Strings\en-US\Feeds.resw" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -328,6 +338,10 @@
     <Page Include="Controls\DataTemplates\Feeds.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Dialogs\LoginDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\FeedShellDetailControl.xaml">
       <Generator>MSBuild:Compile</Generator>

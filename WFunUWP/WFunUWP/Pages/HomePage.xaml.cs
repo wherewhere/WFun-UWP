@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using System.Collections.ObjectModel;
+using WFunUWP.Controls.Dialogs;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
 using WFunUWP.Models;
@@ -23,7 +24,7 @@ namespace WFunUWP.Pages
         {
             base.OnNavigatedTo(e);
             UIHelper.ShowProgressBar();
-            (bool isSucceed, HtmlDocument result) Results = await Utils.GetHtmlAsync(UriHelper.BaseUri);
+            (bool isSucceed, HtmlDocument result) Results = await RequestHelper.GetHtmlAsync(UriHelper.BaseUri);
             if (Results.isSucceed && Results.result.TryGetNode("/html/body/main/div/div/div/div[2]/div/div/div/table/tbody", out HtmlNode node) && node.HasChildNodes)
             {
                 HtmlNodeCollection CNodes = node.ChildNodes;

@@ -223,21 +223,4 @@ namespace WFunUWP.Core.Helpers
             return s;
         }
     }
-
-    public static partial class Utils
-    {
-        public static async Task<(bool isSucceed, HtmlDocument result)> GetHtmlAsync(Uri uri, bool isBackground = false)
-        {
-            string json = await NetworkHelper.GetHtmlAsync(uri, isBackground);
-            return GetResult(json);
-        }
-
-        private static (bool, HtmlDocument) GetResult(string json)
-        {
-            if (json == null) { return (false, null); }
-            HtmlDocument doc = new HtmlDocument();
-            try { doc.LoadHtml(json); } catch { return (false, null); }
-            return (true, doc);
-        }
-    }
 }

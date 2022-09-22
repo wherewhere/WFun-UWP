@@ -29,7 +29,7 @@ namespace WFunUWP.Pages.FeedPages
             (bool isSucceed, HtmlDocument result) Results = (false, null);
             if (vs[0] is string id)
             {
-                Results = await Utils.GetHtmlAsync(UriHelper.GetUri(UriType.GetFeedDetail, id));
+                Results = await RequestHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetFeedDetail, id));
             }
             if (Results.isSucceed && Results.result.TryGetNode("/html/body/main/div/div/div", out HtmlNode node))
             {

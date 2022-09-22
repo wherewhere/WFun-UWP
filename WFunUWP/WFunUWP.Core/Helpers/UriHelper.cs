@@ -5,6 +5,7 @@ namespace WFunUWP.Core.Helpers
     /// <summary> 程序支持的能从服务器中获取的数据的类型。 </summary>
     public enum UriType
     {
+        Login,
         GetNewsFeeds,
         GetTagDetail,
         GetUserDetail,
@@ -26,6 +27,7 @@ namespace WFunUWP.Core.Helpers
         {
             switch (type)
             {
+                case UriType.Login: return "/api/v1/login";
                 case UriType.GetNewsFeeds: return "/new/{0}.html";
                 case UriType.GetTagDetail: return "/tag/{0}";
                 case UriType.GetUserDetail: return "/u/{0}";

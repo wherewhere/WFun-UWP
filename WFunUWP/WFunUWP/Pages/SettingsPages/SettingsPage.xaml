@@ -12,9 +12,6 @@
     xmlns:mxuc="using:Microsoft.UI.Xaml.Controls"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
-    <Page.Resources>
-        <converter:BoolNegationConverter x:Key="BoolNegationConverter" />
-    </Page.Resources>
     <Grid>
         <Grid.ChildrenTransitions>
             <TransitionCollection>

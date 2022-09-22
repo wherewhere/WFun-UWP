@@ -30,7 +30,11 @@ namespace WFunUWP.Helpers.Tasks
         private static async Task<HtmlDocument> GetJson(Uri uri)
         {
             HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(await NetworkHelper.GetHtmlAsync(uri));
+            (bool isSucceed, string result) results = await RequestHelper.GetStringAsync(uri);
+            if (results.isSucceed)
+            {
+                doc.LoadHtml(results.result);
+            }
             return doc;
         }
 

@@ -30,11 +30,11 @@ namespace WFunUWP.Helpers.Tasks
             Windows.ApplicationModel.Resources.ResourceLoader loader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
             try
             {
-                string result;
-                try { result = await NetworkHelper.GetHtmlAsync(new Uri("https://api.github.com/repos/wherewhere/WFun-UWP/releases/latest")); }
-                catch { result = await NetworkHelper.GetHtmlAsync(new Uri("https://v2.kkpp.cc/repos/wherewhere/WFun-UWP/releases/latest")); }
-                if (string.IsNullOrEmpty(result)) { throw new HttpRequestException(); }
-                JObject keys = JObject.Parse(result);
+                (bool isSucceed, string result) results;
+                try { results = await RequestHelper.GetStringAsync(new Uri("https://api.github.com/repos/wherewhere/WFun-UWP/releases/latest")); }
+                catch { results = await RequestHelper.GetStringAsync(new Uri("https://v2.kkpp.cc/repos/wherewhere/WFun-UWP/releases/latest")); }
+                if (!results.isSucceed) { throw new HttpRequestException(); }
+                JObject keys = JObject.Parse(results.result);
                 string[] ver = keys.Value<string>("tag_name").Replace("v", string.Empty).Split('.');
                 if (ushort.Parse(ver[0]) > Package.Current.Id.Version.Major ||
                    (ushort.Parse(ver[0]) == Package.Current.Id.Version.Major && ushort.Parse(ver[1]) > Package.Current.Id.Version.Minor) ||
