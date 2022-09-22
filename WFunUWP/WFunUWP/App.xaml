@@ -7,6 +7,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!--  Other merged dictionaries here  -->
+                <ResourceDictionary Source="ms-appx:///Themes/SettingsUI.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <!--<Color x:Key="SystemAccentColor">#4CAF50</Color>-->
@@ -16,6 +17,21 @@
             <x:Double x:Key="PageTitleHeight">80</x:Double>
             <Thickness x:Key="StackPanelMargin">0,80,0,0</Thickness>
             <VerticalAlignment x:Key="TitleContentVerticalAlignment">Bottom</VerticalAlignment>
+
+            <!--  Breakpoints  -->
+            <x:Double x:Key="Breakpoint640Plus">641</x:Double>
+
+            <Thickness x:Key="PageHeaderDefaultPadding">0</Thickness>
+            <Thickness x:Key="PageHeaderMinimalPadding">-4,0,12,0</Thickness>
+
+            <Thickness x:Key="ControlElementScreenshotModePadding">67</Thickness>
+
+            <!--  L-Pattern Overwriting resources  -->
+            <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
+            <Thickness x:Key="NavigationViewContentGridBorderThickness">1,1,0,0</Thickness>
+            <CornerRadius x:Key="NavigationViewContentGridCornerRadius">8,0,0,0</CornerRadius>
+            <Thickness x:Key="NavigationViewHeaderMargin">56,34,0,0</Thickness>
+
             <ControlTemplate x:Key="AppListViewItemTemplate" TargetType="ListViewItem">
                 <ListViewItemPresenter
                     x:Name="Root"
@@ -62,7 +78,7 @@
 
             <Style
                 x:Key="IconButtonStyle"
-                BasedOn="{StaticResource ButtonRevealStyle}"
+                BasedOn="{StaticResource DefaultButtonStyle}"
                 TargetType="Button">
                 <Setter Property="Width" Value="40" />
                 <Setter Property="Height" Value="40" />
@@ -238,7 +254,7 @@
                 <Setter Property="TabNavigation" Value="Local" />
                 <Setter Property="IsHoldingEnabled" Value="True" />
                 <Setter Property="Padding" Value="8" />
-                <Setter Property="Margin" Value="6,1.5" />
+                <Setter Property="Margin" Value="0,1.5" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Setter Property="MaxWidth" Value="800" />

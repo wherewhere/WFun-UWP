@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
+    xmlns:trigger="using:WFunUWP.Helpers.Trigger"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Page.Resources>
@@ -15,16 +16,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <templates:Feeds />
             </ResourceDictionary.MergedDictionaries>
-            <converter:TrueToFalseConverter x:Key="TrueToFalseConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid>
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition />
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
+    <Grid x:Name="Root">
         <muxc:TwoPaneView
             x:Name="TwoPaneView"
             Loaded="TwoPaneView_Loaded"
@@ -35,7 +30,7 @@
             TallModeConfiguration="SinglePane">
             <muxc:TwoPaneView.Pane1>
                 <ScrollViewer x:Name="DetailScrollViewer" VerticalAlignment="Top">
-                    <Grid x:Name="Pane1Grid">
+                    <Grid x:Name="Pane1Grid" Margin="0,0,6,0">
                         <ctrl:FeedShellDetailControl x:Name="DetailControl" />
                     </Grid>
                 </ScrollViewer>
@@ -50,5 +45,44 @@
                 </Grid>
             </muxc:TwoPaneView.Pane2>
         </muxc:TwoPaneView>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <trigger:DeviceFamilyTrigger DeviceFamily="Windows.Xbox" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Root.Margin" Value="0,0,48,27" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="LayoutVisualStates">
+                <VisualState x:Name="LargeLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1372" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Root.Padding" Value="76,0,32,36" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="WideLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint640Plus}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Root.Padding" Value="52,0,32,36" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Root.Padding" Value="6,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

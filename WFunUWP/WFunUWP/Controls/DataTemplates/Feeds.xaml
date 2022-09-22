@@ -3,24 +3,31 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:AppStudio.Uwp.Controls"
-    xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
+    xmlns:converter="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:WFunUWP.Controls.DataTemplates"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:WFunUWP.Models"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
-
-    <converter:HasValueConverter x:Key="HasValueConverter" />
-    <converter:TrueToFalseConverter x:Key="TrueToFalseConverter" />
-    <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>
+            <converter:EmptyStringToObjectConverter
+                x:Key="EmptyStringToBoolConverter"
+                EmptyValue="False"
+                NotEmptyValue="True" />
+            <converter:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        </ResourceDictionary>
+    </ResourceDictionary.MergedDictionaries>
 
     <Style
         x:Key="FeedOpButtonStyle"
-        BasedOn="{StaticResource ButtonRevealStyle}"
+        BasedOn="{StaticResource DefaultButtonStyle}"
         TargetType="Button">
         <Setter Property="Height" Value="34" />
         <Setter Property="Grid.Row" Value="10" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
     </Style>
@@ -52,7 +59,7 @@
                         Padding="0"
                         Background="Transparent"
                         Click="{x:Bind local:Feeds.FeedButton_Click}"
-                        Style="{ThemeResource ButtonRevealStyle}"
+                        Style="{StaticResource ButtonRevealStyle}"
                         Tag="{x:Bind Uurl}">
                         <muxc:PersonPicture
                             Width="36"
@@ -142,7 +149,7 @@
                     x:Name="mTitleT"
                     Grid.Row="1"
                     Margin="4"
-                    x:Load="{x:Bind MessageTitle, Converter={StaticResource HasValueConverter}, ConverterParameter='string'}"
+                    x:Load="{x:Bind MessageTitle, Converter={StaticResource EmptyStringToBoolConverter}}"
                     FontSize="16"
                     FontWeight="Black"
                     IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
@@ -166,12 +173,8 @@
                 <Button
                     x:Name="RelaRLis"
                     Grid.Row="4"
-                    Background="{ThemeResource SystemControlBackgroundListLowBrush}"
-                    BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}"
-                    BorderThickness="1"
                     Click="{x:Bind local:Feeds.FeedButton_Click}"
                     Content="{x:Bind RelationRows.Title}"
-                    Style="{StaticResource ButtonRevealStyle}"
                     Tag="{x:Bind RelationRows.Url}" />
             </Grid>
         </UserControl>
@@ -199,7 +202,7 @@
                         Padding="0"
                         Background="Transparent"
                         Click="{x:Bind local:Feeds.FeedButton_Click}"
-                        Style="{ThemeResource ButtonRevealStyle}"
+                        Style="{StaticResource ButtonRevealStyle}"
                         Tag="{x:Bind Uurl}">
                         <muxc:PersonPicture
                             Width="36"
@@ -268,7 +271,6 @@
             BorderThickness="1"
             Click="{x:Bind local:Feeds.FeedButton_Click}"
             Content="{x:Bind Title}"
-            Style="{StaticResource ButtonRevealStyle}"
             Tag="{x:Bind Url}" />
     </DataTemplate>
 </ResourceDictionary>

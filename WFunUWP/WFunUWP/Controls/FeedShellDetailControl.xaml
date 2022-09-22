@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:AppStudio.Uwp.Controls"
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -17,22 +18,24 @@
             <ResourceDictionary.MergedDictionaries>
                 <templates:Feeds />
             </ResourceDictionary.MergedDictionaries>
-            <converter:HasValueConverter x:Key="HasValueConverter" />
-            <converter:TrueToFalseConverter x:Key="TrueToFalseConverter" />
-            <converter:HTMLToMarkDownConverter x:Key="HTMLToMarkDownConverter" />
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <Style
                 x:Key="FeedOpButtonStyle"
-                BasedOn="{StaticResource ButtonRevealStyle}"
+                BasedOn="{StaticResource DefaultButtonStyle}"
                 TargetType="Button">
                 <Setter Property="Height" Value="34" />
                 <Setter Property="Grid.Row" Value="10" />
+                <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid KeyDown="Grid_KeyDown" RightTapped="Grid_RightTapped">
+    <Grid
+        Margin="-6,0"
+        KeyDown="Grid_KeyDown"
+        RightTapped="Grid_RightTapped">
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition />
@@ -50,27 +53,24 @@
         <ListViewItem
             x:Name="TTitle"
             Grid.Row="0"
+            Margin="3,0"
             HorizontalContentAlignment="Stretch"
-            Style="{StaticResource FixedListViewItemStyle}"
+            Style="{StaticResource DefaultCardItemStyle}"
             Tag="{x:Bind FeedDetail.ForumUrl, Mode=OneWay}"
-            Tapped="StackPanel_Tapped"
-            Template="{StaticResource AppListViewItemTemplate}">
-            <Grid
-                Height="40"
-                Margin="2,8"
-                Padding="4"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                Background="{ThemeResource SystemControlChromeLowAcrylicWindowBrush}"
-                BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}"
-                BorderThickness="1"
-                CornerRadius="8">
+            Tapped="StackPanel_Tapped">
+            <Grid Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <TextBlock
+                    Grid.Column="0"
                     Margin="6,0,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Text="{x:Bind FeedDetail.ForumTitle, Mode=OneWay}" />
                 <SymbolIcon
+                    Grid.Column="1"
                     Margin="4,0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
@@ -100,7 +100,7 @@
                 Padding="0"
                 Background="Transparent"
                 Click="Button_Click"
-                Style="{ThemeResource ButtonRevealStyle}"
+                Style="{StaticResource ButtonRevealStyle}"
                 Tag="{x:Bind FeedDetail.Uurl, Mode=OneWay}">
                 <muxc:PersonPicture
                     Width="36"
@@ -171,7 +171,7 @@
             x:Name="FeedPresenter"
             Grid.Row="3"
             Margin="10,2"
-            x:Load="{x:Bind FeedDetail.IsFeedArticle, Mode=OneWay, Converter={StaticResource TrueToFalseConverter}}">
+            x:Load="{x:Bind FeedDetail.IsFeedArticle, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>

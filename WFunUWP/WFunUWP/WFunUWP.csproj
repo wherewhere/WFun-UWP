@@ -10,9 +10,9 @@
     <RootNamespace>WFunUWP</RootNamespace>
     <AssemblyName>WFunUWP</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
+    <LangVersion>latest</LangVersion>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22000.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22621.0</TargetPlatformVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,6 +34,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -44,6 +45,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -57,6 +59,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM</PlatformTarget>
@@ -67,6 +70,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -80,6 +84,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>ARM64</PlatformTarget>
@@ -91,6 +96,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <OutputPath>bin\ARM64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -104,6 +110,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -114,6 +121,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -130,6 +138,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CheckBoxWithDescriptionControl.cs" />
     <Compile Include="Controls\DataTemplates\Feeds.xaml.cs">
       <DependentUpon>Feeds.xaml</DependentUpon>
     </Compile>
@@ -139,23 +148,36 @@
     <Compile Include="Controls\FeedShellListControl.xaml.cs">
       <DependentUpon>FeedShellListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\IsEnabledTextBlock\IsEnabledTextBlock.cs" />
+    <Compile Include="Controls\KeyVisual\KeyVisual.cs" />
+    <Compile Include="Controls\MarginSetter.cs" />
+    <Compile Include="Controls\PageHeader.xaml.cs">
+      <DependentUpon>PageHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SettingButton\SettingButton.cs" />
+    <Compile Include="Controls\SettingExpander\SettingExpander.cs" />
+    <Compile Include="Controls\SettingsGroup\SettingsGroup.cs" />
+    <Compile Include="Controls\Setting\Setting.cs" />
     <Compile Include="Controls\ShowQRCodeControl.xaml.cs">
       <DependentUpon>ShowQRCodeControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Spacing.cs" />
+    <Compile Include="Controls\TitleBar\TitleBar.cs" />
+    <Compile Include="Controls\TitleBar\TitleBar.Properties.cs" />
+    <Compile Include="Controls\TitleBar\TitleBarTemplateSettings.cs" />
+    <Compile Include="Controls\TitleBar\TitleBarTemplateSettings.Properties.cs" />
     <Compile Include="Helpers\DataHelper.cs" />
     <Compile Include="Helpers\DataSource\DataSourceBase.cs" />
     <Compile Include="Helpers\DataSource\IncrementalLoadingBase.cs" />
     <Compile Include="Helpers\ImageCacheHelper.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
+    <Compile Include="Helpers\SharedHelpers.cs" />
     <Compile Include="Helpers\Tasks\CheckUpdate.cs" />
     <Compile Include="Helpers\Tasks\GetAllFeeds.cs" />
     <Compile Include="Helpers\Tasks\LiveTileTask.cs" />
+    <Compile Include="Helpers\Trigger\DeviceFamilyTrigger.cs" />
     <Compile Include="Helpers\UIHelper.cs" />
-    <Compile Include="Helpers\ValueConverters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Helpers\ValueConverters\GetWeakValue.cs" />
-    <Compile Include="Helpers\ValueConverters\HasValueConverter.cs" />
     <Compile Include="Helpers\ValueConverters\HTMLToMarkDownConverter.cs" />
-    <Compile Include="Helpers\ValueConverters\TrueToFalseConverter.cs" />
     <Compile Include="Models\BackgroundImageModel.cs" />
     <Compile Include="Models\FeedDetailModel.cs" />
     <Compile Include="Models\FeedListModel.cs" />
@@ -266,22 +288,22 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.11.39</Version>
+      <Version>1.11.46</Version>
     </PackageReference>
     <PackageReference Include="ksemenenko.ColorThief">
       <Version>1.1.1.4</Version>
     </PackageReference>
     <PackageReference Include="LiteDB">
-      <Version>5.0.11</Version>
+      <Version>5.0.12</Version>
     </PackageReference>
     <PackageReference Include="MetroLog">
       <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.13</Version>
+      <Version>6.2.14</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>6.0.0</Version>
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
       <Version>4.0.0</Version>
@@ -290,7 +312,7 @@
       <Version>4.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.7.0</Version>
+      <Version>2.7.3</Version>
     </PackageReference>
     <PackageReference Include="QRCoder">
       <Version>1.4.3</Version>
@@ -315,9 +337,45 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\IsEnabledTextBlock\IsEnabledTextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\KeyVisual\KeyVisual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\PageHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SettingButton\SettingButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SettingExpander\SettingExpander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SettingsGroup\SettingsGroup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Setting\Setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\ShowQRCodeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TitleBar\TitleBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TitleBar\TitleBar_themeresources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\FeedPages\FeedListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -359,6 +417,34 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Common.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Color.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\CommonStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\SettingsUI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WFunUWP.Core\WFunUWP.Core.csproj">
@@ -385,7 +471,7 @@
     <PRIResource Include="Strings\zh-CN\MainPage.resw" />
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsMobile, Version=10.0.22000.0">
+    <SDKReference Include="WindowsMobile, Version=10.0.22621.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>

@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
+    xmlns:trigger="using:WFunUWP.Helpers.Trigger"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
@@ -15,16 +16,56 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
+    <Grid x:Name="Root">
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition />
             </TransitionCollection>
         </Grid.ChildrenTransitions>
         <ListView
+            x:Name="ListView"
             ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
             ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplate="{StaticResource Feed}"
             ItemsSource="{x:Bind NewsDS, Mode=OneWay}" />
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <trigger:DeviceFamilyTrigger DeviceFamily="Windows.Xbox" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Root.Margin" Value="0,0,48,27" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="LayoutVisualStates">
+                <VisualState x:Name="LargeLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1372" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ListView.Padding" Value="76,0,32,36" />
+                        <Setter Target="ListView.HorizontalAlignment" Value="Left" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="WideLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint640Plus}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ListView.Padding" Value="52,0,32,36" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowLayout">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ListView.Padding" Value="6,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WFunUWP.Controls;
 using WFunUWP.Helpers;
 using WFunUWP.Helpers.Tasks;
 using WFunUWP.Pages.FeedPages;
 using WFunUWP.Pages.SettingsPages;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Metadata;
 using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using muxc = Microsoft.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System.Threading.Tasks;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -22,6 +26,9 @@ namespace WFunUWP.Pages
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public Action NavigationViewLoaded { get; set; }
+        public PageHeader PageHeader => NavigationView.FindDescendants<PageHeader>().FirstOrDefault();
+
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
             ("Home", typeof(HomePage)),
@@ -33,15 +40,24 @@ namespace WFunUWP.Pages
         public MainPage()
         {
             InitializeComponent();
+            UIHelper.CheckTheme();
             UIHelper.MainPage = this;
             LiveTileTask.UpdateTile();
-            if (AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
-            {
-                Window.Current.SetTitleBar(null);
-                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            }
-            RectanglePointerExited();
-            UIHelper.CheckTheme();
+            Window.Current.SetTitleBar(AppTitleBar);
+            NavigationView.PaneDisplayMode = muxc.NavigationViewPaneDisplayMode.Left;
+            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += (s, e) => UpdateAppTitle(s);
+            NavigationView.RegisterPropertyChangedCallback(muxc.NavigationView.PaneDisplayModeProperty, new DependencyPropertyChangedCallback(OnPaneDisplayModeChanged));
+        }
+
+        private void OnPaneDisplayModeChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            var navigationView = sender as muxc.NavigationView;
+            AppTitleBar.Visibility = navigationView.PaneDisplayMode == muxc.NavigationViewPaneDisplayMode.Top ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public string GetAppTitleFromSystem()
+        {
+            return Windows.ApplicationModel.Package.Current.DisplayName;
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -49,6 +65,9 @@ namespace WFunUWP.Pages
             // Add handler for ContentFrame navigation.
             NavigationViewFrame.Navigated += On_Navigated;
             NavigationView.SelectedItem = NavigationView.MenuItems[0];
+            NavigationView.PaneDisplayMode = muxc.NavigationViewPaneDisplayMode.Auto;
+            // Delay necessary to ensure NavigationView visual state can match navigation
+            Task.Delay(500).ContinueWith(_ => this.NavigationViewLoaded?.Invoke(), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void NavigationView_Navigate(string NavItemTag, NavigationTransitionInfo TransitionInfo, object[] vs = null)
@@ -148,7 +167,93 @@ namespace WFunUWP.Pages
             }
         }
 
-        public void SetTitle(string Title) => HeaderTitle.Text = Title;
+        private void NavigationViewControl_PaneClosing(muxc.NavigationView sender, muxc.NavigationViewPaneClosingEventArgs args)
+        {
+            UpdateAppTitleMargin(sender);
+        }
+
+        private void NavigationViewControl_PaneOpening(muxc.NavigationView sender, object args)
+        {
+            UpdateAppTitleMargin(sender);
+        }
+
+        private void NavigationViewControl_DisplayModeChanged(muxc.NavigationView sender, muxc.NavigationViewDisplayModeChangedEventArgs args)
+        {
+            Thickness currMargin = AppTitleBar.Margin;
+            if (sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal)
+            {
+                AppTitleBar.Margin = new Thickness((sender.CompactPaneLength * 2), currMargin.Top, currMargin.Right, currMargin.Bottom);
+
+            }
+            else
+            {
+                AppTitleBar.Margin = new Thickness(sender.CompactPaneLength, currMargin.Top, currMargin.Right, currMargin.Bottom);
+            }
+
+            UpdateAppTitleMargin(sender);
+            UpdateHeaderMargin(sender);
+        }
+
+        public void SetTitle(string Title)
+        {
+            NavigationView.Header = Title;
+        }
+
+        void UpdateAppTitle(CoreApplicationViewTitleBar coreTitleBar)
+        {
+            //ensure the custom title bar does not overlap window caption controls
+            Thickness currMargin = AppTitleBar.Margin;
+            AppTitleBar.Margin = new Thickness(currMargin.Left, currMargin.Top, coreTitleBar.SystemOverlayRightInset, currMargin.Bottom);
+        }
+
+        private void UpdateAppTitleMargin(muxc.NavigationView sender)
+        {
+            const int smallLeftIndent = 4, largeLeftIndent = 24;
+
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+            {
+                AppTitle.TranslationTransition = new Vector3Transition();
+
+                if ((sender.DisplayMode == muxc.NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
+                         sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal)
+                {
+                    AppTitle.Translation = new System.Numerics.Vector3(smallLeftIndent, 0, 0);
+                }
+                else
+                {
+                    AppTitle.Translation = new System.Numerics.Vector3(largeLeftIndent, 0, 0);
+                }
+            }
+            else
+            {
+                Thickness currMargin = AppTitle.Margin;
+
+                if ((sender.DisplayMode == muxc.NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
+                         sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal)
+                {
+                    AppTitle.Margin = new Thickness(smallLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
+                }
+                else
+                {
+                    AppTitle.Margin = new Thickness(largeLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
+                }
+            }
+        }
+
+        private void UpdateHeaderMargin(muxc.NavigationView sender)
+        {
+            if (PageHeader != null)
+            {
+                if (sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal)
+                {
+                    PageHeader.HeaderPadding = (Thickness)App.Current.Resources["PageHeaderMinimalPadding"];
+                }
+                else
+                {
+                    PageHeader.HeaderPadding = (Thickness)App.Current.Resources["PageHeaderDefaultPadding"];
+                }
+            }
+        }
 
         #region 状态栏
         public void ShowProgressBar()
@@ -185,31 +290,37 @@ namespace WFunUWP.Pages
 
         public void ShowMessage(string message, int num, InfoType type)
         {
-            Message.Text = message;
-            MessageInfo.Value = num;
-            switch(type)
-            {
-                case InfoType.Success:
-                    MessageInfo.Style = (Style)Application.Current.Resources["SuccessIconInfoBadgeStyle"];
-                    break;
-                case InfoType.Critical:
-                    MessageInfo.Style = (Style)Application.Current.Resources["CriticalIconInfoBadgeStyle"];
-                    break;
-                case InfoType.Attention:
-                    MessageInfo.Style = (Style)Application.Current.Resources["AttentionIconInfoBadgeStyle"];
-                    break;
-                case InfoType.Informational:
-                    MessageInfo.Style = (Style)Application.Current.Resources["InformationalIconInfoBadgeStyle"];
-                    break;
-                default:
-                    break;
-            }
-            RectanglePointerEntered();
+            //Message.Text = message;
+            //MessageInfo.Value = num;
+            //switch(type)
+            //{
+            //    case InfoType.Success:
+            //        MessageInfo.Style = (Style)Application.Current.Resources["SuccessIconInfoBadgeStyle"];
+            //        break;
+            //    case InfoType.Critical:
+            //        MessageInfo.Style = (Style)Application.Current.Resources["CriticalIconInfoBadgeStyle"];
+            //        break;
+            //    case InfoType.Attention:
+            //        MessageInfo.Style = (Style)Application.Current.Resources["AttentionIconInfoBadgeStyle"];
+            //        break;
+            //    case InfoType.Informational:
+            //        MessageInfo.Style = (Style)Application.Current.Resources["InformationalIconInfoBadgeStyle"];
+            //        break;
+            //    default:
+            //        break;
+            //}
+            //RectanglePointerEntered();
         }
 
-        public void RectanglePointerEntered() => EnterStoryboard.Begin();
+        public void RectanglePointerEntered()
+        {
+            //EnterStoryboard.Begin();
+        }
 
-        public void RectanglePointerExited() => ExitStoryboard.Begin();
+        public void RectanglePointerExited()
+        {
+            //ExitStoryboard.Begin();
+        }
         #endregion
 
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
