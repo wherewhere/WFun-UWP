@@ -117,100 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutSettingsHeader.Header" xml:space="preserve">
-    <value>About</value>
+  <data name="BadAuthLink" xml:space="preserve">
+    <value>验证链接无效，请重新获取。</value>
   </data>
-  <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>正在检查更新……</value>
+  <data name="FirstStep" xml:space="preserve">
+    <value>输入邮箱，然后点击获取验证链接。</value>
   </data>
-  <data name="CheckUpdates.Content" xml:space="preserve">
-    <value>检查更新</value>
+  <data name="LinkTextBox.Header" xml:space="preserve">
+    <value>验证链接</value>
   </data>
-  <data name="CheckUpdateWhenLuanchingSettings.Description" xml:space="preserve">
-    <value>在应用启动时检查更新。</value>
+  <data name="LoginDialog.CloseButtonText" xml:space="preserve">
+    <value>取消</value>
   </data>
-  <data name="CheckUpdateWhenLuanchingSettings.Header" xml:space="preserve">
-    <value>启动时检查更新</value>
+  <data name="LoginDialog.PrimaryButtonText" xml:space="preserve">
+    <value>登录</value>
   </data>
-  <data name="CleanCacheButton.Content" xml:space="preserve">
-    <value>清理</value>
+  <data name="LoginDialog.Title" xml:space="preserve">
+    <value>登录</value>
   </data>
-  <data name="CleanCacheSettings.Description" xml:space="preserve">
-    <value>清理图片缓存。</value>
+  <data name="MailTextBox.Header" xml:space="preserve">
+    <value>邮箱</value>
   </data>
-  <data name="CleanCacheSettings.Header" xml:space="preserve">
-    <value>清理缓存</value>
-  </data>
-  <data name="ContentSettingsHeader.Header" xml:space="preserve">
-    <value>Content</value>
-  </data>
-  <data name="EULA.Content" xml:space="preserve">
-    <value>用户协议</value>
-  </data>
-  <data name="FeedbackLink.Content" xml:space="preserve">
-    <value>反馈</value>
-  </data>
-  <data name="GoToTestPage.Description" xml:space="preserve">
-    <value>前往用于测试的页面。</value>
-  </data>
-  <data name="GoToTestPage.Header" xml:space="preserve">
-    <value>前往测试页面</value>
-  </data>
-  <data name="LastChecked.Text" xml:space="preserve">
-    <value>上次检查时间: </value>
-  </data>
-  <data name="LogFolderLink.Content" xml:space="preserve">
-    <value>日志</value>
-  </data>
-  <data name="NoPicsModeSettings.Description" xml:space="preserve">
-    <value>浏览时不显示头像和图片。</value>
-  </data>
-  <data name="NoPicsModeSettings.Header" xml:space="preserve">
-    <value>无图模式</value>
-  </data>
-  <data name="OthersSettingsHeader.Header" xml:space="preserve">
-    <value>Others</value>
-  </data>
-  <data name="ReleaseNotes.Content" xml:space="preserve">
-    <value>发行说明</value>
-  </data>
-  <data name="ResetSettings.Description" xml:space="preserve">
-    <value>重置此应用程序的设置。</value>
-  </data>
-  <data name="ResetSettings.Header" xml:space="preserve">
-    <value>重置应用</value>
-  </data>
-  <data name="ResetSettingsButton.Content" xml:space="preserve">
-    <value>重置</value>
-  </data>
-  <data name="ResetSettingsConfirm.Content" xml:space="preserve">
-    <value>Yes</value>
-  </data>
-  <data name="ResetSettingsTitle.Text" xml:space="preserve">
-    <value>Are you sure you want to reset the app?</value>
-  </data>
-  <data name="ShowOtherExceptionSettings.Description" xml:space="preserve">
-    <value>当应用出现未知错误时在应用内通知显示。</value>
-  </data>
-  <data name="ShowOtherExceptionSettings.Header" xml:space="preserve">
-    <value>显示未知错误</value>
-  </data>
-  <data name="ThemeMode.Header" xml:space="preserve">
-    <value>Theme</value>
-  </data>
-  <data name="ThemeModeDark.Content" xml:space="preserve">
-    <value>Dark</value>
-  </data>
-  <data name="ThemeModeDefault.Content" xml:space="preserve">
-    <value>Follow System</value>
-  </data>
-  <data name="ThemeModeLight.Content" xml:space="preserve">
-    <value>Light</value>
-  </data>
-  <data name="TranslateLink.Content" xml:space="preserve">
-    <value>翻译</value>
-  </data>
-  <data name="UpdateSettingsHeader.Header" xml:space="preserve">
-    <value>Update</value>
+  <data name="WelcomeBack" xml:space="preserve">
+    <value>欢迎回来，{0}！
+现在请检查您的邮箱，找到验证邮件，然后把验证链接复制到下方输入栏中。</value>
   </data>
 </root>
