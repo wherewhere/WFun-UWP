@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.Web.Http.Filters;
 using Windows.Web.Http;
 using System.Security.Cryptography;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace WFunUWP.Helpers
 {
@@ -16,56 +17,62 @@ namespace WFunUWP.Helpers
         public const string Auth = "Auth";
         public const string TileUrl = "TileUrl";
         public const string IsFirstRun = "IsFirstRun";
+        public const string UpdateDate = "UpdateDate";
         public const string IsNoPicsMode = "IsNoPicsMode";
         public const string SelectedAppTheme = "SelectedAppTheme";
         public const string ShowOtherException = "ShowOtherException";
         public const string IsDisplayOriginPicture = "IsDisplayOriginPicture";
         public const string CheckUpdateWhenLuanching = "CheckUpdateWhenLuanching";
 
-        public static Type Get<Type>(string key) => (Type)LocalSettings.Values[key];
-
-        public static void Set(string key, object value) => LocalSettings.Values[key] = value;
+        public static Type Get<Type>(string key) => LocalObject.Read<Type>(key);
+        public static void Set<Type>(string key, Type value) => LocalObject.Save(key, value);
+        public static void SetFile<Type>(string key, Type value) => LocalObject.SaveFileAsync(key, value);
+        public static async Task<Type> GetFile<Type>(string key) => await LocalObject.ReadFileAsync<Type>(key);
 
         public static void SetDefaultSettings()
         {
-            if (!LocalSettings.Values.ContainsKey(Auth))
+            if (!LocalObject.KeyExists(Auth))
             {
-                LocalSettings.Values.Add(Auth, string.Empty);
+                LocalObject.Save(Auth, string.Empty);
             }
-            if (!LocalSettings.Values.ContainsKey(TileUrl))
+            if (!LocalObject.KeyExists(TileUrl))
             {
-                LocalSettings.Values.Add(TileUrl, "https://www.wpxap.com/");
+                LocalObject.Save(TileUrl, "https://www.wpxap.com/");
             }
-            if (!LocalSettings.Values.ContainsKey(IsFirstRun))
+            if (!LocalObject.KeyExists(IsFirstRun))
             {
-                LocalSettings.Values.Add(IsFirstRun, true);
+                LocalObject.Save(IsFirstRun, true);
             }
-            if (!LocalSettings.Values.ContainsKey(IsNoPicsMode))
+            if (!LocalObject.KeyExists(UpdateDate))
             {
-                LocalSettings.Values.Add(IsNoPicsMode, false);
+                LocalObject.Save(UpdateDate, new DateTime());
             }
-            if (!LocalSettings.Values.ContainsKey(SelectedAppTheme))
+            if (!LocalObject.KeyExists(IsNoPicsMode))
             {
-                LocalSettings.Values.Add(SelectedAppTheme, (int)ElementTheme.Default);
+                LocalObject.Save(IsNoPicsMode, false);
             }
-            if (!LocalSettings.Values.ContainsKey(ShowOtherException))
+            if (!LocalObject.KeyExists(SelectedAppTheme))
             {
-                LocalSettings.Values.Add(ShowOtherException, true);
+                LocalObject.Save(SelectedAppTheme, ElementTheme.Default);
             }
-            if (!LocalSettings.Values.ContainsKey(IsDisplayOriginPicture))
+            if (!LocalObject.KeyExists(ShowOtherException))
             {
-                LocalSettings.Values.Add(IsDisplayOriginPicture, false);
+                LocalObject.Save(ShowOtherException, true);
             }
-            if (!LocalSettings.Values.ContainsKey(CheckUpdateWhenLuanching))
+            if (!LocalObject.KeyExists(IsDisplayOriginPicture))
             {
-                LocalSettings.Values.Add(CheckUpdateWhenLuanching, true);
+                LocalObject.Save(IsDisplayOriginPicture, false);
+            }
+            if (!LocalObject.KeyExists(CheckUpdateWhenLuanching))
+            {
+                LocalObject.Save(CheckUpdateWhenLuanching, true);
             }
         }
     }
 
     internal static partial class SettingsHelper
     {
-        private static readonly ApplicationDataContainer LocalSettings = ApplicationData.Current.LocalSettings;
+        private static readonly LocalObjectStorageHelper LocalObject = new LocalObjectStorageHelper();
         public static readonly MetroLog.ILogManager LogManager = MetroLog.LogManagerFactory.CreateLogManager();
 
         static SettingsHelper()

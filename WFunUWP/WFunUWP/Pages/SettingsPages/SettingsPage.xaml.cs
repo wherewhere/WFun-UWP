@@ -38,6 +38,19 @@ namespace WFunUWP.Pages.SettingsPages
             }
         }
 
+        public DateTime UpdateDate
+        {
+            get => SettingsHelper.Get<DateTime>(SettingsHelper.UpdateDate);
+            set
+            {
+                if (UpdateDate != value)
+                {
+                    SettingsHelper.Set(SettingsHelper.UpdateDate, value);
+                    RaisePropertyChangedEvent();
+                }
+            }
+        }
+
         internal int SelectedTheme
         {
             get => 2 - (int)ThemeHelper.RootTheme;

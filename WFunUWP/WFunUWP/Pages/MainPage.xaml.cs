@@ -16,6 +16,9 @@ using Windows.UI.Xaml.Navigation;
 using muxc = Microsoft.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
+using Windows.Phone.UI.Input;
+using Windows.UI.Core;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -42,10 +45,20 @@ namespace WFunUWP.Pages
             InitializeComponent();
             UIHelper.MainPage = this;
             LiveTileTask.UpdateTile();
-            Window.Current.SetTitleBar(AppTitleBar);
             NavigationView.PaneDisplayMode = muxc.NavigationViewPaneDisplayMode.Left;
-            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += (s, e) => UpdateAppTitle(s);
             NavigationView.RegisterPropertyChangedCallback(muxc.NavigationView.PaneDisplayModeProperty, new DependencyPropertyChangedCallback(OnPaneDisplayModeChanged));
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            Window.Current.SetTitleBar(AppTitleBar);
+            SystemNavigationManager.GetForCurrentView().BackRequested += System_BackRequested;
+            if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
+            {
+                HardwareButtons.BackPressed += System_BackPressed;
+            }
+            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += (s, e) => UpdateAppTitle(s);
         }
 
         private void OnPaneDisplayModeChanged(DependencyObject sender, DependencyProperty dp)
@@ -198,7 +211,7 @@ namespace WFunUWP.Pages
             NavigationView.Header = Title;
         }
 
-        void UpdateAppTitle(CoreApplicationViewTitleBar coreTitleBar)
+        private void UpdateAppTitle(CoreApplicationViewTitleBar coreTitleBar)
         {
             //ensure the custom title bar does not overlap window caption controls
             Thickness currMargin = AppTitleBar.Margin;
@@ -251,6 +264,22 @@ namespace WFunUWP.Pages
                 {
                     PageHeader.HeaderPadding = (Thickness)App.Current.Resources["PageHeaderDefaultPadding"];
                 }
+            }
+        }
+
+        private void System_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = TryGoBack();
+            }
+        }
+
+        private void System_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = TryGoBack();
             }
         }
 

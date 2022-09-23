@@ -79,7 +79,7 @@
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Style="{StaticResource SecondaryTextStyle}" TextWrapping="WrapWholeWords">
                                             <Run x:Uid="/SettingsPage/LastChecked" />
-                                            <Run Text="{Binding UpdateDate, Mode=OneWay}" />
+                                            <Run Text="{x:Bind UpdateDate, Mode=OneWay}" />
                                         </TextBlock>
                                         <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
                                             <HyperlinkButton

@@ -8,6 +8,7 @@ using WFunUWP.Helpers;
 using WFunUWP.Pages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
 using Windows.Security.Authorization.AppCapabilityAccess;
@@ -75,8 +76,7 @@ namespace WFunUWP
                     // 当导航堆栈尚未还原时，导航到第一页，
                     // 并通过将所需信息作为导航参数传入来配置
                     // 参数
-                    ApplicationViewTitleBar view = ApplicationView.GetForCurrentView().TitleBar;
-                    view.ButtonBackgroundColor = view.InactiveBackgroundColor = view.ButtonInactiveBackgroundColor = Colors.Transparent;
+                    CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
                     _ = rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
                 ThemeHelper.Initialize();

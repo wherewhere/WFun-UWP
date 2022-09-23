@@ -55,7 +55,7 @@ namespace WFunUWP.Helpers
                     rootElement.RequestedTheme = value;
                 }
 
-                SettingsHelper.Set(SettingsHelper.SelectedAppTheme, (int)value);
+                SettingsHelper.Set(SettingsHelper.SelectedAppTheme, value);
                 UpdateSystemCaptionButtonColors();
                 UISettingChanged.Invoke(IsDarkTheme() ? UISettingChangedType.DarkMode : UISettingChangedType.LightMode);
             }
