@@ -40,23 +40,18 @@ namespace WFunUWP.Controls.Dialogs
             }
         }
 
-        private async void OnClosing(ContentDialog sender, ContentDialogClosingEventArgs args)
+        private void OnClosing(ContentDialog sender, ContentDialogClosingEventArgs args)
         {
             if (args.Result == ContentDialogResult.Primary)
             {
                 UIHelper.ShowProgressBar();
-                args.Cancel = true;
-                if (!await GetToken())
+                if (!Utils.AwaitByTaskCompleteSource(GetToken))
                 {
+                    args.Cancel = true;
                     ResourceLoader loader = ResourceLoader.GetForCurrentView("LoginDialog");
                     InfoBar.IsOpen = true;
                     InfoBar.Severity = InfoBarSeverity.Error;
                     InfoBar.Title = loader.GetString("BadAuthLink");
-                }
-                else
-                {
-                    args.Cancel = false;
-                    Hide();
                 }
                 UIHelper.HideProgressBar();
             }

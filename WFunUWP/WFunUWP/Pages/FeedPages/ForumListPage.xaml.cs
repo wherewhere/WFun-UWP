@@ -115,7 +115,7 @@ namespace WFunUWP.Pages.FeedPages
                     {
                         if (Results.isSucceed)
                         {
-                            await Task.Delay(200);// 防止 Wind 揍我。。。
+                            await Task.Delay(10);// 防止 Wind 揍我。。。
                         }
                         Collection.Add(new NullModel());
                         continue;

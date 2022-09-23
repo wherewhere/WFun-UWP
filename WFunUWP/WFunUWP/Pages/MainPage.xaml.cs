@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.Phone.UI.Input;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -45,6 +46,7 @@ namespace WFunUWP.Pages
             InitializeComponent();
             UIHelper.MainPage = this;
             LiveTileTask.UpdateTile();
+            UIHelper.ShellDispatcher = Dispatcher;
             NavigationView.PaneDisplayMode = muxc.NavigationViewPaneDisplayMode.Left;
             NavigationView.RegisterPropertyChangedCallback(muxc.NavigationView.PaneDisplayModeProperty, new DependencyPropertyChangedCallback(OnPaneDisplayModeChanged));
         }
@@ -284,12 +286,22 @@ namespace WFunUWP.Pages
         }
 
         #region 状态栏
+
         public void ShowProgressBar()
         {
             ProgressBar.Visibility = Visibility.Visible;
             ProgressBar.IsIndeterminate = true;
             ProgressBar.ShowError = false;
             ProgressBar.ShowPaused = false;
+        }
+
+        public void ShowProgressBar(double value)
+        {
+            ProgressBar.Visibility = Visibility.Visible;
+            ProgressBar.IsIndeterminate = false;
+            ProgressBar.ShowError = false;
+            ProgressBar.ShowPaused = false;
+            ProgressBar.Value = value;
         }
 
         public void PausedProgressBar()
@@ -314,41 +326,21 @@ namespace WFunUWP.Pages
             ProgressBar.IsIndeterminate = false;
             ProgressBar.ShowError = false;
             ProgressBar.ShowPaused = false;
+            ProgressBar.Value = 0;
         }
 
-        public void ShowMessage(string message, int num, InfoType type)
+        public void ShowMessage(string message = null)
         {
-            //Message.Text = message;
-            //MessageInfo.Value = num;
-            //switch(type)
-            //{
-            //    case InfoType.Success:
-            //        MessageInfo.Style = (Style)Application.Current.Resources["SuccessIconInfoBadgeStyle"];
-            //        break;
-            //    case InfoType.Critical:
-            //        MessageInfo.Style = (Style)Application.Current.Resources["CriticalIconInfoBadgeStyle"];
-            //        break;
-            //    case InfoType.Attention:
-            //        MessageInfo.Style = (Style)Application.Current.Resources["AttentionIconInfoBadgeStyle"];
-            //        break;
-            //    case InfoType.Informational:
-            //        MessageInfo.Style = (Style)Application.Current.Resources["InformationalIconInfoBadgeStyle"];
-            //        break;
-            //    default:
-            //        break;
-            //}
-            //RectanglePointerEntered();
+            if (CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar)
+            {
+                AppTitle.Text = message ?? ResourceLoader.GetForViewIndependentUse().GetString("AppName") ?? "酷安 Lite";
+            }
+            else
+            {
+                ApplicationView.GetForCurrentView().Title = message ?? string.Empty;
+            }
         }
 
-        public void RectanglePointerEntered()
-        {
-            //EnterStoryboard.Begin();
-        }
-
-        public void RectanglePointerExited()
-        {
-            //ExitStoryboard.Begin();
-        }
         #endregion
 
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)

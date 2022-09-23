@@ -8,7 +8,7 @@ namespace WFunUWP.Helpers.DataSource
     public delegate void OnDataRequestError(int code);
 
     /// <summary>
-    /// Datasource base for WFun that enabled incremental loading (page based). <br/>
+    /// Datasource base for Coolapk that enabled incremental loading (page based). <br/>
     /// Clone from <see cref="cnblogs UAP" href="https://github.com/MS-UAP/cnblogs-UAP"./>
     /// </summary>
     public abstract class DataSourceBase<T> : IncrementalLoadingBase<T>

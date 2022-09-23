@@ -222,5 +222,18 @@ namespace WFunUWP.Core.Helpers
             }
             return s;
         }
+
+        public static TResult AwaitByTaskCompleteSource<TResult>(Func<Task<TResult>> func)
+        {
+            TaskCompletionSource<TResult> taskCompletionSource = new TaskCompletionSource<TResult>();
+            Task<TResult> task1 = taskCompletionSource.Task;
+            _ = Task.Run(async () =>
+            {
+                TResult result = await func.Invoke();
+                taskCompletionSource.SetResult(result);
+            });
+            TResult task1Result = task1.Result;
+            return task1Result;
+        }
     }
 }

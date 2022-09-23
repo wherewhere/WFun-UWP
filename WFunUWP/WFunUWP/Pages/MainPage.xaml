@@ -94,8 +94,10 @@
             </muxc:NavigationView.AutoSuggestBox>
             <Frame x:Name="NavigationViewFrame" x:FieldModifier="public" />
         </muxc:NavigationView>
+
         <muxc:ProgressBar
             x:Name="ProgressBar"
+            Grid.ColumnSpan="2"
             VerticalAlignment="Top"
             Background="Transparent"
             IsIndeterminate="False" />

@@ -16,7 +16,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using InAppNotify = Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification;
 
 namespace WFunUWP.Helpers
 {
@@ -26,7 +25,7 @@ namespace WFunUWP.Helpers
         public static bool IsShowingProgressBar, IsShowingMessage;
         public static bool HasTitleBar => !CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
         public static bool HasStatusBar => ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar");
-        private static readonly ObservableCollection<(string message, InfoType type)> MessageList = new ObservableCollection<(string message, InfoType type)>();
+        private static readonly ObservableCollection<string> MessageList = new ObservableCollection<string>();
 
         private static CoreDispatcher shellDispatcher;
         public static CoreDispatcher ShellDispatcher
@@ -34,17 +33,14 @@ namespace WFunUWP.Helpers
             get => shellDispatcher;
             set
             {
-                if (shellDispatcher == null)
+                if (shellDispatcher != value)
                 {
                     shellDispatcher = value;
                 }
             }
         }
 
-        /// <summary>
-        /// 显示进度条-正常
-        /// </summary>
-        public static async void ShowProgressBar(uint count = 0)
+        public static async void ShowProgressBar()
         {
             IsShowingProgressBar = true;
             if (HasStatusBar)
@@ -58,9 +54,20 @@ namespace WFunUWP.Helpers
             }
         }
 
-        /// <summary>
-        /// 显示进度条-暂停
-        /// </summary>
+        public static async void ShowProgressBar(double value = 0)
+        {
+            IsShowingProgressBar = true;
+            if (HasStatusBar)
+            {
+                StatusBar.GetForCurrentView().ProgressIndicator.ProgressValue = value * 0.01;
+                await StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
+            }
+            else
+            {
+                MainPage?.ShowProgressBar(value);
+            }
+        }
+
         public static async void PausedProgressBar()
         {
             IsShowingProgressBar = true;
@@ -71,9 +78,6 @@ namespace WFunUWP.Helpers
             MainPage?.PausedProgressBar();
         }
 
-        /// <summary>
-        /// 显示进度条-错误
-        /// </summary>
         public static async void ErrorProgressBar()
         {
             IsShowingProgressBar = true;
@@ -84,10 +88,7 @@ namespace WFunUWP.Helpers
             MainPage?.ErrorProgressBar();
         }
 
-        /// <summary>
-        /// 隐藏进度条
-        /// </summary>
-        public static async void HideProgressBar(int count = 0)
+        public static async void HideProgressBar()
         {
             IsShowingProgressBar = false;
             if (HasStatusBar)
@@ -97,9 +98,9 @@ namespace WFunUWP.Helpers
             MainPage?.HideProgressBar();
         }
 
-        public static async void ShowMessage(string message, InfoType type = InfoType.Attention)
+        public static async void ShowMessage(string message)
         {
-            MessageList.Add((message, type));
+            MessageList.Add(message);
             if (!IsShowingMessage)
             {
                 IsShowingMessage = true;
@@ -108,29 +109,29 @@ namespace WFunUWP.Helpers
                     if (HasStatusBar)
                     {
                         StatusBar statusBar = StatusBar.GetForCurrentView();
-                        if (!string.IsNullOrEmpty(MessageList[0].message))
+                        if (!string.IsNullOrEmpty(MessageList[0]))
                         {
-                            statusBar.ProgressIndicator.Text = $"[{MessageList.Count}]{MessageList[0].message.Replace("\n", " ")}";
+                            statusBar.ProgressIndicator.Text = $"[{MessageList.Count}] {MessageList[0].Replace("\n", " ")}";
                             statusBar.ProgressIndicator.ProgressValue = IsShowingProgressBar ? null : (double?)0;
                             await statusBar.ProgressIndicator.ShowAsync();
-                            await Task.Delay(3000);
+                            await Task.Delay(Duration);
                         }
                         MessageList.RemoveAt(0);
                         if (MessageList.Count == 0 && !IsShowingProgressBar) { await statusBar.ProgressIndicator.HideAsync(); }
                         statusBar.ProgressIndicator.Text = string.Empty;
                     }
-                    else
+                    else if (MainPage != null)
                     {
-                        if (!string.IsNullOrEmpty(MessageList[0].message))
+                        if (!string.IsNullOrEmpty(MessageList[0]))
                         {
-                            string messages = $"{MessageList[0].message.Replace("\n", " ")}";
-                            MainPage?.ShowMessage(messages, MessageList.Count, MessageList[0].type);
-                            await Task.Delay(3000);
+                            string messages = $"[{MessageList.Count}] {MessageList[0].Replace("\n", " ")}";
+                            MainPage.ShowMessage(messages);
+                            await Task.Delay(Duration);
                         }
                         MessageList.RemoveAt(0);
                         if (MessageList.Count == 0)
                         {
-                            MainPage?.RectanglePointerExited();
+                            MainPage.ShowMessage();
                         }
                     }
                 }
