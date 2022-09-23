@@ -120,35 +120,68 @@
   <data name="AboutSettingsHeader.Header" xml:space="preserve">
     <value>关于</value>
   </data>
-  <data name="CheckUpdate.Content" xml:space="preserve">
+  <data name="CheckingUpdates.Text" xml:space="preserve">
+    <value>正在检查更新……</value>
+  </data>
+  <data name="CheckUpdates.Content" xml:space="preserve">
     <value>检查更新</value>
   </data>
-  <data name="CheckUpdateWhenLuanchingCheckBox.Content" xml:space="preserve">
+  <data name="CheckUpdateWhenLuanchingSettings.Description" xml:space="preserve">
+    <value>在应用启动时检查更新。</value>
+  </data>
+  <data name="CheckUpdateWhenLuanchingSettings.Header" xml:space="preserve">
     <value>启动时检查更新</value>
   </data>
   <data name="CleanCacheButton.Content" xml:space="preserve">
+    <value>清理</value>
+  </data>
+  <data name="CleanCacheSettings.Description" xml:space="preserve">
+    <value>清理图片缓存。</value>
+  </data>
+  <data name="CleanCacheSettings.Header" xml:space="preserve">
     <value>清理缓存</value>
   </data>
   <data name="ContentSettingsHeader.Header" xml:space="preserve">
     <value>内容</value>
   </data>
-  <data name="FeedbackLink.Content" xml:space="preserve">
-    <value>在Github上反馈</value>
+  <data name="EULA.Content" xml:space="preserve">
+    <value>用户协议</value>
   </data>
-  <data name="GoToTestPage.Content" xml:space="preserve">
+  <data name="FeedbackLink.Content" xml:space="preserve">
+    <value>反馈</value>
+  </data>
+  <data name="GoToTestPage.Description" xml:space="preserve">
+    <value>前往用于测试的页面。</value>
+  </data>
+  <data name="GoToTestPage.Header" xml:space="preserve">
     <value>前往测试页面</value>
   </data>
-  <data name="LogFolderLink.Content" xml:space="preserve">
-    <value>打开日志文件夹</value>
+  <data name="LastChecked.Text" xml:space="preserve">
+    <value>上次检查时间: </value>
   </data>
-  <data name="NoPicsModeCheckBox.Header" xml:space="preserve">
+  <data name="LogFolderLink.Content" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="NoPicsModeSettings.Description" xml:space="preserve">
+    <value>浏览时不显示头像和图片。</value>
+  </data>
+  <data name="NoPicsModeSettings.Header" xml:space="preserve">
     <value>无图模式</value>
   </data>
   <data name="OthersSettingsHeader.Header" xml:space="preserve">
     <value>其他</value>
   </data>
-  <data name="ResetSettings.Content" xml:space="preserve">
+  <data name="ReleaseNotes.Content" xml:space="preserve">
+    <value>发行说明</value>
+  </data>
+  <data name="ResetSettings.Description" xml:space="preserve">
+    <value>重置此应用程序的设置。</value>
+  </data>
+  <data name="ResetSettings.Header" xml:space="preserve">
     <value>重置应用</value>
+  </data>
+  <data name="ResetSettingsButton.Content" xml:space="preserve">
+    <value>重置</value>
   </data>
   <data name="ResetSettingsConfirm.Content" xml:space="preserve">
     <value>确定</value>
@@ -156,7 +189,10 @@
   <data name="ResetSettingsTitle.Text" xml:space="preserve">
     <value>您确定要重置应用吗？</value>
   </data>
-  <data name="ShowOtherExceptionCheckBox.Content" xml:space="preserve">
+  <data name="ShowOtherExceptionSettings.Description" xml:space="preserve">
+    <value>当应用出现未知错误时在应用内通知显示。</value>
+  </data>
+  <data name="ShowOtherExceptionSettings.Header" xml:space="preserve">
     <value>显示未知错误</value>
   </data>
   <data name="ThemeMode.Header" xml:space="preserve">
@@ -170,6 +206,9 @@
   </data>
   <data name="ThemeModeLight.Content" xml:space="preserve">
     <value>浅色</value>
+  </data>
+  <data name="TranslateLink.Content" xml:space="preserve">
+    <value>翻译</value>
   </data>
   <data name="UpdateSettingsHeader.Header" xml:space="preserve">
     <value>更新</value>
