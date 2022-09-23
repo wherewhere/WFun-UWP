@@ -8,7 +8,7 @@ namespace WFunUWP.Core.Helpers
     /// <summary>
     /// Converts HTML to plain text.
     /// </summary>
-    class HtmlToText
+    internal class HtmlToText
     {
         // Static data tables
         protected static Dictionary<string, string> _tags;

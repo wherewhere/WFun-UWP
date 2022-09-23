@@ -15,7 +15,7 @@ namespace WFunUWP.Helpers.Tasks
         {
             BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
 
-            Uri  uri = new Uri(SettingsHelper.Get<string>(SettingsHelper.TileUrl));
+            Uri uri = new Uri(SettingsHelper.Get<string>(SettingsHelper.TileUrl));
             try { await GetData(uri); } catch { }
 
             deferral.Complete();

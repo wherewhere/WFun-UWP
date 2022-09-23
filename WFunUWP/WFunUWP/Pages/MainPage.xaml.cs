@@ -1,25 +1,24 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WFunUWP.Controls;
 using WFunUWP.Helpers;
 using WFunUWP.Helpers.Tasks;
 using WFunUWP.Pages.FeedPages;
 using WFunUWP.Pages.SettingsPages;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
-using Windows.System.Profile;
+using Windows.Phone.UI.Input;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using muxc = Microsoft.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Resources;
-using Windows.Phone.UI.Input;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -65,7 +64,7 @@ namespace WFunUWP.Pages
 
         private void OnPaneDisplayModeChanged(DependencyObject sender, DependencyProperty dp)
         {
-            var navigationView = sender as muxc.NavigationView;
+            muxc.NavigationView navigationView = sender as muxc.NavigationView;
             AppTitleBar.Visibility = navigationView.PaneDisplayMode == muxc.NavigationViewPaneDisplayMode.Top ? Visibility.Collapsed : Visibility.Visible;
         }
 
@@ -194,15 +193,9 @@ namespace WFunUWP.Pages
         private void NavigationViewControl_DisplayModeChanged(muxc.NavigationView sender, muxc.NavigationViewDisplayModeChangedEventArgs args)
         {
             Thickness currMargin = AppTitleBar.Margin;
-            if (sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal)
-            {
-                AppTitleBar.Margin = new Thickness((sender.CompactPaneLength * 2), currMargin.Top, currMargin.Right, currMargin.Bottom);
-
-            }
-            else
-            {
-                AppTitleBar.Margin = new Thickness(sender.CompactPaneLength, currMargin.Top, currMargin.Right, currMargin.Bottom);
-            }
+            AppTitleBar.Margin = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
+                ? new Thickness(sender.CompactPaneLength * 2, currMargin.Top, currMargin.Right, currMargin.Bottom)
+                : new Thickness(sender.CompactPaneLength, currMargin.Top, currMargin.Right, currMargin.Bottom);
 
             UpdateAppTitleMargin(sender);
             UpdateHeaderMargin(sender);
@@ -228,29 +221,19 @@ namespace WFunUWP.Pages
             {
                 AppTitle.TranslationTransition = new Vector3Transition();
 
-                if ((sender.DisplayMode == muxc.NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
-                         sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal)
-                {
-                    AppTitle.Translation = new System.Numerics.Vector3(smallLeftIndent, 0, 0);
-                }
-                else
-                {
-                    AppTitle.Translation = new System.Numerics.Vector3(largeLeftIndent, 0, 0);
-                }
+                AppTitle.Translation = (sender.DisplayMode == muxc.NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
+                         sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
+                    ? new System.Numerics.Vector3(smallLeftIndent, 0, 0)
+                    : new System.Numerics.Vector3(largeLeftIndent, 0, 0);
             }
             else
             {
                 Thickness currMargin = AppTitle.Margin;
 
-                if ((sender.DisplayMode == muxc.NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
-                         sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal)
-                {
-                    AppTitle.Margin = new Thickness(smallLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
-                }
-                else
-                {
-                    AppTitle.Margin = new Thickness(largeLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
-                }
+                AppTitle.Margin = (sender.DisplayMode == muxc.NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
+                         sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
+                    ? new Thickness(smallLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom)
+                    : new Thickness(largeLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
             }
         }
 
@@ -258,14 +241,9 @@ namespace WFunUWP.Pages
         {
             if (PageHeader != null)
             {
-                if (sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal)
-                {
-                    PageHeader.HeaderPadding = (Thickness)App.Current.Resources["PageHeaderMinimalPadding"];
-                }
-                else
-                {
-                    PageHeader.HeaderPadding = (Thickness)App.Current.Resources["PageHeaderDefaultPadding"];
-                }
+                PageHeader.HeaderPadding = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
+                    ? (Thickness)App.Current.Resources["PageHeaderMinimalPadding"]
+                    : (Thickness)App.Current.Resources["PageHeaderDefaultPadding"];
             }
         }
 
@@ -353,7 +331,7 @@ namespace WFunUWP.Pages
 
         private void AutoSuggestBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            if(e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 AutoSuggestBox_QuerySubmitted(sender as AutoSuggestBox, null);
             }

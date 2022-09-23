@@ -94,7 +94,7 @@ namespace WFunUWP.Pages.FeedPages
     {
         private int num = 1;
 
-        protected async override Task<IList<object>> LoadItemsAsync(uint count)
+        protected override async Task<IList<object>> LoadItemsAsync(uint count)
         {
             if (_currentPage == 1)
             {

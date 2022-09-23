@@ -94,7 +94,7 @@ namespace WFunUWP.Helpers
         }
     }
 
-    static partial class ImageCacheHelper
+    internal static partial class ImageCacheHelper
     {
         [Obsolete]
         private static readonly Dictionary<ImageType, StorageFolder> folders = new Dictionary<ImageType, StorageFolder>();
@@ -131,7 +131,7 @@ namespace WFunUWP.Helpers
             {
                 return new BitmapImage(new Uri(url));
             }
-            else if ( SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode))
+            else if (SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode))
             {
                 return NoPic;
             }

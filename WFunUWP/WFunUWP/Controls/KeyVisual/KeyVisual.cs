@@ -131,30 +131,18 @@ namespace WFunUWP.Controls
 
         public Style GetStyleSize(string styleName)
         {
-            if (VisualType == VisualType.Small)
-            {
-                return (Style)Application.Current.Resources["Small" + styleName];
-            }
-            else if (VisualType == VisualType.SmallOutline)
-            {
-                return (Style)Application.Current.Resources["SmallOutline" + styleName];
-            }
-            else
-            {
-                return (Style)Application.Current.Resources["Default" + styleName];
-            }
+            return VisualType == VisualType.Small
+                ? (Style)Application.Current.Resources["Small" + styleName]
+                : VisualType == VisualType.SmallOutline
+                    ? (Style)Application.Current.Resources["SmallOutline" + styleName]
+                    : (Style)Application.Current.Resources["Default" + styleName];
         }
 
         public double GetIconSize()
         {
-            if (VisualType == VisualType.Small || VisualType == VisualType.SmallOutline)
-            {
-                return (double)Application.Current.Resources["SmallIconSize"];
-            }
-            else
-            {
-                return (double)Application.Current.Resources["DefaultIconSize"];
-            }
+            return VisualType == VisualType.Small || VisualType == VisualType.SmallOutline
+                ? (double)Application.Current.Resources["SmallIconSize"]
+                : (double)Application.Current.Resources["DefaultIconSize"];
         }
 
         private void KeyVisual_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)

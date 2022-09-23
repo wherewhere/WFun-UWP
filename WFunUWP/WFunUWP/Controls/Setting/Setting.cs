@@ -158,24 +158,10 @@ namespace WFunUWP.Controls
 
             if (_setting._iconPresenter != null)
             {
-                if (_setting.Icon == null)
-                {
-                    _setting._iconPresenter.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    _setting._iconPresenter.Visibility = Visibility.Visible;
-                }
+                _setting._iconPresenter.Visibility = _setting.Icon == null ? Visibility.Collapsed : Visibility.Visible;
             }
 
-            if (_setting.Description == null)
-            {
-                _setting._descriptionPresenter.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                _setting._descriptionPresenter.Visibility = Visibility.Visible;
-            }
+            _setting._descriptionPresenter.Visibility = _setting.Description == null ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 }

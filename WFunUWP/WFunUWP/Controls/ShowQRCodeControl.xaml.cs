@@ -24,7 +24,7 @@ namespace WFunUWP.Controls
             }
         }
 
-        void FeedPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        private void FeedPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             Uri shareLinkString = ValidateAndGetUri(qrCodeText);
             if (shareLinkString != null)

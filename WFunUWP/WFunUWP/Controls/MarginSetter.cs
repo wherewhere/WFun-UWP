@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace WFunUWP.Controls
@@ -23,8 +18,11 @@ namespace WFunUWP.Controls
         private static void MarginChangedCallback(object sender, DependencyPropertyChangedEventArgs e)
         {
             // Make sure this is put on a panel
-            var panel = sender as Panel;
-            if (panel == null) return;
+            Panel panel = sender as Panel;
+            if (panel == null)
+            {
+                return;
+            }
 
             // Avoid duplicate registrations
             panel.Loaded -= OnPanelLoaded;
@@ -38,14 +36,17 @@ namespace WFunUWP.Controls
 
         private static void OnPanelLoaded(object sender, RoutedEventArgs e)
         {
-            var panel = (Panel)sender;
+            Panel panel = (Panel)sender;
 
             // Go over the children and set margin for them:
-            for (var i = 0; i < panel.Children.Count; i++)
+            for (int i = 0; i < panel.Children.Count; i++)
             {
                 UIElement child = panel.Children[i];
-                var fe = child as FrameworkElement;
-                if (fe == null) continue;
+                FrameworkElement fe = child as FrameworkElement;
+                if (fe == null)
+                {
+                    continue;
+                }
 
                 bool isLastItem = i == panel.Children.Count - 1;
                 fe.Margin = isLastItem ? GetLastItemMargin(panel) : GetMargin(panel);

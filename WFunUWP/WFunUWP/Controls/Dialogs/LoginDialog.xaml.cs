@@ -118,7 +118,7 @@ namespace WFunUWP.Controls.Dialogs
                     {
                         Regex authRegex = new Regex(@"auth=(.*?);");
                         string cookie = response.Headers.GetValues("Set-Cookie").Where((x) => x.Contains("auth")).FirstOrDefault();
-                        var auth = authRegex.Match(cookie).Groups[1].Value;
+                        string auth = authRegex.Match(cookie).Groups[1].Value;
                         return await SettingsHelper.LoginIn(auth);
                     }
                 }

@@ -1,6 +1,5 @@
 ﻿using HtmlAgilityPack;
 using System.Collections.ObjectModel;
-using WFunUWP.Controls.Dialogs;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
 using WFunUWP.Models;

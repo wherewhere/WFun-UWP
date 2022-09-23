@@ -1,14 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.Toolkit.Uwp.Helpers;
 using System;
+using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
-using Windows.Storage;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.Web.Http.Filters;
 using Windows.Web.Http;
-using System.Security.Cryptography;
-using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.Web.Http.Filters;
 
 namespace WFunUWP.Helpers
 {
@@ -87,7 +83,7 @@ namespace WFunUWP.Helpers
                 HttpCookieManager cookieManager = filter.CookieManager;
                 HttpCookie auth1 = new HttpCookie("auth", "wfun.com", "/");
                 HttpCookie auth2 = new HttpCookie("auth", "wpxap.com", "/");
-                auth1.Value = auth2.Value=auth;
+                auth1.Value = auth2.Value = auth;
                 DateTime Expires = DateTime.UtcNow.AddDays(365);
                 auth1.Expires = auth2.Expires = Expires;
                 cookieManager.SetCookie(auth1);

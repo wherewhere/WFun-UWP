@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Windows.Foundation;
 using Windows.UI.Xaml;
-using Windows.Foundation;
-using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls;
 using IconSource = Microsoft.UI.Xaml.Controls.IconSource;
 

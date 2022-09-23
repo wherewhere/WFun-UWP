@@ -93,7 +93,7 @@ namespace WFunUWP.Controls
             }
         }
 
-        UserActivitySession _currentActivity;
+        private UserActivitySession _currentActivity;
         private async Task GenerateActivityAsync()
         {
             // Get the default UserActivityChannel and query it for our UserActivity. If the activity doesn't exist, one is created.

@@ -107,7 +107,7 @@ namespace WFunUWP.Pages.FeedPages
             _type = type;
         }
 
-        protected async override Task<IList<object>> LoadItemsAsync(uint count)
+        protected override async Task<IList<object>> LoadItemsAsync(uint count)
         {
             (bool isSucceed, HtmlDocument result) Results = (false, null);
             ObservableCollection<object> Collection = new ObservableCollection<object>();

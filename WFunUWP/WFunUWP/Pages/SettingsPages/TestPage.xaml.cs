@@ -2,7 +2,6 @@
 using WFunUWP.Controls.Dialogs;
 using WFunUWP.Core.Exceptions;
 using WFunUWP.Helpers;
-using WFunUWP.Helpers.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

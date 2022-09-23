@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Foundation.Metadata;
+﻿using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -29,8 +24,8 @@ namespace WFunUWP.Controls
             }
             else
             {
-                var space = (double)e.NewValue;
-                var obj = (DependencyObject)sender;
+                double space = (double)e.NewValue;
+                DependencyObject obj = (DependencyObject)sender;
 
                 MarginSetter.SetMargin(obj, new Thickness(0, 0, space, 0));
                 MarginSetter.SetLastItemMargin(obj, new Thickness(0));
@@ -55,8 +50,8 @@ namespace WFunUWP.Controls
             }
             else
             {
-                var space = (double)e.NewValue;
-                var obj = (DependencyObject)sender;
+                double space = (double)e.NewValue;
+                DependencyObject obj = (DependencyObject)sender;
 
                 MarginSetter.SetMargin(obj, new Thickness(0, 0, 0, space));
                 MarginSetter.SetLastItemMargin(obj, new Thickness(0));

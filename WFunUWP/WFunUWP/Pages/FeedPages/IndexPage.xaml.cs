@@ -66,7 +66,7 @@ namespace WFunUWP.Pages.FeedPages
             _vs = vs;
         }
 
-        protected async override Task<IList<object>> LoadItemsAsync(uint count)
+        protected override async Task<IList<object>> LoadItemsAsync(uint count)
         {
             ObservableCollection<object> Collection = new ObservableCollection<object>();
             (bool isSucceed, HtmlDocument result) Results = await RequestHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetNewsFeeds, _currentPage));
