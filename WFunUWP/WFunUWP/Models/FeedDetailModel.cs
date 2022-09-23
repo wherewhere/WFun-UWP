@@ -25,7 +25,7 @@ namespace WFunUWP.Models
         public bool IsFeedArticle { get; private set; }
         public bool ShowRelationRows { get; private set; }
 
-        public BackgroundImageModel UserAvatar { get; private set; }
+        public ImageModel UserAvatar { get; private set; }
 
         public FeedDetailModel(string doc)
         {
@@ -46,7 +46,7 @@ namespace WFunUWP.Models
             }
             if (token.TryGetNode("/div[3]/div/div/a/img", out HtmlNode useravatar))
             {
-                UserAvatar = new BackgroundImageModel(new Uri(UriHelper.BaseUri, useravatar.GetAttributeValue("src", string.Empty).Trim()).ToString(), ImageType.Avatar);
+                UserAvatar = new ImageModel(new Uri(UriHelper.BaseUri, useravatar.GetAttributeValue("src", string.Empty).Trim()).ToString(), ImageType.Avatar);
             }
             if (token.TryGetNode("/div[3]/div/div[2]/div/a", out HtmlNode username))
             {

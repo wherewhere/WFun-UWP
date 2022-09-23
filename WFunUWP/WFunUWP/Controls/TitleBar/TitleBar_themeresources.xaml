@@ -83,15 +83,13 @@
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
         <Setter Property="Content" Value="&#xE72B;" />
         <Setter Property="Margin" Value="4,2" />
-        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid
                         x:Name="RootGrid"
-                        contract7NotPresent:CornerRadius="{ThemeResource ControlCornerRadius}"
-                        contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
-                        Background="{TemplateBinding Background}">
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}">
                         <controls:AnimatedIcon
                             x:Name="Content"
                             Width="16"

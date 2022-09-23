@@ -20,16 +20,16 @@ namespace WFunUWP.Helpers
 
     internal static partial class ImageCacheHelper
     {
-        private static readonly BitmapImage whiteNoPicMode = new BitmapImage(new Uri("ms-appx:/Assets/NoPic/noavatar_small.jpg")) { DecodePixelHeight = 48, DecodePixelWidth = 48 };
-        private static readonly BitmapImage darkNoPicMode = new BitmapImage(new Uri("ms-appx:/Assets/NoPic/pic_loading.png")) { DecodePixelHeight = 200, DecodePixelWidth = 200 };
-        internal static BitmapImage NoPic { get => SettingsHelper.Get<bool>(SettingsHelper.IsDarkMode) ? darkNoPicMode : whiteNoPicMode; }
+        private static readonly BitmapImage WhiteNoPicMode = new BitmapImage(new Uri("ms-appx:/Assets/NoPic/noavatar_small.jpg")) { DecodePixelHeight = 48, DecodePixelWidth = 48 };
+        private static readonly BitmapImage DarkNoPicMode = new BitmapImage(new Uri("ms-appx:/Assets/NoPic/pic_loading.png")) { DecodePixelHeight = 200, DecodePixelWidth = 200 };
+        internal static BitmapImage NoPic { get => ThemeHelper.IsDarkTheme() ? DarkNoPicMode : WhiteNoPicMode; }
 
         static ImageCacheHelper()
         {
             ImageCache.Instance.CacheDuration = TimeSpan.FromHours(8);
         }
 
-        internal static async Task<BitmapImage> GetImageAsync(ImageType type, string url, /*Pages.ImageModel model = null,*/ InAppNotify notify = null)
+        internal static async Task<BitmapImage> GetImageAsync(ImageType type, string url, InAppNotify notify = null)
         {
             if (string.IsNullOrEmpty(url)) { return NoPic; }
 
@@ -37,7 +37,7 @@ namespace WFunUWP.Helpers
             {
                 return new BitmapImage(new Uri(url));
             }
-            else if (/*model == null &&*/ SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode))
+            else if (SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode))
             {
                 return NoPic;
             }
@@ -47,10 +47,6 @@ namespace WFunUWP.Helpers
 
                 try
                 {
-                    //if (model != null)
-                    //{
-                    //    model.IsProgressRingActived = true;
-                    //}
                     BitmapImage image = await ImageCache.Instance.GetFromCacheAsync(uri, true);
                     return image;
                 }
@@ -59,7 +55,7 @@ namespace WFunUWP.Helpers
                     string str = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse().GetString("ImageLoadError");
                     if (notify == null)
                     {
-                        //UIHelper.StatusBar_ShowMessage(str);
+                        UIHelper.ShowMessage(str);
                     }
                     else
                     {
@@ -69,13 +65,6 @@ namespace WFunUWP.Helpers
                         });
                     }
                     return NoPic;
-                }
-                finally
-                {
-                    //if (model != null)
-                    //{
-                    //    model.IsProgressRingActived = false;
-                    //}
                 }
             }
         }
@@ -88,10 +77,10 @@ namespace WFunUWP.Helpers
             {
                 return await StorageFile.GetFileFromApplicationUriAsync(new Uri(url));
             }
-            //else if (SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode))
-            //{
-            //    return null;
-            //}
+            else if (SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode))
+            {
+                return null;
+            }
             else
             {
                 Uri uri = new Uri(url);
@@ -134,7 +123,7 @@ namespace WFunUWP.Helpers
         }
 
         [Obsolete]
-        internal static async Task<BitmapImage> GetImageAsyncOld(ImageType type, string url, /*Pages.ImageModel model = null,*/ InAppNotify notify = null)
+        internal static async Task<BitmapImage> GetImageAsyncOld(ImageType type, string url, InAppNotify notify = null)
         {
             if (string.IsNullOrEmpty(url)) { return null; }
 
@@ -142,7 +131,7 @@ namespace WFunUWP.Helpers
             {
                 return new BitmapImage(new Uri(url));
             }
-            else if (/*model == null &&*/ SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode))
+            else if ( SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode))
             {
                 return NoPic;
             }
@@ -151,11 +140,11 @@ namespace WFunUWP.Helpers
                 string fileName = Core.Helpers.Utils.GetMD5(url);
                 StorageFolder folder = await GetFolderAsync(type);
                 IStorageItem item = await folder.TryGetItemAsync(fileName);
-                bool forceGetPic = /*model != null*/false;
+                bool forceGetPic = false;
                 if (item is null)
                 {
                     StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-                    return await DownloadImageAsync(file, url, /*model,*/ notify);
+                    return await DownloadImageAsync(file, url, notify);
                 }
                 else
                 {
@@ -169,7 +158,7 @@ namespace WFunUWP.Helpers
         {
             try
             {
-                return (filename is null || (!forceGetPic /*&& SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode)*/)) ? NoPic : new BitmapImage(new Uri(filename));
+                return (filename is null || (!forceGetPic && SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode))) ? NoPic : new BitmapImage(new Uri(filename));
             }
             catch
             {
@@ -178,14 +167,10 @@ namespace WFunUWP.Helpers
         }
 
         [Obsolete]
-        private static async Task<BitmapImage> DownloadImageAsync(StorageFile file, string url, /*Pages.ImageModel model,*/ InAppNotify notify)
+        private static async Task<BitmapImage> DownloadImageAsync(StorageFile file, string url, InAppNotify notify)
         {
             try
             {
-                //if (model != null)
-                //{
-                //    model.IsProgressRingActived = true;
-                //}
                 using (HttpClient hc = new HttpClient())
                 using (Stream stream = await hc.GetStreamAsync(new Uri(url)))
                 using (Stream fs = await file.OpenStreamForWriteAsync())
@@ -200,20 +185,13 @@ namespace WFunUWP.Helpers
                 string str = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse().GetString("ImageLoadError");
                 if (notify == null)
                 {
-                    //UIHelper.StatusBar_ShowMessage(str);
+                    UIHelper.ShowMessage(str);
                 }
                 else
                 {
-                    //notify.Show(str, UIHelper.duration);
+                    notify.Show(str, UIHelper.Duration);
                 }
                 return NoPic;
-            }
-            finally
-            {
-                //if (model != null)
-                //{
-                //    model.IsProgressRingActived = false;
-                //}
             }
         }
 

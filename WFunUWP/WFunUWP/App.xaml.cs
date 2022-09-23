@@ -9,6 +9,9 @@ using WFunUWP.Pages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
+using Windows.Foundation.Metadata;
+using Windows.Security.Authorization.AppCapabilityAccess;
+using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -31,6 +34,10 @@ namespace WFunUWP
             InitializeComponent();
             Suspending += OnSuspending;
             UnhandledException += Application_UnhandledException;
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 6))
+            {
+                FocusVisualKind = AnalyticsInfo.VersionInfo.DeviceFamily == "Xbox" ? FocusVisualKind.Reveal : FocusVisualKind.HighVisibility;
+            }
         }
 
         /// <summary>
@@ -40,6 +47,7 @@ namespace WFunUWP
         /// <param name="e">有关启动请求和过程的详细信息。</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            RequestWifiAccess();
             RegisterExceptionHandlingSynchronizationContext();
 
             // 不要在窗口已包含内容时重复应用程序初始化，
@@ -71,6 +79,7 @@ namespace WFunUWP
                     view.ButtonBackgroundColor = view.InactiveBackgroundColor = view.ButtonInactiveBackgroundColor = Colors.Transparent;
                     _ = rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
+                ThemeHelper.Initialize();
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
             }
@@ -98,6 +107,22 @@ namespace WFunUWP
             SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        private async void RequestWifiAccess()
+        {
+            if (ApiInformation.IsMethodPresent("Windows.Security.Authorization.AppCapabilityAccess.AppCapability", "Create"))
+            {
+                AppCapability wifiData = AppCapability.Create("wifiData");
+                switch (wifiData.CheckAccess())
+                {
+                    case AppCapabilityAccessStatus.DeniedByUser:
+                    case AppCapabilityAccessStatus.DeniedBySystem:
+                        // Do something
+                        await AppCapability.Create("wifiData").RequestAccessAsync();
+                        break;
+                }
+            }
         }
 
         private void Application_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)

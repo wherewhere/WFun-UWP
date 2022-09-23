@@ -65,7 +65,7 @@ namespace WFunUWP.Controls
 				window.Activated += OnWindowActivated;
 			}
 
-			ActualThemeChanged += (FrameworkElement sender, object args) => UpdateTheme();
+			//ActualThemeChanged += (FrameworkElement sender, object args) => UpdateTheme();
 		}
 
 		protected override void OnApplyTemplate()
@@ -124,7 +124,7 @@ namespace WFunUWP.Controls
 			UpdatePadding();
 			UpdateIcon();
 			UpdateBackButton();
-			UpdateTheme();
+			//UpdateTheme();
 			UpdateTitle();
 
 			base.OnApplyTemplate();

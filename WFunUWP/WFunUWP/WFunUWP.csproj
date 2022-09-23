@@ -178,10 +178,10 @@
     <Compile Include="Helpers\Tasks\CheckUpdate.cs" />
     <Compile Include="Helpers\Tasks\GetAllFeeds.cs" />
     <Compile Include="Helpers\Tasks\LiveTileTask.cs" />
+    <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Helpers\Trigger\DeviceFamilyTrigger.cs" />
     <Compile Include="Helpers\UIHelper.cs" />
     <Compile Include="Helpers\ValueConverters\HTMLToMarkDownConverter.cs" />
-    <Compile Include="Models\BackgroundImageModel.cs" />
     <Compile Include="Models\FeedDetailModel.cs" />
     <Compile Include="Models\FeedListModel.cs" />
     <Compile Include="Models\FeedReplyModel.cs" />
@@ -209,9 +209,6 @@
     </Compile>
     <Compile Include="Pages\SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\NewSettingsPage.xaml.cs">
-      <DependentUpon>NewSettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SettingsPages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -416,10 +413,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SearchPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SettingsPages\NewSettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

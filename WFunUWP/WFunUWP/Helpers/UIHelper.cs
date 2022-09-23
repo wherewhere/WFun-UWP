@@ -24,6 +24,7 @@ namespace WFunUWP.Helpers
     {
         public const int Duration = 3000;
         public static bool IsShowingProgressBar, IsShowingMessage;
+        public static bool HasTitleBar => !CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar;
         public static bool HasStatusBar => ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar");
         private static readonly ObservableCollection<(string message, InfoType type)> MessageList = new ObservableCollection<(string message, InfoType type)>();
 
@@ -36,76 +37,6 @@ namespace WFunUWP.Helpers
                 if (shellDispatcher == null)
                 {
                     shellDispatcher = value;
-                }
-            }
-        }
-
-        private static InAppNotify inAppNotification;
-        public static InAppNotify InAppNotification
-        {
-            get => inAppNotification;
-            set
-            {
-                if (inAppNotification == null)
-                {
-                    inAppNotification = value;
-                }
-            }
-        }
-
-        public static bool IsDarkTheme(ElementTheme theme)
-        {
-            return theme == ElementTheme.Default ? Application.Current.RequestedTheme == ApplicationTheme.Dark : theme == ElementTheme.Dark;
-        }
-
-        public static async void CheckTheme()
-        {
-            while (Window.Current?.Content is null)
-            {
-                await Task.Delay(100);
-            }
-
-            if (Window.Current.Content is FrameworkElement frameworkElement)
-            {
-                foreach (CoreApplicationView item in CoreApplication.Views)
-                {
-                    await item.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                    {
-                        (Window.Current.Content as FrameworkElement).RequestedTheme = SettingsHelper.Theme;
-                    });
-                }
-
-                bool IsDark = IsDarkTheme(SettingsHelper.Theme);
-                SolidColorBrush AccentColor = (SolidColorBrush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
-
-                if (HasStatusBar)
-                {
-                    if (IsDark)
-                    {
-                        StatusBar statusBar = StatusBar.GetForCurrentView();
-                        statusBar.BackgroundColor = AccentColor.Color;
-                        statusBar.ForegroundColor = Colors.White;
-                        statusBar.BackgroundOpacity = 0; // 透明度
-                    }
-                    else
-                    {
-                        StatusBar statusBar = StatusBar.GetForCurrentView();
-                        statusBar.BackgroundColor = AccentColor.Color;
-                        statusBar.ForegroundColor = Colors.Black;
-                        statusBar.BackgroundOpacity = 0; // 透明度
-                    }
-                }
-                else if (IsDark)
-                {
-                    ApplicationViewTitleBar view = ApplicationView.GetForCurrentView().TitleBar;
-                    view.ButtonBackgroundColor = view.InactiveBackgroundColor = view.ButtonInactiveBackgroundColor = Colors.Transparent;
-                    view.ButtonForegroundColor = Colors.White;
-                }
-                else
-                {
-                    ApplicationViewTitleBar view = ApplicationView.GetForCurrentView().TitleBar;
-                    view.ButtonBackgroundColor = view.InactiveBackgroundColor = view.ButtonInactiveBackgroundColor = Colors.Transparent;
-                    view.ButtonForegroundColor = Colors.Black;
                 }
             }
         }
@@ -210,9 +141,13 @@ namespace WFunUWP.Helpers
         public static bool IsOriginSource(object source, object originalSource)
         {
             bool r = false;
-            if ((originalSource as DependencyObject).FindAscendant<Button>() == null && (originalSource as DependencyObject).FindAscendant<AppBarButton>() == null && originalSource.GetType() != typeof(Button) && originalSource.GetType() != typeof(AppBarButton) && originalSource.GetType() != typeof(RichEditBox))
+            DependencyObject DependencyObject = originalSource as DependencyObject;
+            if (DependencyObject.FindAscendant<Button>() == null && DependencyObject.FindAscendant<AppBarButton>() == null && originalSource.GetType() != typeof(Button) && originalSource.GetType() != typeof(AppBarButton) && originalSource.GetType() != typeof(RichEditBox))
             {
-                r = /*source == (originalSource as DependencyObject).FindAscendant<T>()*/true;
+                if (source is FrameworkElement FrameworkElement)
+                {
+                    r = source == DependencyObject.FindAscendantByName(FrameworkElement.Name);
+                }
             }
             return source == originalSource || r;
         }

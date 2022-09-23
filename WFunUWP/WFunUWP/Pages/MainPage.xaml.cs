@@ -40,7 +40,6 @@ namespace WFunUWP.Pages
         public MainPage()
         {
             InitializeComponent();
-            UIHelper.CheckTheme();
             UIHelper.MainPage = this;
             LiveTileTask.UpdateTile();
             Window.Current.SetTitleBar(AppTitleBar);

@@ -88,7 +88,6 @@ namespace WFunUWP.Helpers.Tasks
                         };
                         grid.Children.Add(textBlock);
                         grid.Children.Add(button);
-                        UIHelper.InAppNotification.Show(grid, 6000);
                     }
                 }
                 else if (showmassage) { UIHelper.ShowMessage(loader.GetString("NoUpdate")); }

@@ -1,4 +1,5 @@
 ﻿using System;
+using WFunUWP.Controls.Dialogs;
 using WFunUWP.Core.Exceptions;
 using WFunUWP.Helpers;
 using WFunUWP.Helpers.Tasks;
@@ -21,6 +22,10 @@ namespace WFunUWP.Pages.SettingsPages
         {
             switch ((sender as FrameworkElement).Tag as string)
             {
+                case "Login":
+                    LoginDialog dialog = new LoginDialog();
+                    _ = dialog.ShowAsync();
+                    break;
                 case "OpenEdge":
                     _ = Launcher.LaunchUriAsync(new Uri(WebUrl.Text));
                     break;
@@ -28,9 +33,6 @@ namespace WFunUWP.Pages.SettingsPages
                     throw new WFunMessageException(NotifyMessage.Text);
                 case "ShowMessage":
                     UIHelper.ShowMessage(NotifyMessage.Text);
-                    break;
-                case "NewSettings":
-                    _ = Frame.Navigate(typeof(NewSettingsPage));
                     break;
                 case "OpenBrowser":
                     //_ = Frame.Navigate(typeof(BrowserPage), new object[] { WebUrl.Text });

@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Helpers;
+using System;
 using System.Collections.Immutable;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using WFunUWP.Helpers;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -9,11 +12,7 @@ namespace WFunUWP.Models
 {
     public class ImageModel : INotifyPropertyChanged
     {
-        private WeakReference<BitmapImage> pic;
-        private bool isLongPic;
-        private bool isWidePic;
-        private ImmutableArray<ImageModel> contextArray;
-
+        protected WeakReference<BitmapImage> pic;
         public BitmapImage Pic
         {
             get
@@ -24,11 +23,11 @@ namespace WFunUWP.Models
                 }
                 else
                 {
-                    GetImage();
+                    _ = GetImage();
                     return ImageCacheHelper.NoPic;
                 }
             }
-            private set
+            protected set
             {
                 if (pic == null)
                 {
@@ -42,26 +41,35 @@ namespace WFunUWP.Models
             }
         }
 
+        private bool isLongPic;
         public bool IsLongPic
         {
             get => isLongPic;
             private set
             {
-                isLongPic = value;
-                RaisePropertyChangedEvent();
+                if (isLongPic != value)
+                {
+                    isLongPic = value;
+                    RaisePropertyChangedEvent();
+                }
             }
         }
 
+        private bool isWidePic;
         public bool IsWidePic
         {
             get => isWidePic;
             private set
             {
-                isWidePic = value;
-                RaisePropertyChangedEvent();
+                if (isWidePic != value)
+                {
+                    isWidePic = value;
+                    RaisePropertyChangedEvent();
+                }
             }
         }
 
+        protected ImmutableArray<ImageModel> contextArray;
         public ImmutableArray<ImageModel> ContextArray
         {
             get => contextArray;
@@ -70,48 +78,97 @@ namespace WFunUWP.Models
                 if (contextArray.IsDefaultOrEmpty)
                 {
                     contextArray = value;
+                    RaisePropertyChangedEvent();
                 }
             }
         }
 
-        public bool IsGif { get => Uri.Substring(Uri.LastIndexOf('.')).ToUpperInvariant().Contains("GIF"); }
+        public bool IsGif => Uri.Substring(Uri.LastIndexOf('.')).ToUpperInvariant().Contains("GIF");
 
-        public string Uri { get; }
+        private string uri;
+        public string Uri
+        {
+            get => uri;
+            set
+            {
+                if (uri != value)
+                {
+                    uri = value;
+                    if (pic != null && pic.TryGetTarget(out BitmapImage _))
+                    {
+                        _ = GetImage();
+                    }
+                }
+            }
+        }
 
-        public ImageType Type { get; }
+        private ImageType type;
+        public ImageType Type
+        {
+            get => type;
+            set
+            {
+                if (type != value)
+                {
+                    type = value;
+                    if (pic != null && pic.TryGetTarget(out BitmapImage _))
+                    {
+                        _ = GetImage();
+                    }
+                }
+            }
+        }
+
+        public BitmapImage RealPic
+        {
+            get
+            {
+                if (pic != null && pic.TryGetTarget(out BitmapImage image))
+                {
+                    return image;
+                }
+                else
+                {
+                    GetImage().Wait();
+                    return Pic;
+                }
+            }
+        }
 
         public ImageModel(string uri, ImageType type)
         {
             Uri = uri;
             Type = type;
-            SettingsHelper.UISettingChanged.Add(mode =>
+            ThemeHelper.UISettingChanged.Add(async mode =>
             {
                 switch (mode)
                 {
                     case UISettingChangedType.LightMode:
                     case UISettingChangedType.DarkMode:
-                        _ = UIHelper.ShellDispatcher?.RunAsync(
-                            Windows.UI.Core.CoreDispatcherPriority.Normal,
-                            () =>
+                        _ = UIHelper.ShellDispatcher?.AwaitableRunAsync(() =>
                             {
-                                if (pic == null)
+                                if (SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode))
                                 {
-                                    GetImage();
-                                }
-                                else if (pic.TryGetTarget(out BitmapImage image) && image.UriSource != null)
-                                {
-                                    Pic = ImageCacheHelper.NoPic;
+                                    if (pic != null && pic.TryGetTarget(out BitmapImage _))
+                                    {
+                                        Pic = ImageCacheHelper.NoPic;
+                                    }
                                 }
                             });
-
                         break;
 
                     case UISettingChangedType.NoPicChanged:
-                        GetImage();
+                        if (pic != null && pic.TryGetTarget(out BitmapImage _))
+                        {
+                            await GetImage();
+                        }
                         break;
                 }
             });
         }
+
+        public event TypedEventHandler<ImageModel, object> LoadStarted;
+        public event TypedEventHandler<ImageModel, object> LoadCompleted;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -120,23 +177,19 @@ namespace WFunUWP.Models
             if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
         }
 
-        private async void GetImage()
+        private async Task GetImage()
         {
+            LoadStarted?.Invoke(this, null);
             if (SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode)) { Pic = ImageCacheHelper.NoPic; }
             BitmapImage bitmapImage = await ImageCacheHelper.GetImageAsync(Type, Uri);
-            if (SettingsHelper.Get<bool>(SettingsHelper.IsNoPicsMode)) { return; }
             Pic = bitmapImage;
             IsLongPic =
-                ((bitmapImage.PixelHeight * Window.Current.Bounds.Width) > bitmapImage.PixelWidth * Window.Current.Bounds.Height * 1.5)
+                bitmapImage.PixelHeight * Window.Current.Bounds.Width > bitmapImage.PixelWidth * Window.Current.Bounds.Height * 1.5
                 && bitmapImage.PixelHeight > bitmapImage.PixelWidth * 1.5;
             IsWidePic =
-                ((bitmapImage.PixelWidth * Window.Current.Bounds.Height) > bitmapImage.PixelHeight * Window.Current.Bounds.Width * 1.5)
+                bitmapImage.PixelWidth * Window.Current.Bounds.Height > bitmapImage.PixelHeight * Window.Current.Bounds.Width * 1.5
                 && bitmapImage.PixelWidth > bitmapImage.PixelHeight * 1.5;
-        }
-
-        public static implicit operator ImageModel(BackgroundImageModel v)
-        {
-            throw new NotImplementedException();
+            LoadCompleted?.Invoke(this, null);
         }
     }
 }
