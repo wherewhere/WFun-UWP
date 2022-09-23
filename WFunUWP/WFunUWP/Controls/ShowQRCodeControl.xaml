@@ -10,7 +10,7 @@
     mc:Ignorable="d">
     <Grid
         Padding="0"
-        Background="{ThemeResource SystemControlChromeLowAcrylicElementBrush}"
+        Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
         BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}"
         BorderThickness="1"
         CornerRadius="8">
@@ -35,7 +35,7 @@
             Margin="0,2"
             CornerRadius="8">
             <Border.Background>
-                <ImageBrush x:Name="qrCodeImage" />
+                <ImageBrush x:Name="QRCodeImage" />
             </Border.Background>
             <Button
                 Width="200"
@@ -44,7 +44,7 @@
                 Background="Transparent"
                 Click="ShowUIButton_Click"
                 Tag="ShareFeed"
-                ToolTipService.ToolTip="{x:Bind qrCodeText}" />
+                ToolTipService.ToolTip="{x:Bind QRCodeText}" />
         </Border>
     </Grid>
 </UserControl>

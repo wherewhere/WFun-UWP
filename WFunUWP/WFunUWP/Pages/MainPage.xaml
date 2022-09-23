@@ -85,13 +85,6 @@
                     Icon="Find"
                     Tag="Find" />
             </muxc:NavigationView.MenuItems>
-            <muxc:NavigationView.AutoSuggestBox>
-                <AutoSuggestBox
-                    IsTabStop="True"
-                    KeyDown="AutoSuggestBox_KeyDown"
-                    QueryIcon="Find"
-                    QuerySubmitted="AutoSuggestBox_QuerySubmitted" />
-            </muxc:NavigationView.AutoSuggestBox>
             <Frame x:Name="NavigationViewFrame" x:FieldModifier="public" />
         </muxc:NavigationView>
 

@@ -56,7 +56,6 @@
                 <Setter Property="Margin" Value="0,1.5" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="MaxWidth" Value="800" />
                 <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
                 <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}" />
                 <Setter Property="AllowDrop" Value="False" />

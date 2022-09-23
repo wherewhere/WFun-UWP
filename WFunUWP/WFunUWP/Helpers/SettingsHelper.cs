@@ -1,5 +1,8 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers;
+﻿using MetroLog;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
 using Windows.UI.Xaml;
@@ -69,7 +72,7 @@ namespace WFunUWP.Helpers
     internal static partial class SettingsHelper
     {
         private static readonly LocalObjectStorageHelper LocalObject = new LocalObjectStorageHelper();
-        public static readonly MetroLog.ILogManager LogManager = MetroLog.LogManagerFactory.CreateLogManager();
+        public static readonly ILogManager LogManager = LogManagerFactory.CreateLogManager();
 
         static SettingsHelper()
         {
@@ -93,6 +96,42 @@ namespace WFunUWP.Helpers
         }
 
         public static async Task<bool> CheckLoginInfo()
+        {
+            try
+            {
+                using (HttpBaseProtocolFilter filter = new HttpBaseProtocolFilter())
+                {
+                    HttpCookieManager cookieManager = filter.CookieManager;
+                    string auth = string.Empty;
+                    foreach (HttpCookie item in cookieManager.GetCookies(UriHelper.BaseUri))
+                    {
+                        switch (item.Name)
+                        {
+                            case "auth":
+                                auth = item.Value;
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(auth) || await RequestHelper.CheckLogin())
+                    {
+                        Logout();
+                        return false;
+                    }
+                    else
+                    {
+                        Set(Auth, auth);
+                        return true;
+                    }
+                }
+            }
+            catch { throw; }
+        }
+
+        public static bool CheckLoginInfoFast()
         {
             try
             {

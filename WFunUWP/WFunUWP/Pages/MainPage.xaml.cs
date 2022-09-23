@@ -100,7 +100,7 @@ namespace WFunUWP.Pages
             Type PreNavPageType = NavigationViewFrame.CurrentSourcePageType;
 
             // Only navigate if the selected page isn't currently loaded.
-            if (!(_page is null) && !Equals(PreNavPageType, _page))
+            if (_page != null && !Equals(PreNavPageType, _page))
             {
                 _ = NavigationViewFrame.Navigate(_page, vs, TransitionInfo);
             }

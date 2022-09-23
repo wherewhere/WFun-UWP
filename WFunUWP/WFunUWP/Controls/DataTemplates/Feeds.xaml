@@ -2,7 +2,8 @@
     x:Class="WFunUWP.Controls.DataTemplates.Feeds"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:AppStudio.Uwp.Controls"
+    xmlns:asuc="using:AppStudio.Uwp.Controls"
+    xmlns:controls="using:WFunUWP.Controls"
     xmlns:converter="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:WFunUWP.Controls.DataTemplates"
@@ -24,11 +25,46 @@
     <DataTemplate x:Key="Feed" x:DataType="models:FeedListModel">
         <UserControl
             x:Name="Root"
-            Loaded="{x:Bind local:Feeds.UserControl_Loaded}"
-            SizeChanged="{x:Bind local:Feeds.UserControl_SizeChanged}">
+            Loaded="UserControl_Loaded"
+            SizeChanged="UserControl_SizeChanged">
+            <UserControl.Resources>
+                <Flyout x:Key="QRCodeFlyout">
+                    <Flyout.FlyoutPresenterStyle>
+                        <Style TargetType="FlyoutPresenter">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+                            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+                            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+                            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+                        </Style>
+                    </Flyout.FlyoutPresenterStyle>
+                    <controls:ShowQRCodeControl QRCodeText="{x:Bind Url}" />
+                </Flyout>
+                <MenuFlyout x:Key="MoreFlyout">
+                    <ToggleMenuFlyoutItem
+                        x:Name="CopyButton"
+                        x:Uid="/Feeds/Copy"
+                        IsChecked="{x:Bind IsCopyEnabled, Mode=TwoWay}" />
+                    <MenuFlyoutItem
+                        Click="CopyMenuItem_Click"
+                        Tag="{x:Bind Url}"
+                        Text="复制链接" />
+                    <MenuFlyoutItem
+                        Click="CopyMenuItem_Click"
+                        Tag="{x:Bind Message}"
+                        Text="复制全部内容" />
+                    <MenuFlyoutItem
+                        Click="CopyMenuItem_Click"
+                        Tag="{x:Bind UserName, Converter={StaticResource StringFormatConverter}, ConverterParameter='@{0}', Mode=OneWay}"
+                        Text="{x:Bind UserName, Converter={StaticResource StringFormatConverter}, ConverterParameter='复制 @{0}', Mode=OneWay}" />
+                </MenuFlyout>
+            </UserControl.Resources>
+
             <Grid
-                KeyDown="{x:Bind local:Feeds.ListViewItem_KeyDown}"
-                RightTapped="{x:Bind local:Feeds.ListViewItem_RightTapped}"
+                ContextFlyout="{StaticResource MoreFlyout}"
+                KeyDown="ListViewItem_KeyDown"
                 Tag="{x:Bind Url}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -47,7 +83,7 @@
                         Margin="0,4"
                         Padding="0"
                         Background="Transparent"
-                        Click="{x:Bind local:Feeds.FeedButton_Click}"
+                        Click="FeedButton_Click"
                         Style="{StaticResource ButtonRevealStyle}"
                         Tag="{x:Bind Uurl}">
                         <muxc:PersonPicture
@@ -62,20 +98,22 @@
                             VerticalAlignment="Top"
                             IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
                             Tag="{x:Bind Uurl}"
-                            Tapped="{x:Bind local:Feeds.FeedButton_Click}"
+                            Tapped="FeedButton_Click"
                             Text="{x:Bind UserName}" />
                         <StackPanel
                             Orientation="Horizontal"
                             Tag="{x:Bind Url}"
-                            Tapped="{x:Bind local:Feeds.OnTapped}">
+                            Tapped="OnTapped">
                             <TextBlock
                                 x:Name="DatelineTxb"
                                 Margin="0,0,5,0"
                                 Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
                                 Text="{x:Bind Dateline}" />
                             <TextBlock
                                 Margin="5,0,0,0"
                                 Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
                                 Text="{x:Bind DeviceTitle}" />
                         </StackPanel>
                     </StackPanel>
@@ -89,48 +127,21 @@
                     <Button
                         x:Name="ShareButton"
                         HorizontalAlignment="Center"
-                        Click="{x:Bind local:Feeds.FeedButton_Click}"
+                        Click="FeedButton_Click"
+                        Flyout="{StaticResource QRCodeFlyout}"
                         Style="{StaticResource FeedOpButtonStyle}"
-                        Tag="{x:Bind Url}"
                         ToolTipService.ToolTip="分享">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Share" />
                         </StackPanel>
-                        <Button.Flyout>
-                            <Flyout Opened="{x:Bind local:Feeds.Flyout_Opened}">
-                                <Flyout.FlyoutPresenterStyle>
-                                    <Style TargetType="FlyoutPresenter">
-                                        <Setter Property="Padding" Value="0" />
-                                        <Setter Property="BorderThickness" Value="0" />
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
-                                        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
-                                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
-                                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-                                    </Style>
-                                </Flyout.FlyoutPresenterStyle>
-                            </Flyout>
-                        </Button.Flyout>
                     </Button>
 
                     <Button
                         x:Name="MoreButton"
+                        Flyout="{StaticResource MoreFlyout}"
                         Style="{StaticResource FeedOpButtonStyle}"
-                        ToolTipService.ToolTip="更多"
-                        Visibility="Collapsed">
+                        ToolTipService.ToolTip="更多">
                         <SymbolIcon Symbol="More" />
-                        <Button.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem
-                                    x:Name="reportButton"
-                                    x:Uid="/Feeds/Report"
-                                    Click="{x:Bind local:Feeds.FeedButton_Click}" />
-                                <ToggleMenuFlyoutItem
-                                    x:Name="copyButton"
-                                    x:Uid="/Feeds/Copy"
-                                    IsChecked="{x:Bind IsCopyEnabled, Mode=TwoWay}" />
-                            </MenuFlyout>
-                        </Button.Flyout>
                     </Button>
                 </StackPanel>
 
@@ -143,7 +154,7 @@
                     FontWeight="Black"
                     IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
                     Tag="{x:Bind Url}"
-                    Tapped="{x:Bind local:Feeds.OnTapped}"
+                    Tapped="OnTapped"
                     Text="{x:Bind MessageTitle}"
                     TextTrimming="CharacterEllipsis" />
 
@@ -152,7 +163,7 @@
                         IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
                         MaxLines="10"
                         Tag="{x:Bind Url}"
-                        Tapped="{x:Bind local:Feeds.OnTapped}"
+                        Tapped="OnTapped"
                         Text="{x:Bind Message}"
                         TextWrapping="WrapWholeWords" />
                 </Grid>
@@ -162,7 +173,7 @@
                 <Button
                     x:Name="RelaRLis"
                     Grid.Row="4"
-                    Click="{x:Bind local:Feeds.FeedButton_Click}"
+                    Click="FeedButton_Click"
                     Content="{x:Bind RelationRows.Title}"
                     Tag="{x:Bind RelationRows.Url}" />
             </Grid>
@@ -170,11 +181,25 @@
     </DataTemplate>
 
     <DataTemplate x:Key="FeedReply" x:DataType="models:FeedReplyModel">
-        <UserControl
-            x:Name="Root"
-            Loaded="{x:Bind local:Feeds.UserControl_Loaded}"
-            SizeChanged="{x:Bind local:Feeds.UserControl_SizeChanged}">
-            <Grid RightTapped="{x:Bind local:Feeds.ListViewItem_RightTapped}">
+        <UserControl x:Name="Root" Loaded="UserControl_Loaded">
+            <UserControl.Resources>
+                <MenuFlyout x:Key="MoreFlyout">
+                    <ToggleMenuFlyoutItem
+                        x:Name="CopyButton"
+                        x:Uid="/Feeds/Copy"
+                        IsChecked="{x:Bind IsCopyEnabled, Mode=TwoWay}" />
+                    <MenuFlyoutItem
+                        Click="CopyMenuItem_Click"
+                        Tag="{x:Bind Message}"
+                        Text="复制全部内容" />
+                    <MenuFlyoutItem
+                        Click="CopyMenuItem_Click"
+                        Tag="{x:Bind UserName, Converter={StaticResource StringFormatConverter}, ConverterParameter='@{0}', Mode=OneWay}"
+                        Text="{x:Bind UserName, Converter={StaticResource StringFormatConverter}, ConverterParameter='复制 @{0}', Mode=OneWay}" />
+                </MenuFlyout>
+            </UserControl.Resources>
+
+            <Grid ContextFlyout="{StaticResource MoreFlyout}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
@@ -182,69 +207,65 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
 
-                <StackPanel
-                    x:Name="UserBar"
-                    Grid.Row="0"
-                    Orientation="Horizontal">
-                    <Button
-                        Margin="0,4"
-                        Padding="0"
-                        Background="Transparent"
-                        Click="{x:Bind local:Feeds.FeedButton_Click}"
-                        Style="{StaticResource ButtonRevealStyle}"
-                        Tag="{x:Bind Uurl}">
-                        <muxc:PersonPicture
-                            Width="36"
-                            Height="36"
-                            DisplayName="{x:Bind UserName}"
-                            ProfilePicture="{x:Bind UserAvatar.Pic, Mode=OneWay}" />
-                    </Button>
-                    <StackPanel Margin="8,0" VerticalAlignment="Center">
-                        <TextBlock
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
-                            Tag="{x:Bind Uurl}"
-                            Tapped="{x:Bind local:Feeds.FeedButton_Click}"
-                            Text="{x:Bind UserName}" />
-                        <StackPanel Orientation="Horizontal" Tapped="{x:Bind local:Feeds.OnTapped}">
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        x:Name="UserBar"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                        <Button
+                            Margin="0,4"
+                            Padding="0"
+                            Background="Transparent"
+                            Click="FeedButton_Click"
+                            Style="{StaticResource ButtonRevealStyle}"
+                            Tag="{x:Bind Uurl}">
+                            <muxc:PersonPicture
+                                Width="36"
+                                Height="36"
+                                DisplayName="{x:Bind UserName}"
+                                ProfilePicture="{x:Bind UserAvatar.Pic, Mode=OneWay}" />
+                        </Button>
+                        <StackPanel Margin="8,0" VerticalAlignment="Center">
                             <TextBlock
-                                x:Name="DatelineTxb"
-                                Margin="0,0,5,0"
-                                Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
-                                Text="{x:Bind Dateline}" />
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
+                                Tag="{x:Bind Uurl}"
+                                Tapped="FeedButton_Click"
+                                Text="{x:Bind UserName}" />
+                            <StackPanel Orientation="Horizontal" Tapped="OnTapped">
+                                <TextBlock
+                                    x:Name="DatelineTxb"
+                                    Margin="0,0,5,0"
+                                    Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                    IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
+                                    Text="{x:Bind Dateline}" />
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
-                <StackPanel
-                    x:Name="btnsPanel"
-                    Grid.Row="3"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-                    <Button
-                        x:Name="MoreButton"
-                        Style="{StaticResource FeedOpButtonStyle}"
-                        ToolTipService.ToolTip="更多"
-                        Visibility="Collapsed">
-                        <SymbolIcon Symbol="More" />
-                        <Button.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem
-                                    x:Name="reportButton"
-                                    x:Uid="/Feeds/Report"
-                                    Click="{x:Bind local:Feeds.FeedButton_Click}" />
-                                <ToggleMenuFlyoutItem
-                                    x:Name="copyButton"
-                                    x:Uid="/Feeds/Copy"
-                                    IsChecked="{x:Bind IsCopyEnabled, Mode=TwoWay}" />
-                            </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
-                </StackPanel>
+                    <StackPanel
+                        x:Name="btnsPanel"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="MoreButton"
+                            Flyout="{StaticResource MoreFlyout}"
+                            Style="{StaticResource FeedOpButtonStyle}"
+                            ToolTipService.ToolTip="更多">
+                            <SymbolIcon Symbol="More" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
 
                 <Grid Grid.Row="1" Margin="4">
-                    <controls:HtmlBlock Source="{x:Bind Message}" Tapped="{x:Bind local:Feeds.OnTapped}" />
+                    <asuc:HtmlBlock Source="{x:Bind Message}" Tapped="OnTapped" />
                 </Grid>
 
                 <Border Grid.Row="2" />
@@ -258,7 +279,7 @@
             Background="{ThemeResource SystemControlBackgroundListLowBrush}"
             BorderBrush="{ThemeResource SystemControlBackgroundListLowRevealBorderBrush}"
             BorderThickness="1"
-            Click="{x:Bind local:Feeds.FeedButton_Click}"
+            Click="FeedButton_Click"
             Content="{x:Bind Title}"
             Tag="{x:Bind Url}" />
     </DataTemplate>

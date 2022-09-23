@@ -2,9 +2,13 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Media.Protection.PlayReady;
 using mtuc = Microsoft.Toolkit.Uwp.Connectivity;
 
 namespace WFunUWP.Core.Helpers
@@ -189,6 +193,50 @@ namespace WFunUWP.Core.Helpers
             result = GetResult();
 
             return result;
+        }
+
+        public static async Task<bool> CheckLogin()
+        {
+            (bool isSucceed, HtmlDocument result) = await GetHtmlAsync(UriHelper.BaseUri, true, true);
+            if (isSucceed && result.TryGetNode("/html/body/nav/div[1]/div/div[3]/div/div[1]/a", out HtmlNode node))
+            {
+                var href = node.GetAttributeValue("href","/login").Trim();
+                if (href != "/login" && href.Contains("/u/"))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static async Task<(string UID, string UserName, string UserAvatar)> GetMyUserInfo()
+        {
+            string UID = string.Empty, UserName = string.Empty, UserAvatar = string.Empty;
+            (bool isSucceed, HtmlDocument result) results = await GetHtmlAsync(UriHelper.BaseUri, true, true);
+            if (results.isSucceed && results.result.TryGetNode("/html/body/nav/div[1]/div/div[3]/div/div[1]/a", out HtmlNode node))
+            {
+                string href = node.GetAttributeValue("href", "/login").Trim();
+                if (href != "/login" && href.Contains("/u/"))
+                {
+                    (bool isSucceed, HtmlDocument result) user = await GetHtmlAsync(new Uri(UriHelper.BaseUri, href), true, true);
+                    if (user.isSucceed && user.result.TryGetNode("/html/body/main/div/div/div/div", out HtmlNode head))
+                    {
+                        if (head.TryGetNode("/html/body/main/div/div/div/div/div/img", out HtmlNode useravatar))
+                        {
+                            UserAvatar = new Uri(UriHelper.BaseUri, useravatar.GetAttributeValue("src", string.Empty).Trim()).ToString();
+                        }
+                        if (head.TryGetNode("/html/body/main/div/div/div/div/div[2]", out HtmlNode username))
+                        {
+                            UserName = username.InnerText.Trim();
+                        }
+                        if (head.TryGetNode("/html/body/main/div/div/div/div/div[4]", out HtmlNode myuid))
+                        {
+                            UID = myuid.InnerText.Trim().Replace("UID.", string.Empty);
+                        }
+                    }
+                }
+            }
+            return (UID, UserName, UserAvatar);
         }
     }
 }

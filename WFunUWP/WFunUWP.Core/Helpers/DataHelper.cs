@@ -1,10 +1,16 @@
 ﻿using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 
-namespace WFunUWP.Helpers
+namespace WFunUWP.Core.Helpers
 {
-    internal static class DataHelper
+    public static class DataHelper
     {
+        public static bool TryGetNode(this HtmlNode HTML, string XPath, out HtmlNode Node)
+        {
+            Node = HTML.SelectSingleNode(XPath);
+            return Node != null;
+        }
+
         public static bool TryGetNode(this HtmlDocument HTML, string XPath, out HtmlNode Node)
         {
             Node = HTML.DocumentNode.SelectSingleNode(XPath);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
 using WFunUWP.Helpers;
 using WFunUWP.Models;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -13,7 +14,7 @@ namespace WFunUWP.Controls.DataTemplates
     {
         public Feeds() => InitializeComponent();
 
-        internal static void OnTapped(object sender, TappedRoutedEventArgs e)
+        internal void OnTapped(object sender, TappedRoutedEventArgs e)
         {
             FrameworkElement s = sender as FrameworkElement;
             if (e != null && !UIHelper.IsOriginSource(sender, e.OriginalSource)) { return; }
@@ -24,7 +25,7 @@ namespace WFunUWP.Controls.DataTemplates
             UIHelper.OpenLinkAsync(s.Tag as string);
         }
 
-        internal static void FeedButton_Click(object sender, RoutedEventArgs _)
+        internal void FeedButton_Click(object sender, RoutedEventArgs _)
         {
             void DisabledCopy()
             {
@@ -48,7 +49,15 @@ namespace WFunUWP.Controls.DataTemplates
             }
         }
 
-        internal static void ListViewItem_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            DataPackage dp = new DataPackage();
+            dp.SetText(element.Tag.ToString());
+            Clipboard.SetContent(dp);
+        }
+
+        internal void ListViewItem_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (UIHelper.IsOriginSource(sender, e.OriginalSource))
             {
@@ -56,46 +65,23 @@ namespace WFunUWP.Controls.DataTemplates
                 {
                     OnTapped(sender, null);
                 }
-                else if (e.Key == Windows.System.VirtualKey.Menu)
-                {
-                    ListViewItem_RightTapped(sender, null);
-                }
             }
         }
 
-        internal static void ListViewItem_RightTapped(object sender, RightTappedRoutedEventArgs _)
-        {
-            FrameworkElement s = (FrameworkElement)sender;
-            Button b = s.FindName("MoreButton") as Button;
-            //b.Flyout.ShowAt(s);
-        }
-
-        internal static void Flyout_Opened(object sender, object _)
-        {
-            Flyout Flyout = (Flyout)sender;
-            if (Flyout.Content == null)
-            {
-                Flyout.Content = new ShowQRCodeControl
-                {
-                    QRCodeText = (string)Flyout.Target.Tag
-                };
-            }
-        }
-
-        internal static void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        internal void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UserControl uc = sender as UserControl;
             StackPanel bp = uc.FindChildByName("BtnsPanel") as StackPanel;
-            double width = e is null ? uc.Width : e.NewSize.Width;
-            bp.SetValue(Grid.RowProperty, width > 600 ? 0 : 4);
+            double width = e == null ? uc.Width : e.NewSize.Width;
+            bp.SetValue(Grid.RowProperty, width > 640 ? 0 : 4);
         }
 
-        internal static void UserControl_Loaded(object sender, RoutedEventArgs e)
+        internal void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             UserControl_SizeChanged(sender, null);
         }
 
-        internal static void RelaRLis_ItemClick(object _, ItemClickEventArgs e)
+        internal void RelaRLis_ItemClick(object _, ItemClickEventArgs e)
         {
             UIHelper.OpenLinkAsync(((RelationRowsItem)e.ClickedItem).Url);
         }

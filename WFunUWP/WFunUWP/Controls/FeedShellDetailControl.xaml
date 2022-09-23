@@ -2,7 +2,8 @@
     x:Class="WFunUWP.Controls.FeedShellDetailControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:AppStudio.Uwp.Controls"
+    xmlns:asuc="using:AppStudio.Uwp.Controls"
+    xmlns:controls="using:WFunUWP.Controls"
     xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -28,13 +29,50 @@
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
             </Style>
+            <Flyout x:Key="QRCodeFlyout">
+                <Flyout.FlyoutPresenterStyle>
+                    <Style TargetType="FlyoutPresenter">
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+                        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+                    </Style>
+                </Flyout.FlyoutPresenterStyle>
+                <controls:ShowQRCodeControl QRCodeText="{x:Bind FeedDetail.QRUrl, Mode=OneWay}" />
+            </Flyout>
+            <MenuFlyout x:Key="MoreFlyout">
+                <ToggleMenuFlyoutItem
+                    x:Name="CopyButton"
+                    x:Uid="/Feeds/Copy"
+                    IsChecked="{x:Bind FeedDetail.IsCopyEnabled, Mode=TwoWay}" />
+                <MenuFlyoutItem
+                    Click="CopyMenuItem_Click"
+                    Tag="{x:Bind FeedDetail.QRUrl, Mode=OneWay}"
+                    Text="复制链接" />
+                <MenuFlyoutItem
+                    Click="CopyMenuItem_Click"
+                    Tag="{x:Bind FeedDetail.Message, Mode=OneWay}"
+                    Text="复制全部内容" />
+                <MenuFlyoutItem
+                    Click="CopyMenuItem_Click"
+                    Tag="{x:Bind FeedDetail.UserName, Converter={StaticResource StringFormatConverter}, ConverterParameter='@{0}', Mode=OneWay}"
+                    Text="{x:Bind FeedDetail.UserName, Converter={StaticResource StringFormatConverter}, ConverterParameter='复制 @{0}', Mode=OneWay}" />
+            </MenuFlyout>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid
         Margin="-6,0"
+        ContextFlyout="{StaticResource MoreFlyout}"
         KeyDown="Grid_KeyDown"
         RightTapped="Grid_RightTapped">
+        <Grid.Resources>
+            
+        </Grid.Resources>
+        
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition />
@@ -67,6 +105,7 @@
                     Margin="6,0,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
+                    IsTextSelectionEnabled="{x:Bind FeedDetail.IsCopyEnabled, Mode=OneWay}"
                     Text="{x:Bind FeedDetail.ForumTitle, Mode=OneWay}" />
                 <SymbolIcon
                     Grid.Column="1"
@@ -86,6 +125,7 @@
                     Margin="12,8"
                     FontSize="20"
                     Foreground="White"
+                    IsTextSelectionEnabled="{x:Bind FeedDetail.IsCopyEnabled, Mode=OneWay}"
                     MaxLines="2"
                     Text="{x:Bind FeedDetail.MessageTitle, Mode=OneWay}"
                     TextTrimming="CharacterEllipsis"
@@ -112,9 +152,13 @@
                 <TextBlock
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
+                    IsTextSelectionEnabled="{x:Bind FeedDetail.IsCopyEnabled, Mode=OneWay}"
                     Text="{x:Bind FeedDetail.UserName, Mode=OneWay}" />
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Text="{x:Bind FeedDetail.Dateline, Mode=OneWay}" />
+                    <TextBlock
+                        Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                        IsTextSelectionEnabled="{x:Bind FeedDetail.IsCopyEnabled, Mode=OneWay}"
+                        Text="{x:Bind FeedDetail.Dateline, Mode=OneWay}" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>
@@ -139,27 +183,26 @@
                 </StackPanel>
             </Button>
             <Button
-                x:Name="moreButton"
+                x:Name="ShareButton"
+                HorizontalAlignment="Center"
+                Click="Button_Click"
+                Flyout="{StaticResource QRCodeFlyout}"
                 Style="{StaticResource FeedOpButtonStyle}"
-                ToolTipService.ToolTip="更多"
-                Visibility="Collapsed">
+                ToolTipService.ToolTip="分享">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Share" />
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="moreButton"
+                Flyout="{StaticResource MoreFlyout}"
+                Style="{StaticResource FeedOpButtonStyle}"
+                ToolTipService.ToolTip="更多">
                 <SymbolIcon Symbol="More" />
-                <Button.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem
-                            x:Name="reportButton"
-                            x:Uid="/Feeds/Report"
-                            Click="Button_Click" />
-                        <ToggleMenuFlyoutItem
-                            x:Name="copyButton"
-                            x:Uid="/Feeds/Copy"
-                            IsChecked="{x:Bind FeedDetail.IsCopyEnabled, Mode=TwoWay}" />
-                    </MenuFlyout>
-                </Button.Flyout>
             </Button>
         </StackPanel>
 
-        <controls:HtmlBlock
+        <asuc:HtmlBlock
             x:Name="FeedArticlePresenter"
             Grid.Row="3"
             Margin="10,2"
@@ -174,7 +217,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <controls:HtmlBlock Source="{x:Bind FeedDetail.Message, Mode=OneWay}" />
+            <asuc:HtmlBlock Source="{x:Bind FeedDetail.Message, Mode=OneWay}" />
         </Grid>
 
         <muxc:ItemsRepeaterScrollHost

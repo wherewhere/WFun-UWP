@@ -1,12 +1,27 @@
 ﻿using HtmlAgilityPack;
 using System;
+using System.ComponentModel;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
 
 namespace WFunUWP.Models
 {
-    public class FeedListModel : ICanCopy
+    public class FeedListModel : INotifyPropertyChanged, ICanCopy
     {
+        private bool isCopyEnabled;
+        public bool IsCopyEnabled
+        {
+            get => isCopyEnabled;
+            set
+            {
+                if (isCopyEnabled != value)
+                {
+                    isCopyEnabled = value;
+                    RaisePropertyChangedEvent();
+                }
+            }
+        }
+
         public string Url { get; private set; }
         public string Uurl { get; private set; }
         public string Message { get; private set; }
@@ -15,10 +30,16 @@ namespace WFunUWP.Models
         public string DeviceTitle { get; private set; }
         public string MessageTitle { get; private set; }
 
-        public bool IsCopyEnabled { get; set; }
         public RelationRowsItem RelationRows { get; private set; }
 
         public ImageModel UserAvatar { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        internal void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        {
+            if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
+        }
 
         public FeedListModel(string doc)
         {

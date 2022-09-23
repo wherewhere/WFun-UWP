@@ -1,13 +1,28 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
 
 namespace WFunUWP.Models
 {
-    public class FeedDetailModel : ICanCopy
+    public class FeedDetailModel : INotifyPropertyChanged, ICanCopy
     {
+        private bool isCopyEnabled;
+        public bool IsCopyEnabled
+        {
+            get => isCopyEnabled;
+            set
+            {
+                if (isCopyEnabled != value)
+                {
+                    isCopyEnabled = value;
+                    RaisePropertyChangedEvent();
+                }
+            }
+        }
+
         public string UID { get; private set; }
         public string Uurl { get; private set; }
         public string QRUrl { get; private set; }
@@ -21,11 +36,17 @@ namespace WFunUWP.Models
         public ObservableCollection<FeedReplyModel> ReplyList { get; private set; }
         public ObservableCollection<RelationRowsItem> RelationRows { get; private set; }
 
-        public bool IsCopyEnabled { get; set; }
         public bool IsFeedArticle { get; private set; }
         public bool ShowRelationRows { get; private set; }
 
         public ImageModel UserAvatar { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        internal void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        {
+            if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
+        }
 
         public FeedDetailModel(string doc)
         {

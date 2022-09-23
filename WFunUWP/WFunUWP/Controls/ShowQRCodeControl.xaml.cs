@@ -1,5 +1,6 @@
 ﻿using QRCoder;
 using System;
+using WFunUWP.Core.Helpers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
@@ -12,59 +13,43 @@ namespace WFunUWP.Controls
 {
     public sealed partial class ShowQRCodeControl : UserControl
     {
-        private string qrCodeText;
+        public static readonly DependencyProperty QRCodeTextProperty = DependencyProperty.Register(
+            nameof(QRCodeText),
+            typeof(string),
+            typeof(ShowQRCodeControl),
+            new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnQRCodeTextChanged)));
 
         public string QRCodeText
         {
-            get => qrCodeText;
-            set
-            {
-                qrCodeText = value;
-                RefreshQRCode();
-            }
+            get => (string)GetValue(QRCodeTextProperty);
+            set => SetValue(QRCodeTextProperty, value);
         }
 
-        private void FeedPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        private static void OnQRCodeTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Uri shareLinkString = ValidateAndGetUri(qrCodeText);
-            if (shareLinkString != null)
-            {
-                DataPackage dataPackage = new DataPackage();
-                dataPackage.SetWebLink(shareLinkString);
-                dataPackage.Properties.Title = "动态分享";
-                dataPackage.Properties.Description = qrCodeText;
-                DataRequest request = args.Request;
-                request.Data = dataPackage;
-            }
-            else
-            {
-                DataPackage dataPackage = new DataPackage();
-                dataPackage.SetText(qrCodeText);
-                dataPackage.Properties.Title = "内容分享";
-                dataPackage.Properties.Description = "内含文本";
-                DataRequest request = args.Request;
-                request.Data = dataPackage;
-            }
-        }
-
-        private static Uri ValidateAndGetUri(string uriString)
-        {
-            Uri uri = null;
-            try
-            {
-                uri = new Uri(uriString);
-            }
-            catch (FormatException)
-            {
-            }
-            return uri;
+            (d as ShowQRCodeControl).RefreshQRCode();
         }
 
         private void ShowUIButton_Click(object sender, RoutedEventArgs e)
         {
+            DataPackage dataPackage = new DataPackage();
+
+            Uri shareLinkString = NetworkHelper.ValidateAndGetUri(QRCodeText);
+            if (shareLinkString != null)
+            {
+                dataPackage.SetWebLink(shareLinkString);
+                dataPackage.Properties.Title = "动态分享";
+                dataPackage.Properties.Description = QRCodeText;
+            }
+            else
+            {
+                dataPackage.SetText(QRCodeText);
+                dataPackage.Properties.Title = "内容分享";
+                dataPackage.Properties.Description = "内含文本";
+            }
+
             DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
-            dataTransferManager.DataRequested -= FeedPage_DataRequested;
-            dataTransferManager.DataRequested += FeedPage_DataRequested;
+            dataTransferManager.DataRequested += (obj, args) => { args.Request.Data = dataPackage; };
             DataTransferManager.ShowShareUI();
         }
 
@@ -85,12 +70,12 @@ namespace WFunUWP.Controls
                         using (DataWriter writer = new DataWriter(stream.GetOutputStreamAt(0)))
                         {
                             writer.WriteBytes(qrCodeImageBmp);
-                            _ = await writer.StoreAsync();
+                            await writer.StoreAsync();
                         }
                         BitmapImage image = new BitmapImage();
                         await image.SetSourceAsync(stream);
 
-                        qrCodeImage.ImageSource = image;
+                        QRCodeImage.ImageSource = image;
                     }
                 }
             }

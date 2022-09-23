@@ -24,9 +24,13 @@ namespace WFunUWP.Models
             {
                 UserName = username.InnerText.Trim();
             }
-            if (token.TryGetNode("/div[3]", out HtmlNode uid))
+            if (token.TryGetNode("/div[3]", out HtmlNode uid)&& uid.InnerText.Contains("UID."))
             {
                 UID = uid.InnerText.Trim().Replace("UID.", string.Empty);
+            }
+            else if (token.TryGetNode("/div[4]", out HtmlNode myuid))
+            {
+                UID = myuid.InnerText.Trim().Replace("UID.", string.Empty);
             }
         }
     }

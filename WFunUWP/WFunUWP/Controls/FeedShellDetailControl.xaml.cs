@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
 using WFunUWP.Models;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.UserActivities;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -48,27 +49,37 @@ namespace WFunUWP.Controls
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            void DisabledCopy()
+            {
+                if ((sender as FrameworkElement).DataContext is ICanCopy i)
+                {
+                    i.IsCopyEnabled = false;
+                }
+            }
+
             FrameworkElement element = sender as FrameworkElement;
             switch (element.Name)
             {
-                //case "makeReplyButton":
-                //    FeedDetail.IsCopyEnabled = false;
-                //    makeFeed.Visibility = (makeFeed.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
-                //    break;
-
-                //case "reportButton":
-                //    FeedDetail.IsCopyEnabled = false;
-                //    UIHelper.Navigate(typeof(Pages.BrowserPage), new object[] { false, $"https://m.coolapk.com/mp/do?c=feed&m=report&type=feed&id={FeedDetail.Id}" });
-                //    break;
+                case "ShareButton":
+                    DisabledCopy();
+                    break;
 
                 default:
-                    FeedDetail.IsCopyEnabled = false;
+                    DisabledCopy();
                     UIHelper.OpenLinkAsync((sender as Button).Tag as string);
                     break;
             }
         }
 
-        public static void Grid_Tapped(object sender, TappedRoutedEventArgs _)
+        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement element = sender as FrameworkElement;
+            DataPackage dp = new DataPackage();
+            dp.SetText(element.Tag.ToString());
+            Clipboard.SetContent(dp);
+        }
+
+        public void Grid_Tapped(object sender, TappedRoutedEventArgs _)
         {
             if ((sender as FrameworkElement).Tag is string s)
             {
