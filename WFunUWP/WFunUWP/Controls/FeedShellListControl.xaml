@@ -28,7 +28,8 @@
             ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplate="{StaticResource FeedReply}"
             ItemsSource="{x:Bind ReplyDS, Mode=OneWay}"
-            Loaded="ListView_Loaded">
+            Loaded="ListView_Loaded"
+            ShowsScrollingPlaceholders="False">
             <ListView.Header>
                 <ContentPresenter x:Name="Head" />
             </ListView.Header>

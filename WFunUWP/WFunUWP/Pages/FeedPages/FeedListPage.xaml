@@ -39,12 +39,14 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         x:Load="{x:Bind UserAvatar.Uri, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, ConverterParameter='string'}"
+                        x:Phase="3"
                         CornerRadius="8">
-                        <Image Source="{x:Bind UserAvatar.Pic, Mode=OneWay}" />
+                        <Image x:Phase="3" Source="{x:Bind UserAvatar.Pic, Mode=OneWay}" />
                     </Border>
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock
+                            x:Phase="1"
                             FontSize="20"
                             FontWeight="Black"
                             IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
@@ -53,6 +55,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock
                                 Margin="0,0,3,1"
+                                x:Phase="4"
                                 Foreground="White"
                                 IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
                                 Text="UID." />
@@ -60,6 +63,7 @@
                             <TextBlock
                                 Name="level"
                                 Margin="0,0,0,1"
+                                x:Phase="2"
                                 FontWeight="Bold"
                                 Foreground="White"
                                 IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
@@ -88,18 +92,21 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         x:Load="{x:Bind Logo.Uri, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, ConverterParameter='string'}"
+                        x:Phase="3"
                         CornerRadius="8">
-                        <Image Source="{x:Bind Logo.Pic, Mode=OneWay}" />
+                        <Image x:Phase="3" Source="{x:Bind Logo.Pic, Mode=OneWay}" />
                     </Border>
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock
+                            x:Phase="1"
                             FontSize="20"
                             FontWeight="Black"
                             IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
                             Text="{x:Bind Title}" />
 
                         <TextBlock
+                            x:Phase="2"
                             IsTextSelectionEnabled="{x:Bind IsCopyEnabled, Mode=OneWay}"
                             Text="{x:Bind SubTitle}"
                             TextWrapping="Wrap" />
@@ -124,7 +131,8 @@
             ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
             ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplateSelector="{StaticResource tempse}"
-            ItemsSource="{x:Bind ForumDS, Mode=OneWay}" />
+            ItemsSource="{x:Bind ForumDS, Mode=OneWay}"
+            ShowsScrollingPlaceholders="False" />
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

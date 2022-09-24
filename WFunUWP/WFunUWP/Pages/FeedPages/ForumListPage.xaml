@@ -19,6 +19,7 @@
                 NotEmptyValue="True" />
             <DataTemplate x:Key="List" x:DataType="models:ForumModel">
                 <Grid
+                    x:Phase="4"
                     KeyDown="{x:Bind local:ForumListPage.ListViewItem_KeyDown}"
                     Tag="{x:Bind Url}"
                     Tapped="{x:Bind local:ForumListPage.Grid_Tapped}">
@@ -32,6 +33,7 @@
                         Height="40"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
+                        x:Phase="3"
                         DisplayName="{x:Bind Title}"
                         ProfilePicture="{x:Bind Logo.Pic, Mode=OneWay}" />
                     <Grid Grid.Column="1" VerticalAlignment="Center">
@@ -42,11 +44,13 @@
                         <TextBlock
                             Grid.Row="0"
                             HorizontalAlignment="Left"
+                            x:Phase="1"
                             Text="{x:Bind Title}" />
                         <TextBlock
                             x:Name="SubTitle"
                             Grid.Row="1"
                             x:Load="{x:Bind SubTitle, Converter={StaticResource EmptyStringToBoolConverter}, ConverterParameter='string'}"
+                            x:Phase="2"
                             Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                             Text="{x:Bind SubTitle}"
                             TextWrapping="Wrap" />
@@ -73,7 +77,8 @@
             ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
             ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplateSelector="{StaticResource tempse}"
-            ItemsSource="{x:Bind AllForumDS, Mode=OneWay}" />
+            ItemsSource="{x:Bind AllForumDS, Mode=OneWay}"
+            ShowsScrollingPlaceholders="False" />
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

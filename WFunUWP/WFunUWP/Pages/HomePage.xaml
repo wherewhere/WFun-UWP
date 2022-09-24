@@ -22,7 +22,8 @@
             ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
             ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplate="{StaticResource Feed}"
-            ItemsSource="{x:Bind Collection}" />
+            ItemsSource="{x:Bind Collection}"
+            ShowsScrollingPlaceholders="False" />
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

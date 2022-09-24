@@ -28,7 +28,8 @@
             ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
             ItemTemplate="{StaticResource Feed}"
             ItemsSource="{x:Bind NewsDS, Mode=OneWay}"
-            SelectionMode="None">
+            SelectionMode="None"
+            ShowsScrollingPlaceholders="False">
             <ListView.Header>
                 <muxc:Expander
                     Grid.Column="0"

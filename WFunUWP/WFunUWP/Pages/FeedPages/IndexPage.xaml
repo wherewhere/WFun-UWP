@@ -27,7 +27,8 @@
             ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
             ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplate="{StaticResource Feed}"
-            ItemsSource="{x:Bind NewsDS, Mode=OneWay}" />
+            ItemsSource="{x:Bind NewsDS, Mode=OneWay}"
+            ShowsScrollingPlaceholders="False" />
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
