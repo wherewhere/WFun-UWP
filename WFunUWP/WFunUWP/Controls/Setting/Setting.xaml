@@ -8,9 +8,7 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="RightIconVisibility" Value="Collapsed" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="{ThemeResource CardBackgroundBrush}" />
-        <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
         <Setter Property="BorderThickness" Value="{ThemeResource CardBorderThickness}" />
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
         <Setter Property="Template">
@@ -25,7 +23,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}">
+                        CornerRadius="{ThemeResource ControlCornerRadius}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <!--  Icon  -->

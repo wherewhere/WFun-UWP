@@ -10,7 +10,7 @@
     IsPrimaryButtonEnabled="{Binding Text, ElementName=LinkTextBox, Converter={StaticResource EmptyStringToBoolConverter}}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
-    <StackPanel MaxWidth="{StaticResource ContentDialogMinWidth}">
+    <StackPanel>
         <Grid Margin="0,0,0,4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

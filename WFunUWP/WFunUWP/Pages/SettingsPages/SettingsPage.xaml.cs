@@ -132,7 +132,7 @@ namespace WFunUWP.Pages.SettingsPages
         {
             base.OnNavigatedTo(e);
 #if DEBUG
-            GoToTestPage.Visibility = Visibility.Visible;
+            //GoToTestPage.Visibility = Visibility.Visible;
 #endif
         }
 
@@ -143,10 +143,10 @@ namespace WFunUWP.Pages.SettingsPages
                 case "Reset":
                     ApplicationData.Current.LocalSettings.Values.Clear();
                     SettingsHelper.SetDefaultSettings();
-                    if (Reset.Flyout is Flyout flyout_reset)
-                    {
-                        flyout_reset.Hide();
-                    }
+                    //if (Reset.Flyout is Flyout flyout_reset)
+                    //{
+                    //    flyout_reset.Hide();
+                    //}
                     _ = Frame.Navigate(typeof(SettingsPage));
                     Frame.GoBack();
                     break;

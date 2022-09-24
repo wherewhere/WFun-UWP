@@ -181,7 +181,7 @@ namespace WFunUWP
 
         private string ExceptionToMessage(Exception ex)
         {
-            StringBuilder builder = new();
+            StringBuilder builder = new StringBuilder();
             builder.Append('\n');
             if (!string.IsNullOrWhiteSpace(ex.Message)) { builder.AppendLine($"Message: {ex.Message}"); }
             builder.AppendLine($"HResult: {ex.HResult} (0x{Convert.ToString(ex.HResult, 16)})");

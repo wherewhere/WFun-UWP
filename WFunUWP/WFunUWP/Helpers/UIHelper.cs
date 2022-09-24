@@ -43,6 +43,7 @@ namespace WFunUWP.Helpers
             IsShowingProgressBar = true;
             if (HasStatusBar)
             {
+                MainPage?.HideProgressBar();
                 StatusBar.GetForCurrentView().ProgressIndicator.ProgressValue = null;
                 await StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
             }
@@ -57,6 +58,7 @@ namespace WFunUWP.Helpers
             IsShowingProgressBar = true;
             if (HasStatusBar)
             {
+                MainPage?.HideProgressBar();
                 StatusBar.GetForCurrentView().ProgressIndicator.ProgressValue = value * 0.01;
                 await StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
             }

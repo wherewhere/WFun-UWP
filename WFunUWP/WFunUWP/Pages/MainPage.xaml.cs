@@ -59,7 +59,7 @@ namespace WFunUWP.Pages
             {
                 HardwareButtons.BackPressed += System_BackPressed;
             }
-            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += (s, e) => UpdateAppTitle(s);
+            CoreApplication.GetCurrentView().TitleBar.LayoutMetricsChanged += (s, _) => UpdateAppTitle(s);
         }
 
         private void OnPaneDisplayModeChanged(DependencyObject sender, DependencyProperty dp)
