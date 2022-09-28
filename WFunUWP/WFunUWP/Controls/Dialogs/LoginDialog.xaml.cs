@@ -45,7 +45,7 @@ namespace WFunUWP.Controls.Dialogs
             if (args.Result == ContentDialogResult.Primary)
             {
                 UIHelper.ShowProgressBar();
-                if (!Utils.AwaitByTaskCompleteSource(GetToken))
+                if (!TasksHelper.AwaitByTaskCompleteSource(GetToken))
                 {
                     args.Cancel = true;
                     ResourceLoader loader = ResourceLoader.GetForCurrentView("LoginDialog");

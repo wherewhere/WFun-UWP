@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace WFunUWP.Core.Helpers
 {
@@ -220,19 +219,6 @@ namespace WFunUWP.Core.Helpers
                 }
             }
             return s;
-        }
-
-        public static TResult AwaitByTaskCompleteSource<TResult>(Func<Task<TResult>> func)
-        {
-            TaskCompletionSource<TResult> taskCompletionSource = new TaskCompletionSource<TResult>();
-            Task<TResult> task1 = taskCompletionSource.Task;
-            _ = Task.Run(async () =>
-            {
-                TResult result = await func.Invoke();
-                taskCompletionSource.SetResult(result);
-            });
-            TResult task1Result = task1.Result;
-            return task1Result;
         }
     }
 }

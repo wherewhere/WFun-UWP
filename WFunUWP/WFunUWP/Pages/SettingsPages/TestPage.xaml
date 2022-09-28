@@ -2,11 +2,10 @@
     x:Class="WFunUWP.Pages.SettingsPages.TestPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:asuc="using:AppStudio.Uwp.Controls"
     xmlns:cwuc="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:trigger="using:WFunUWP.Helpers.Trigger"
+    xmlns:trigger="using:WFunUWP.Helpers.Trigger" xmlns:controls="using:WFunUWP.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <Style x:Key="HeaderStyle" TargetType="cwuc:HeaderedContentControl">
@@ -130,7 +129,7 @@
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
                             TextWrapping="Wrap" />
-                        <asuc:HtmlBlock Margin="0,2" Source="{Binding ElementName=UnformattedText, Path=Text}" />
+                        <controls:HtmlBlock Margin="0,2" Source="{Binding ElementName=UnformattedText, Path=Text}" />
                     </StackPanel>
                 </cwuc:HeaderedContentControl>
             </StackPanel>
