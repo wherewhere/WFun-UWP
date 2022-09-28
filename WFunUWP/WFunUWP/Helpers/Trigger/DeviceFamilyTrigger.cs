@@ -39,7 +39,7 @@ namespace WFunUWP.Helpers.Trigger
         {
             _actualDeviceFamily = AnalyticsInfo.VersionInfo.DeviceFamily;
             bool istrue = _actualDeviceFamily == _triggerDeviceFamily;
-            SetActive(_isNegation? !istrue : istrue);
+            SetActive(_isNegation ? !istrue : istrue);
         }
     }
 }

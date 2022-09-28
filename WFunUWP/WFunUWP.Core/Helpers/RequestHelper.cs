@@ -2,13 +2,9 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Net.Http;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Media.Protection.PlayReady;
 using mtuc = Microsoft.Toolkit.Uwp.Connectivity;
 
 namespace WFunUWP.Core.Helpers
@@ -200,7 +196,7 @@ namespace WFunUWP.Core.Helpers
             (bool isSucceed, HtmlDocument result) = await GetHtmlAsync(UriHelper.BaseUri, true, true);
             if (isSucceed && result.TryGetNode("/html/body/nav/div[1]/div/div[3]/div/div[1]/a", out HtmlNode node))
             {
-                var href = node.GetAttributeValue("href","/login").Trim();
+                string href = node.GetAttributeValue("href", "/login").Trim();
                 if (href != "/login" && href.Contains("/u/"))
                 {
                     return true;

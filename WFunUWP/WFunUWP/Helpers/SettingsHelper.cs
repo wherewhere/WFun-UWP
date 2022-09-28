@@ -1,8 +1,6 @@
 ﻿using MetroLog;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
 using Windows.UI.Xaml;

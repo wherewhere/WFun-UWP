@@ -197,7 +197,7 @@ namespace WFunUWP.Pages
 
                 AppTitleBar.Translation = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal &&
                          sender.IsBackButtonVisible != muxc.NavigationViewBackButtonVisible.Collapsed
-                    ? new System.Numerics.Vector3((float)sender.CompactPaneLength * 2 - 8, 0, 0)
+                    ? new System.Numerics.Vector3(((float)sender.CompactPaneLength * 2) - 8, 0, 0)
                     : new System.Numerics.Vector3((float)sender.CompactPaneLength, 0, 0);
             }
             else
@@ -206,7 +206,7 @@ namespace WFunUWP.Pages
 
                 AppTitleBar.Margin = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal &&
                              sender.IsBackButtonVisible != muxc.NavigationViewBackButtonVisible.Collapsed
-                    ? new Thickness(sender.CompactPaneLength * 2 - 8, currMargin.Top, currMargin.Right, currMargin.Bottom)
+                    ? new Thickness((sender.CompactPaneLength * 2) - 8, currMargin.Top, currMargin.Right, currMargin.Bottom)
                     : new Thickness(sender.CompactPaneLength, currMargin.Top, currMargin.Right, currMargin.Bottom);
             }
 
