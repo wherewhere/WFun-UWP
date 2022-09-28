@@ -48,15 +48,15 @@
                         x:Phase="4"
                         IsChecked="{x:Bind IsCopyEnabled, Mode=TwoWay}" />
                     <MenuFlyoutItem
+                        x:Uid="/Feeds/CopyLink"
                         x:Phase="4"
                         Click="CopyMenuItem_Click"
-                        Tag="{x:Bind Url}"
-                        Text="复制链接" />
+                        Tag="{x:Bind Url}" />
                     <MenuFlyoutItem
+                        x:Uid="/Feeds/CopyMessage"
                         x:Phase="4"
                         Click="CopyMenuItem_Click"
-                        Tag="{x:Bind Message}"
-                        Text="复制全部内容" />
+                        Tag="{x:Bind Message}" />
                     <MenuFlyoutItem
                         x:Phase="4"
                         Click="CopyMenuItem_Click"
@@ -204,10 +204,10 @@
                         x:Phase="3"
                         IsChecked="{x:Bind IsCopyEnabled, Mode=TwoWay}" />
                     <MenuFlyoutItem
-                        x:Phase="3"
+                        x:Uid="/Feeds/CopyMessage"
+                        x:Phase="4"
                         Click="CopyMenuItem_Click"
-                        Tag="{x:Bind Message}"
-                        Text="复制全部内容" />
+                        Tag="{x:Bind Message}" />
                     <MenuFlyoutItem
                         x:Phase="3"
                         Click="CopyMenuItem_Click"

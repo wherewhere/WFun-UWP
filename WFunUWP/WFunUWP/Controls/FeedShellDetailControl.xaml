@@ -45,13 +45,13 @@
                     x:Uid="/Feeds/Copy"
                     IsChecked="{x:Bind FeedDetail.IsCopyEnabled, Mode=TwoWay}" />
                 <MenuFlyoutItem
+                    x:Uid="/Feeds/CopyLink"
                     Click="CopyMenuItem_Click"
-                    Tag="{x:Bind FeedDetail.QRUrl, Mode=OneWay}"
-                    Text="复制链接" />
+                    Tag="{x:Bind FeedDetail.QRUrl, Mode=OneWay}" />
                 <MenuFlyoutItem
+                    x:Uid="/Feeds/CopyMessage"
                     Click="CopyMenuItem_Click"
-                    Tag="{x:Bind FeedDetail.Message, Mode=OneWay}"
-                    Text="复制全部内容" />
+                    Tag="{x:Bind FeedDetail.Message, Mode=OneWay}" />
                 <MenuFlyoutItem
                     Click="CopyMenuItem_Click"
                     Tag="{x:Bind FeedDetail.UserName, Converter={StaticResource StringFormatConverter}, ConverterParameter='@{0}', Mode=OneWay}"

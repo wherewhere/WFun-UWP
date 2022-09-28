@@ -24,10 +24,10 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <TextBlock
+            x:Uid="/Feeds/ShareURL"
             Grid.Row="0"
             Margin="0,12"
-            HorizontalAlignment="Center"
-            Text="点按二维码分享链接" />
+            HorizontalAlignment="Center" />
         <Border
             Grid.Row="1"
             Width="200"
