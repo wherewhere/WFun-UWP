@@ -153,7 +153,6 @@
     </Compile>
     <Compile Include="Controls\IsEnabledTextBlock\IsEnabledTextBlock.cs" />
     <Compile Include="Controls\KeyVisual\KeyVisual.cs" />
-    <Compile Include="Controls\MarginSetter.cs" />
     <Compile Include="Controls\PageHeader.xaml.cs">
       <DependentUpon>PageHeader.xaml</DependentUpon>
     </Compile>
@@ -164,7 +163,6 @@
     <Compile Include="Controls\ShowQRCodeControl.xaml.cs">
       <DependentUpon>ShowQRCodeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Spacing.cs" />
     <Compile Include="Controls\TitleBar\TitleBar.cs" />
     <Compile Include="Controls\TitleBar\TitleBar.Properties.cs" />
     <Compile Include="Controls\TitleBar\TitleBarTemplateSettings.cs" />

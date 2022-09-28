@@ -63,6 +63,7 @@
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
             Header=" "
             HeaderTemplate="{StaticResource NavigationViewHeaderTemplate}"
+            IsBackButtonVisible="Visible"
             IsTabStop="False"
             IsTitleBarAutoPaddingEnabled="False"
             Loaded="NavigationView_Loaded"
@@ -99,6 +100,14 @@
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <trigger:DeviceFamilyTrigger DeviceFamily="Windows.Mobile" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="NavigationView.IsBackButtonVisible" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
                         <trigger:DeviceFamilyTrigger DeviceFamily="Windows.Xbox" />

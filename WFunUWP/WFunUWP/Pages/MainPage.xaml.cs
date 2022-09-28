@@ -48,6 +48,7 @@ namespace WFunUWP.Pages
             LiveTileTask.UpdateTile();
             UIHelper.ShellDispatcher = Dispatcher;
             NavigationView.PaneDisplayMode = muxc.NavigationViewPaneDisplayMode.Left;
+            if (SettingsHelper.Get<bool>(SettingsHelper.CheckUpdateWhenLuanching)) { _ = CheckUpdate.CheckUpdateAsync(false, false); }
             NavigationView.RegisterPropertyChangedCallback(muxc.NavigationView.PaneDisplayModeProperty, new DependencyPropertyChangedCallback(OnPaneDisplayModeChanged));
         }
 
@@ -190,10 +191,24 @@ namespace WFunUWP.Pages
 
         private void NavigationViewControl_DisplayModeChanged(muxc.NavigationView sender, muxc.NavigationViewDisplayModeChangedEventArgs args)
         {
-            Thickness currMargin = AppTitleBar.Margin;
-            AppTitleBar.Margin = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
-                ? new Thickness(sender.CompactPaneLength * 2, currMargin.Top, currMargin.Right, currMargin.Bottom)
-                : new Thickness(sender.CompactPaneLength, currMargin.Top, currMargin.Right, currMargin.Bottom);
+            if (ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "TranslationTransition"))
+            {
+                AppTitleBar.TranslationTransition = new Vector3Transition();
+
+                AppTitleBar.Translation = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal &&
+                         sender.IsBackButtonVisible != muxc.NavigationViewBackButtonVisible.Collapsed
+                    ? new System.Numerics.Vector3((float)sender.CompactPaneLength * 2 - 8, 0, 0)
+                    : new System.Numerics.Vector3((float)sender.CompactPaneLength, 0, 0);
+            }
+            else
+            {
+                Thickness currMargin = AppTitleBar.Margin;
+
+                AppTitleBar.Margin = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal &&
+                             sender.IsBackButtonVisible != muxc.NavigationViewBackButtonVisible.Collapsed
+                    ? new Thickness(sender.CompactPaneLength * 2 - 8, currMargin.Top, currMargin.Right, currMargin.Bottom)
+                    : new Thickness(sender.CompactPaneLength, currMargin.Top, currMargin.Right, currMargin.Bottom);
+            }
 
             UpdateAppTitleMargin(sender);
             UpdateHeaderMargin(sender);
@@ -242,6 +257,25 @@ namespace WFunUWP.Pages
                 PageHeader.HeaderPadding = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
                     ? (Thickness)Application.Current.Resources["PageHeaderMinimalPadding"]
                     : (Thickness)Application.Current.Resources["PageHeaderDefaultPadding"];
+
+                if (ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "TranslationTransition"))
+                {
+                    PageHeader.TranslationTransition = new Vector3Transition();
+
+                    PageHeader.Translation = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal &&
+                             sender.IsBackButtonVisible != muxc.NavigationViewBackButtonVisible.Collapsed
+                        ? new System.Numerics.Vector3(-(float)sender.CompactPaneLength + 8, 0, 0)
+                        : new System.Numerics.Vector3(0, 0, 0);
+                }
+                else
+                {
+                    Thickness currMargin = PageHeader.Margin;
+
+                    PageHeader.Margin = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal &&
+                             sender.IsBackButtonVisible != muxc.NavigationViewBackButtonVisible.Collapsed
+                        ? new Thickness(-sender.CompactPaneLength + 8, currMargin.Top, currMargin.Right, currMargin.Bottom)
+                        : new Thickness(0, currMargin.Top, currMargin.Right, currMargin.Bottom);
+                }
             }
         }
 

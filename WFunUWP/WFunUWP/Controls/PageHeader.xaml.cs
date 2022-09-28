@@ -12,8 +12,8 @@ namespace WFunUWP.Controls
     {
         public object Title
         {
-            get { return GetValue(TitleProperty); }
-            set { SetValue(TitleProperty, value); }
+            get => GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
         }
 
         public static readonly DependencyProperty TitleProperty =
@@ -22,8 +22,8 @@ namespace WFunUWP.Controls
 
         public Thickness HeaderPadding
         {
-            get { return (Thickness)GetValue(HeaderPaddingProperty); }
-            set { SetValue(HeaderPaddingProperty, value); }
+            get => (Thickness)GetValue(HeaderPaddingProperty);
+            set => SetValue(HeaderPaddingProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for BackgroundColorOpacity.  This enables animation, styling, binding, etc...
@@ -33,8 +33,8 @@ namespace WFunUWP.Controls
 
         public double BackgroundColorOpacity
         {
-            get { return (double)GetValue(BackgroundColorOpacityProperty); }
-            set { SetValue(BackgroundColorOpacityProperty, value); }
+            get => (double)GetValue(BackgroundColorOpacityProperty);
+            set => SetValue(BackgroundColorOpacityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for BackgroundColorOpacity.  This enables animation, styling, binding, etc...
@@ -44,8 +44,8 @@ namespace WFunUWP.Controls
 
         public double AcrylicOpacity
         {
-            get { return (double)GetValue(AcrylicOpacityProperty); }
-            set { SetValue(AcrylicOpacityProperty, value); }
+            get => (double)GetValue(AcrylicOpacityProperty);
+            set => SetValue(AcrylicOpacityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for BackgroundColorOpacity.  This enables animation, styling, binding, etc...
@@ -54,18 +54,15 @@ namespace WFunUWP.Controls
 
         public double ShadowOpacity
         {
-            get { return (double)GetValue(ShadowOpacityProperty); }
-            set { SetValue(ShadowOpacityProperty, value); }
+            get => (double)GetValue(ShadowOpacityProperty);
+            set => SetValue(ShadowOpacityProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for BackgroundColorOpacity.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShadowOpacityProperty =
             DependencyProperty.Register("ShadowOpacity", typeof(double), typeof(PageHeader), new PropertyMetadata(0.0));
 
-        public UIElement TitlePanel
-        {
-            get { return PageTitle; }
-        }
+        public UIElement TitlePanel => PageTitle;
 
         public PageHeader()
         {

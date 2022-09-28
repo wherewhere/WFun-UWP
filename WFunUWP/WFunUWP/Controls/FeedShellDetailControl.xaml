@@ -4,12 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:asuc="using:AppStudio.Uwp.Controls"
     xmlns:controls="using:WFunUWP.Controls"
-    xmlns:converter="using:WFunUWP.Helpers.ValueConverters"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:muxm="using:Microsoft.UI.Xaml.Media"
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -69,10 +66,6 @@
         ContextFlyout="{StaticResource MoreFlyout}"
         KeyDown="Grid_KeyDown"
         RightTapped="Grid_RightTapped">
-        <Grid.Resources>
-            
-        </Grid.Resources>
-        
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition />
@@ -107,12 +100,17 @@
                     VerticalAlignment="Center"
                     IsTextSelectionEnabled="{x:Bind FeedDetail.IsCopyEnabled, Mode=OneWay}"
                     Text="{x:Bind FeedDetail.ForumTitle, Mode=OneWay}" />
-                <SymbolIcon
+                <FontIcon
                     Grid.Column="1"
-                    Margin="4,0"
+                    Margin="6,0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Symbol="Forward" />
+                    muxc:AnimatedIcon.State="Normal"
+                    AutomationProperties.AccessibilityView="Raw"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    FontSize="{StaticResource ContentControlFontSize}"
+                    Glyph="&#xE72A;"
+                    MirroredWhenRightToLeft="True" />
             </Grid>
         </ListViewItem>
 
@@ -177,7 +175,7 @@
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Symbol="Comment" />
                     <TextBlock
-                        Margin="4,0,0,0"
+                        Margin="8,0,0,0"
                         VerticalAlignment="Center"
                         Text="{x:Bind FeedDetail.ReplyList.Count, Mode=OneWay}" />
                 </StackPanel>
