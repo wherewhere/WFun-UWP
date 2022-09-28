@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.System.Profile;
+using Windows.UI.Xaml;
 
 namespace WFunUWP.Helpers.Trigger
 {
@@ -13,7 +14,7 @@ namespace WFunUWP.Helpers.Trigger
             set
             {
                 _triggerDeviceFamily = value;
-                _actualDeviceFamily = /*AnalyticsInfo.VersionInfo.DeviceFamily*/"Windows.Mobile";
+                _actualDeviceFamily = AnalyticsInfo.VersionInfo.DeviceFamily;
                 SetActive(_triggerDeviceFamily == _actualDeviceFamily);
             }
         }

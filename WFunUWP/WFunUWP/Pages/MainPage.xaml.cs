@@ -8,6 +8,7 @@ using WFunUWP.Helpers;
 using WFunUWP.Helpers.Tasks;
 using WFunUWP.Pages.FeedPages;
 using WFunUWP.Pages.SettingsPages;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation.Metadata;
@@ -68,10 +69,7 @@ namespace WFunUWP.Pages
             AppTitleBar.Visibility = navigationView.PaneDisplayMode == muxc.NavigationViewPaneDisplayMode.Top ? Visibility.Collapsed : Visibility.Visible;
         }
 
-        public string GetAppTitleFromSystem()
-        {
-            return Windows.ApplicationModel.Package.Current.DisplayName;
-        }
+        public string GetAppTitleFromSystem => Package.Current.DisplayName;
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -80,7 +78,7 @@ namespace WFunUWP.Pages
             NavigationView.SelectedItem = NavigationView.MenuItems[0];
             NavigationView.PaneDisplayMode = muxc.NavigationViewPaneDisplayMode.Auto;
             // Delay necessary to ensure NavigationView visual state can match navigation
-            Task.Delay(500).ContinueWith(_ => this.NavigationViewLoaded?.Invoke(), TaskScheduler.FromCurrentSynchronizationContext());
+            _ = Task.Delay(500).ContinueWith(_ => NavigationViewLoaded?.Invoke(), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void NavigationView_Navigate(string NavItemTag, NavigationTransitionInfo TransitionInfo, object[] vs = null)
@@ -217,7 +215,7 @@ namespace WFunUWP.Pages
         {
             const int smallLeftIndent = 4, largeLeftIndent = 24;
 
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+            if (ApiInformation.IsPropertyPresent("Windows.UI.Xaml.UIElement", "TranslationTransition"))
             {
                 AppTitle.TranslationTransition = new Vector3Transition();
 
@@ -242,8 +240,8 @@ namespace WFunUWP.Pages
             if (PageHeader != null)
             {
                 PageHeader.HeaderPadding = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
-                    ? (Thickness)App.Current.Resources["PageHeaderMinimalPadding"]
-                    : (Thickness)App.Current.Resources["PageHeaderDefaultPadding"];
+                    ? (Thickness)Application.Current.Resources["PageHeaderMinimalPadding"]
+                    : (Thickness)Application.Current.Resources["PageHeaderDefaultPadding"];
             }
         }
 

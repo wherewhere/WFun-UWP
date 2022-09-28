@@ -1,10 +1,13 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Resources;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -23,14 +26,16 @@ namespace WFunUWP.Helpers.Tasks
 
         public static async Task CheckUpdateAsync(bool showmassage = true, bool showtoast = false)
         {
-            Windows.ApplicationModel.Resources.ResourceLoader loader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
+            ResourceLoader loader = ResourceLoader.GetForViewIndependentUse();
             try
             {
-                (bool isSucceed, string result) results;
-                try { results = await RequestHelper.GetStringAsync(new Uri("https://api.github.com/repos/wherewhere/WFun-UWP/releases/latest")); }
-                catch { results = await RequestHelper.GetStringAsync(new Uri("https://v2.kkpp.cc/repos/wherewhere/WFun-UWP/releases/latest")); }
-                if (!results.isSucceed) { throw new HttpRequestException(); }
-                JObject keys = JObject.Parse(results.result);
+                HttpClient client = new();
+                client.DefaultRequestHeaders.Add("User-Agent", "wherewhere");
+                string url = "https://api.github.com/repos/wherewhere/WFun-UWP/releases/latest";
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                JObject keys = JObject.Parse(responseBody);
                 string[] ver = keys.Value<string>("tag_name").Replace("v", string.Empty).Split('.');
                 if (ushort.Parse(ver[0]) > Package.Current.Id.Version.Major ||
                    (ushort.Parse(ver[0]) == Package.Current.Id.Version.Major && ushort.Parse(ver[1]) > Package.Current.Id.Version.Minor) ||
@@ -38,57 +43,40 @@ namespace WFunUWP.Helpers.Tasks
                 {
                     if (showtoast)
                     {
-                        //string tag = "update";
-                        //string group = "downloads";
+                        string tag = "update";
+                        string group = "downloads";
 
-                        //ToastContent content = new ToastContentBuilder()
-                        //    .AddText(loader.GetString("HasUpdateTitle"))
-                        //    .AddText(string.Format(
-                        //        loader.GetString("HasUpdate"),
-                        //        Package.Current.Id.Version.Major,
-                        //        Package.Current.Id.Version.Minor,
-                        //        Package.Current.Id.Version.Build,
-                        //        keys.Value<string>("tag_name")))
-                        //    .GetToastContent();
-
-                        //ToastNotification toast = new ToastNotification(content.GetXml());
-
-                        //toast.Tag = tag;
-                        //toast.Group = group;
-
-                        //ToastNotificationManager.CreateToastNotifier().Show(toast);
-                    }
-                    else
-                    {
-                        Grid grid = new Grid();
-                        TextBlock textBlock = new TextBlock
-                        {
-                            Text = string.Format(
+                        ToastContent content = new ToastContentBuilder()
+                            .AddText(loader.GetString("HasUpdateTitle"))
+                            .AddText(string.Format(
                                 loader.GetString("HasUpdate"),
                                 Package.Current.Id.Version.Major,
                                 Package.Current.Id.Version.Minor,
                                 Package.Current.Id.Version.Build,
-                                keys.Value<string>("tag_name")),
-                            HorizontalAlignment = HorizontalAlignment.Left,
-                            VerticalAlignment = VerticalAlignment.Center
-                        };
-                        Button button = new Button
-                        {
-                            Content = loader.GetString("GotoGithub"),
-                            HorizontalAlignment = HorizontalAlignment.Right,
-                            VerticalAlignment = VerticalAlignment.Center
-                        };
-                        button.Click += async (_, __) =>
-                        {
-                            _ = await Windows.System.Launcher.LaunchUriAsync(new Uri(keys.Value<string>("html_url")));
-                        };
-                        grid.Children.Add(textBlock);
-                        grid.Children.Add(button);
+                                keys.Value<string>("tag_name")))
+                            .GetToastContent();
+
+                        ToastNotification toast = new ToastNotification(content.GetXml());
+
+                        toast.Tag = tag;
+                        toast.Group = group;
+
+                        ToastNotificationManager.CreateToastNotifier().Show(toast);
+                    }
+                    else
+                    {
+                        string Text = string.Format(
+                              loader.GetString("HasUpdate"),
+                              Package.Current.Id.Version.Major,
+                              Package.Current.Id.Version.Minor,
+                              Package.Current.Id.Version.Build,
+                              keys.Value<string>("tag_name"));
+                        UIHelper.ShowMessage(Text);
                     }
                 }
                 else if (showmassage) { UIHelper.ShowMessage(loader.GetString("NoUpdate")); }
             }
-            catch (HttpRequestException) { UIHelper.ShowMessage(loader.GetString("NetworkError")); }
+            catch (HttpRequestException ex) { Utils.ShowHttpExceptionMessage(ex); }
         }
     }
 }
