@@ -217,17 +217,16 @@
     <Compile Include="Controls\TitleBar\TitleBarTemplateSettings.Properties.cs" />
     <Compile Include="Helpers\DataSource\DataSourceBase.cs" />
     <Compile Include="Helpers\DataSource\IncrementalLoadingBase.cs" />
+    <Compile Include="Helpers\Exceptions\ExceptionHandlingSynchronizationContext.cs" />
     <Compile Include="Helpers\GridHelper.cs" />
     <Compile Include="Helpers\ImageCacheHelper.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Helpers\SharedHelpers.cs" />
     <Compile Include="Helpers\Tasks\CheckUpdate.cs" />
-    <Compile Include="Helpers\Tasks\GetAllFeeds.cs" />
     <Compile Include="Helpers\Tasks\LiveTileTask.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Helpers\Trigger\DeviceFamilyTrigger.cs" />
     <Compile Include="Helpers\UIHelper.cs" />
-    <Compile Include="Helpers\ValueConverters\HTMLToMarkDownConverter.cs" />
     <Compile Include="Models\FeedDetailModel.cs" />
     <Compile Include="Models\FeedListModel.cs" />
     <Compile Include="Models\FeedReplyModel.cs" />
@@ -352,9 +351,6 @@
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.46</Version>
-    </PackageReference>
-    <PackageReference Include="LiteDB">
-      <Version>5.0.12</Version>
     </PackageReference>
     <PackageReference Include="MetroLog">
       <Version>1.0.1</Version>

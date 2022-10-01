@@ -7,7 +7,6 @@
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     xmlns:trigger="using:WFunUWP.Helpers.Trigger"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>

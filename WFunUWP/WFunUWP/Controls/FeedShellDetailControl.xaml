@@ -104,7 +104,6 @@
                     Margin="6,0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    muxc:AnimatedIcon.State="Normal"
                     AutomationProperties.AccessibilityView="Raw"
                     FontFamily="{StaticResource SymbolThemeFontFamily}"
                     FontSize="{StaticResource ContentControlFontSize}"

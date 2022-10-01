@@ -12,7 +12,7 @@ namespace WFunUWP.Core.Helpers
     public static class RequestHelper
     {
         private static bool IsInternetAvailable => mtuc.NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable;
-        private static readonly Dictionary<Uri, (DateTime date, string data)> ResponseCache = new Dictionary<Uri, (DateTime date, string data)>();
+        private static readonly Dictionary<Uri, string> ResponseCache = new Dictionary<Uri, string>();
         private static readonly object locker = new object();
 
         internal static readonly Timer CleanCacheTimer = new Timer(o =>
@@ -22,9 +22,9 @@ namespace WFunUWP.Core.Helpers
                 DateTime now = DateTime.Now;
                 lock (locker)
                 {
-                    foreach (KeyValuePair<Uri, (DateTime date, string data)> i in ResponseCache)
+                    foreach (KeyValuePair<Uri, string> i in ResponseCache)
                     {
-                        if (i.Key.ToString().Contains(".com/letter") && (now - i.Value.date).TotalDays >= 2)
+                        if (i.Key.ToString().Contains(".com/letter"))
                         {
                             _ = ResponseCache.Remove(i.Key);
                         }
@@ -73,14 +73,14 @@ namespace WFunUWP.Core.Helpers
                 lock (locker)
                 {
                     _ = ResponseCache.Remove(uri);
-                    ResponseCache.Add(uri, (DateTime.Now, json));
+                    ResponseCache.Add(uri, json);
                 }
             }
             else
             {
                 lock (locker)
                 {
-                    json = ResponseCache[uri].data;
+                    json = ResponseCache[uri];
                 }
                 result = GetResult();
                 if (!result.isSucceed) { return result; }
@@ -126,14 +126,14 @@ namespace WFunUWP.Core.Helpers
                 lock (locker)
                 {
                     _ = ResponseCache.Remove(uri);
-                    ResponseCache.Add(uri, (DateTime.Now, json));
+                    ResponseCache.Add(uri, json);
                 }
             }
             else
             {
                 lock (locker)
                 {
-                    json = ResponseCache[uri].data;
+                    json = ResponseCache[uri];
                 }
                 result = GetResult();
                 if (!result.isSucceed) { return result; }

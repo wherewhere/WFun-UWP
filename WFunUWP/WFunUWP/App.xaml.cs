@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using WFunUWP.Core.Exceptions;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
+using WFunUWP.Helpers.Exceptions;
 using WFunUWP.Pages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -157,7 +158,7 @@ namespace WFunUWP
             };
         }
 
-        private void SynchronizationContext_UnhandledException(object sender, Core.Exceptions.UnhandledExceptionEventArgs e)
+        private void SynchronizationContext_UnhandledException(object sender, Helpers.Exceptions.UnhandledExceptionEventArgs e)
         {
             if (!(e.Exception is TaskCanceledException) && !(e.Exception is OperationCanceledException))
             {

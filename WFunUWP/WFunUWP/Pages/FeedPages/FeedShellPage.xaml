@@ -9,7 +9,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     xmlns:trigger="using:WFunUWP.Helpers.Trigger"
-    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
