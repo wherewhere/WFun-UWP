@@ -93,9 +93,10 @@ namespace WFunUWP.Helpers
         public static void UpdateSystemCaptionButtonColors()
         {
             bool IsDark = IsDarkTheme();
+            bool IsHighContrast = new AccessibilitySettings().HighContrast;
 
-            Color ForegroundColor = IsDark ? Colors.White : Colors.Black;
-            Color BackgroundColor = new AccessibilitySettings().HighContrast ? Color.FromArgb(255, 0, 0, 0) : IsDark ? Color.FromArgb(255, 32, 32, 32) : Color.FromArgb(255, 243, 243, 243);
+            Color ForegroundColor = IsDark || IsHighContrast ? Colors.White : Colors.Black;
+            Color BackgroundColor = IsHighContrast ? Color.FromArgb(255, 0, 0, 0) : IsDark ? Color.FromArgb(255, 32, 32, 32) : Color.FromArgb(255, 243, 243, 243);
 
             if (UIHelper.HasStatusBar)
             {

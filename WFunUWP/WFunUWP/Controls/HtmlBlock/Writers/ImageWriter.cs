@@ -36,7 +36,7 @@ namespace WFunUWP.Controls.Writers
                             {
                                 Child = viewbox
                             }
-                            : viewbox;
+                            : viewbox as DependencyObject;
                     }
                     catch (Exception ex)
                     {

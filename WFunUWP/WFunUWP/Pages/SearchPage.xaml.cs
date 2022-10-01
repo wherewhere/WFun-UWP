@@ -74,14 +74,17 @@ namespace WFunUWP.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.Parameter is object[] vs)
+            if (e.Parameter is object[] vs && vs[0] is string word)
             {
-                SearchBox.Text = vs[0] as string;
-                NewsDS = new NewsDS(vs[0] as string);
-                NewsDS.OnLoadMoreStarted += UIHelper.ShowProgressBar;
-                NewsDS.OnLoadMoreCompleted += UIHelper.HideProgressBar;
-                UIHelper.MainPage.SetTitle($"搜索:{NewsDS.SearchWord}");
-                _ = Refresh(-2);
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    SearchBox.Text = vs[0] as string;
+                    NewsDS = new NewsDS(vs[0] as string);
+                    NewsDS.OnLoadMoreStarted += UIHelper.ShowProgressBar;
+                    NewsDS.OnLoadMoreCompleted += UIHelper.HideProgressBar;
+                    UIHelper.MainPage.SetTitle($"搜索：{NewsDS.SearchWord}");
+                    _ = Refresh(-2);
+                }
             }
         }
 
@@ -99,11 +102,11 @@ namespace WFunUWP.Pages
 
         private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (sender.Text != null)
+            if (!string.IsNullOrWhiteSpace(sender.Text))
             {
                 NewsDS = NewsDS ?? new NewsDS();
                 NewsDS.Reset(sender.Text, new object[] { IsSearchTitle, IsSearchContent, IsSearchUser, IsSearchForum });
-                UIHelper.MainPage.SetTitle($"搜索:{NewsDS.SearchWord}");
+                UIHelper.MainPage.SetTitle($"搜索：{NewsDS.SearchWord}");
                 _ = Refresh(-2);
             }
         }

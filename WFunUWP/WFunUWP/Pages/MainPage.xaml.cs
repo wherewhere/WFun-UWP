@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using muxc = Microsoft.UI.Xaml.Controls;
@@ -50,6 +52,7 @@ namespace WFunUWP.Pages
             NavigationView.PaneDisplayMode = muxc.NavigationViewPaneDisplayMode.Left;
             if (SettingsHelper.Get<bool>(SettingsHelper.CheckUpdateWhenLuanching)) { _ = CheckUpdate.CheckUpdateAsync(false, false); }
             NavigationView.RegisterPropertyChangedCallback(muxc.NavigationView.PaneDisplayModeProperty, new DependencyPropertyChangedCallback(OnPaneDisplayModeChanged));
+            if (ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush")) { BackdropMaterial.SetApplyToRootOrPageBackground(this, true); }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -177,6 +180,7 @@ namespace WFunUWP.Pages
                 }
                 SetTitle(((muxc.NavigationViewItem)NavigationView.SelectedItem)?.Content?.ToString());
             }
+            UIHelper.HideProgressBar();
         }
 
         private void NavigationViewControl_PaneClosing(muxc.NavigationView sender, muxc.NavigationViewPaneClosingEventArgs args)
@@ -361,7 +365,7 @@ namespace WFunUWP.Pages
             }
         }
 
-        private void AutoSuggestBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {

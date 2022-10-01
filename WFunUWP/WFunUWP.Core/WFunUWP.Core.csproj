@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <ExtrasUwpMetaPackageVersion>6.2.14</ExtrasUwpMetaPackageVersion>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Platforms>ARM;ARM64;x86;x64</Platforms>
     <TargetFramework>uap10.0</TargetFramework>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>

@@ -9,7 +9,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:trigger="using:WFunUWP.Helpers.Trigger"
     contract12NotPresent:Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Page.Resources>
@@ -86,8 +85,17 @@
                 <muxc:NavigationViewItem
                     x:Uid="/MainPage/Find"
                     Icon="Find"
-                    Tag="Find" />
+                    Tag="Find"
+                    Visibility="Collapsed" />
             </muxc:NavigationView.MenuItems>
+            <muxc:NavigationView.AutoSuggestBox>
+                <AutoSuggestBox
+                    x:Uid="/SearchPage/SearchBox"
+                    IsTabStop="True"
+                    KeyDown="AutoSuggestBox_KeyDown"
+                    QueryIcon="Find"
+                    QuerySubmitted="AutoSuggestBox_QuerySubmitted" />
+            </muxc:NavigationView.AutoSuggestBox>
             <Frame x:Name="NavigationViewFrame" x:FieldModifier="public" />
         </muxc:NavigationView>
 

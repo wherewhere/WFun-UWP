@@ -59,7 +59,7 @@ namespace WFunUWP.Controls.Writers
         {
             HtmlNode table = node?.Ascendant("table") as HtmlNode;
 
-            return table != null && !string.IsNullOrEmpty(table.Attributes.GetValue("border")) ? table.Attributes.GetValueInt("border") : null;
+            return table != null && !string.IsNullOrEmpty(table.Attributes.GetValue("border")) ? table.Attributes.GetValueInt("border") : null as int?;
         }
     }
 }

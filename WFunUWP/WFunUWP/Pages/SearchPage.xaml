@@ -47,6 +47,7 @@
                                 VerticalAlignment="Center" />
                             <AutoSuggestBox
                                 x:Name="SearchBox"
+                                x:Uid="/SearchPage/SearchBox"
                                 Grid.Column="1"
                                 KeyDown="SearchBox_KeyDown"
                                 QueryIcon="Find"
@@ -58,17 +59,16 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
                         <TextBlock
                             x:Uid="/SearchPage/AdvanceSearch"
                             Grid.Row="0"
-                            Grid.Column="0"
                             Margin="0,2"
                             HorizontalAlignment="Left"
                             Style="{ThemeResource BaseTextBlockStyle}" />
-                        <ScrollViewer Grid.Row="1" Grid.Column="0">
+                        <ScrollViewer
+                            Grid.Row="1"
+                            HorizontalScrollBarVisibility="Auto"
+                            VerticalScrollBarVisibility="Disabled">
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox
                                     x:Uid="/SearchPage/SearchTitle"
