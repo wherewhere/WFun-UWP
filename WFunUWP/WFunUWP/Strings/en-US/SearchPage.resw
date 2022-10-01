@@ -124,11 +124,11 @@
     <value>Base Search: </value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>搜索：{0}</value>
+    <value>Search: {0}</value>
     <comment>{0}-keyword</comment>
   </data>
   <data name="SearchBox.PlaceholderText" xml:space="preserve">
-    <value>搜索 动态、用户和论坛</value>
+    <value>Searching Feeds, Users, Forums</value>
   </data>
   <data name="SearchContent.Content" xml:space="preserve">
     <value>Search Content</value>
