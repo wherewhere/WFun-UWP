@@ -110,7 +110,8 @@
                                                     x:Uid="/SettingsPage/EULA"
                                                     Margin="2,0,0,0"
                                                     NavigateUri="https://github.com/wherewhere/WFun-UWP/blob/main/Privacy.md"
-                                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}" />
+                                                    ToolTipService.ToolTip="{Binding NavigateUri, RelativeSource={RelativeSource Mode=Self}}"
+                                                    Visibility="Collapsed" />
                                             </StackPanel>
                                         </ScrollViewer>
                                     </StackPanel>

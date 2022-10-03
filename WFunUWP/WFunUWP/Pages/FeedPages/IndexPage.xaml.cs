@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
@@ -112,7 +113,7 @@ namespace WFunUWP.Pages.FeedPages
                             }
                             else
                             {
-                                string[] list = SearchWord.Split(' ');
+                                IEnumerable<string> list = SearchWord.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x));
                                 foreach (string word in list)
                                 {
                                     if ((_vs[0] && Feed.MessageTitle.Contains(word)) || (_vs[1] && Feed.Message.Contains(word)) || (_vs[2] && Feed.UserName.Contains(word)))
