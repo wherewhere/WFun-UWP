@@ -140,6 +140,6 @@
     <value>Search Users</value>
   </data>
   <data name="UseRegex.Content" xml:space="preserve">
-    <value>使用正则</value>
+    <value>Use Regex</value>
   </data>
 </root>
