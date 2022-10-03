@@ -127,7 +127,7 @@
     <value>There was an error with the program…</value>
   </data>
   <data name="HasUpdate" xml:space="preserve">
-    <value>Update to v({0}.{1}.{2} -&gt; {3}).</value>
+    <value>程序更新了 v({0}.{1}.{2} -&gt; {3})。</value>
     <comment>{0}.{1}.{2}和{3} 表示版本号</comment>
   </data>
   <data name="HasUpdateTitle" xml:space="preserve">
