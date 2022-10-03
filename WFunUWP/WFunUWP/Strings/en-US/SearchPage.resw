@@ -133,13 +133,13 @@
   <data name="SearchContent.Content" xml:space="preserve">
     <value>Search Content</value>
   </data>
-  <data name="SearchForum.Content" xml:space="preserve">
-    <value>Search Forums</value>
-  </data>
   <data name="SearchTitle.Content" xml:space="preserve">
     <value>Search Title</value>
   </data>
   <data name="SearchUser.Content" xml:space="preserve">
     <value>Search Users</value>
+  </data>
+  <data name="UseRegex.Content" xml:space="preserve">
+    <value>使用正则</value>
   </data>
 </root>
