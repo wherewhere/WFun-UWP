@@ -33,6 +33,13 @@ namespace WFunUWP.Pages.FeedPages
             _ = Refresh(-2);
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            AllForumDS.OnLoadMoreCompleted -= UIHelper.HideProgressBar;
+            AllForumDS.OnLoadMoreStarted -= UIHelper.ShowProgressBar;
+            base.OnNavigatedFrom(e);
+        }
+
         private async Task Refresh(int p = -1)
         {
             if (p == -2)
@@ -100,7 +107,7 @@ namespace WFunUWP.Pages.FeedPages
             {
                 num = 1;
             }
-            ObservableCollection<object> Collection = new ObservableCollection<object>();
+            List<object> Collection = new List<object>();
             int i = num;
             while (count-- > 0)
             {

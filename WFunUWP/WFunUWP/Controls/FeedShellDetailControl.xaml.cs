@@ -42,7 +42,7 @@ namespace WFunUWP.Controls
 
         private void StackPanel_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //if (FeedDetail.IsCopyEnabled || (e != null && !UIHelper.IsOriginSource(sender, e.OriginalSource))) { return; }
+            if (FeedDetail.IsCopyEnabled || (e != null && !UIHelper.IsOriginSource(sender, e.OriginalSource))) { return; }
 
             UIHelper.OpenLinkAsync((sender as FrameworkElement).Tag as string);
         }

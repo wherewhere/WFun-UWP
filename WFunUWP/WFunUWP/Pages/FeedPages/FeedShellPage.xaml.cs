@@ -38,11 +38,6 @@ namespace WFunUWP.Pages.FeedPages
             UIHelper.HideProgressBar();
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            base.OnNavigatingFrom(e);
-        }
-
         private void SetLayout()
         {
             DetailControl.FeedDetail = FeedDetailModel;
@@ -52,7 +47,6 @@ namespace WFunUWP.Pages.FeedPages
             UIHelper.MainPage.SetTitle(FeedDetailModel.IsFeedArticle ? $"{FeedDetailModel.UserName}的图文" : $"{FeedDetailModel.UserName}的动态");
             _ = ListControl.Refresh(-2);
         }
-
 
         #region 界面模式切换
 

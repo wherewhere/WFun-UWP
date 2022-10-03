@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
@@ -31,6 +32,13 @@ namespace WFunUWP.Pages.FeedPages
             _ = Refresh(-2);
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            NewsDS.OnLoadMoreCompleted -= UIHelper.HideProgressBar;
+            NewsDS.OnLoadMoreStarted -= UIHelper.ShowProgressBar;
+            base.OnNavigatedFrom(e);
+        }
+
         private async Task Refresh(int p = -1)
         {
             if (p == -2)
@@ -51,16 +59,16 @@ namespace WFunUWP.Pages.FeedPages
     /// </summary>
     internal class NewsDS : DataSourceBase<object>
     {
-        private object[] _vs;
+        private bool[] _vs;
         public string SearchWord;
 
-        internal NewsDS(string searchword = null, object[] vs = null)
+        internal NewsDS(string searchword = null, bool[] vs = null)
         {
             SearchWord = searchword;
             _vs = vs;
         }
 
-        internal void Reset(string searchword = null, object[] vs = null)
+        internal void Reset(string searchword = null, bool[] vs = null)
         {
             SearchWord = searchword;
             _vs = vs;
@@ -68,7 +76,7 @@ namespace WFunUWP.Pages.FeedPages
 
         protected override async Task<IList<object>> LoadItemsAsync(uint count)
         {
-            ObservableCollection<object> Collection = new ObservableCollection<object>();
+            List<object> Collection = new List<object>();
             (bool isSucceed, HtmlDocument result) Results = await RequestHelper.GetHtmlAsync(UriHelper.GetUri(UriType.GetNewsFeeds, _currentPage));
             if (Results.isSucceed && Results.result.TryGetNode("/html/body/main/div/div/div/div/div/div/div/table/tbody", out HtmlNode node) && node.HasChildNodes)
             {
@@ -90,13 +98,28 @@ namespace WFunUWP.Pages.FeedPages
             {
                 foreach (object news in items)
                 {
-                    if (SearchWord != null && news is FeedListModel Feed)
+                    if (!string.IsNullOrWhiteSpace(SearchWord) && news is FeedListModel Feed)
                     {
-                        if (_vs != null)
+                        if (_vs != null && _vs.Length >= 4)
                         {
-                            if (((bool)_vs[0] && Feed.MessageTitle.Contains(SearchWord)) || ((bool)_vs[1] && Feed.Message.Contains(SearchWord)) || ((bool)_vs[2] && Feed.UserName.Contains(SearchWord)) || ((bool)_vs[3] && Feed.RelationRows.Title.Contains(SearchWord)))
+                            if (_vs[3])
                             {
-                                Add(news);
+                                Regex regex = new Regex(SearchWord);
+                                if ((_vs[0] && regex.IsMatch(Feed.MessageTitle)) || (_vs[1] && regex.IsMatch(Feed.Message)) || (_vs[2] && regex.IsMatch(Feed.UserName)))
+                                {
+                                    Add(news);
+                                }
+                            }
+                            else
+                            {
+                                string[] list = SearchWord.Split(' ');
+                                foreach (string word in list)
+                                {
+                                    if ((_vs[0] && Feed.MessageTitle.Contains(word)) || (_vs[1] && Feed.Message.Contains(word)) || (_vs[2] && Feed.UserName.Contains(word)))
+                                    {
+                                        Add(news);
+                                    }
+                                }
                             }
                         }
                         else

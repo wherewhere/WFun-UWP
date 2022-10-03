@@ -7,6 +7,7 @@
     xmlns:local="using:WFunUWP.Pages.FeedPages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:WFunUWP.Models"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     xmlns:trigger="using:WFunUWP.Helpers.Trigger"
     xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions"
@@ -31,18 +32,16 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
-                    <Border
+                    <muxc:PersonPicture
                         x:Name="UserAvatar"
                         Width="80"
                         Height="80"
-                        Margin="0,10,20,10"
+                        Margin="10,10,20,10"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
-                        x:Load="{x:Bind UserAvatar.Uri, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, ConverterParameter='string'}"
                         x:Phase="3"
-                        CornerRadius="8">
-                        <Image x:Phase="3" Source="{x:Bind UserAvatar.Pic, Mode=OneWay}" />
-                    </Border>
+                        DisplayName="{x:Bind UserName}"
+                        ProfilePicture="{x:Bind UserAvatar.Pic, Mode=OneWay}" />
 
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                         <TextBlock
@@ -88,7 +87,7 @@
                         x:Name="Logo"
                         Width="80"
                         Height="80"
-                        Margin="0,10,20,10"
+                        Margin="10,10,20,10"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         x:Load="{x:Bind Logo.Uri, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, ConverterParameter='string'}"

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using WFunUWP.Helpers;
 using WFunUWP.Pages.FeedPages;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
@@ -16,6 +17,27 @@ namespace WFunUWP.Pages
     /// </summary>
     public sealed partial class SearchPage : Page, INotifyPropertyChanged
     {
+        private bool IsUseRegex = false;
+        private bool IsSearchUser = false;
+        private bool IsSearchTitle = true;
+        private bool IsSearchContent = true;
+
+        private readonly ResourceLoader _loader = ResourceLoader.GetForViewIndependentUse("SearchPage");
+
+        private NewsDS newsDS;
+        internal NewsDS NewsDS
+        {
+            get => newsDS;
+            set
+            {
+                if (newsDS != value)
+                {
+                    newsDS = value;
+                    RaisePropertyChangedEvent();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
@@ -23,53 +45,7 @@ namespace WFunUWP.Pages
             if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
         }
 
-        private bool isSearchUser = false;
-        internal bool IsSearchUser
-        {
-            get => isSearchUser;
-            set
-            {
-                isSearchUser = value;
-                RaisePropertyChangedEvent();
-            }
-        }
-
-        private bool isSearchTitle = true;
-        internal bool IsSearchTitle
-        {
-            get => isSearchTitle;
-            set
-            {
-                isSearchTitle = value;
-                RaisePropertyChangedEvent();
-            }
-        }
-
-        private bool isSearchForum = false;
-        internal bool IsSearchForum
-        {
-            get => isSearchForum;
-            set
-            {
-                isSearchForum = value;
-                RaisePropertyChangedEvent();
-            }
-        }
-
-        private bool isSearchContent = true;
-        internal bool IsSearchContent
-        {
-            get => isSearchContent;
-            set
-            {
-                isSearchContent = value;
-                RaisePropertyChangedEvent();
-            }
-        }
-
         public SearchPage() => InitializeComponent();
-
-        internal NewsDS NewsDS;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -82,7 +58,7 @@ namespace WFunUWP.Pages
                     NewsDS = new NewsDS(vs[0] as string);
                     NewsDS.OnLoadMoreStarted += UIHelper.ShowProgressBar;
                     NewsDS.OnLoadMoreCompleted += UIHelper.HideProgressBar;
-                    UIHelper.MainPage.SetTitle($"搜索：{NewsDS.SearchWord}");
+                    UIHelper.MainPage.SetTitle(string.Format(_loader.GetString("Search"), NewsDS.SearchWord));
                     _ = Refresh(-2);
                 }
             }
@@ -104,9 +80,17 @@ namespace WFunUWP.Pages
         {
             if (!string.IsNullOrWhiteSpace(sender.Text))
             {
-                NewsDS = NewsDS ?? new NewsDS();
-                NewsDS.Reset(sender.Text, new object[] { IsSearchTitle, IsSearchContent, IsSearchUser, IsSearchForum });
-                UIHelper.MainPage.SetTitle($"搜索：{NewsDS.SearchWord}");
+                if (NewsDS == null)
+                {
+                    NewsDS = new NewsDS(sender.Text, new bool[] { IsSearchTitle, IsSearchContent, IsSearchUser, IsUseRegex });
+                    NewsDS.OnLoadMoreStarted += UIHelper.ShowProgressBar;
+                    NewsDS.OnLoadMoreCompleted += UIHelper.HideProgressBar;
+                }
+                else
+                {
+                    NewsDS?.Reset(sender.Text, new bool[] { IsSearchTitle, IsSearchContent, IsSearchUser, IsUseRegex });
+                }
+                UIHelper.MainPage.SetTitle(string.Format(_loader.GetString("Search"), NewsDS.SearchWord));
                 _ = Refresh(-2);
             }
         }

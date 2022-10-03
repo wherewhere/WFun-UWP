@@ -26,9 +26,9 @@
         <ListView
             x:Name="ListView"
             ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
+            ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplate="{StaticResource Feed}"
             ItemsSource="{x:Bind NewsDS, Mode=OneWay}"
-            SelectionMode="None"
             ShowsScrollingPlaceholders="False">
             <ListView.Header>
                 <muxc:Expander
@@ -79,13 +79,13 @@
                                     Margin="0,2"
                                     IsChecked="{x:Bind IsSearchContent, Mode=TwoWay}" />
                                 <CheckBox
-                                    x:Uid="/SearchPage/SearchForum"
-                                    Margin="0,2"
-                                    IsChecked="{x:Bind IsSearchForum, Mode=TwoWay}" />
-                                <CheckBox
                                     x:Uid="/SearchPage/SearchUser"
                                     Margin="0,2"
                                     IsChecked="{x:Bind IsSearchUser, Mode=TwoWay}" />
+                                <CheckBox
+                                    x:Uid="/SearchPage/UseRegex"
+                                    Margin="0,2"
+                                    IsChecked="{x:Bind IsUseRegex, Mode=TwoWay}" />
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>

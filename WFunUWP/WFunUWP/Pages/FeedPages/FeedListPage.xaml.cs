@@ -38,6 +38,13 @@ namespace WFunUWP.Pages.FeedPages
             _ = Refresh(-2);
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            ForumDS.OnLoadMoreCompleted -= UIHelper.HideProgressBar;
+            ForumDS.OnLoadMoreStarted -= UIHelper.ShowProgressBar;
+            base.OnNavigatedFrom(e);
+        }
+
         private async Task Refresh(int p = -1)
         {
             if (p == -2)
@@ -110,7 +117,7 @@ namespace WFunUWP.Pages.FeedPages
         protected override async Task<IList<object>> LoadItemsAsync(uint count)
         {
             (bool isSucceed, HtmlDocument result) Results = (false, null);
-            ObservableCollection<object> Collection = new ObservableCollection<object>();
+            List<object> Collection = new List<object>();
             switch (_type)
             {
                 case FeedListType.Tag:
