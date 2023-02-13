@@ -70,10 +70,10 @@ namespace WFunUWP.Controls.DataTemplates
 
         internal void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UserControl uc = sender as UserControl;
-            StackPanel bp = uc.FindChildByName("BtnsPanel") as StackPanel;
-            double width = e == null ? uc.Width : e.NewSize.Width;
-            bp.SetValue(Grid.RowProperty, width > 640 ? 0 : 4);
+            UserControl UserControl = sender as UserControl;
+            FrameworkElement StackPanel = UserControl.FindChildByName("BtnsPanel");
+            double width = e == null ? UserControl.Width : e.NewSize.Width;
+            StackPanel.SetValue(Grid.RowProperty, width > 640 ? 0 : 4);
         }
 
         internal void UserControl_Loaded(object sender, RoutedEventArgs e)

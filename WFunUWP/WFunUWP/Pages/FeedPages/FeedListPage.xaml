@@ -33,7 +33,7 @@
                     </Grid.RowDefinitions>
 
                     <muxc:PersonPicture
-                        x:Name="UserAvatar"
+                        x:Name="UserPicture"
                         Width="80"
                         Height="80"
                         Margin="10,10,20,10"
@@ -84,7 +84,7 @@
                     </Grid.RowDefinitions>
 
                     <Border
-                        x:Name="Logo"
+                        x:Name="LogoBorder"
                         Width="80"
                         Height="80"
                         Margin="10,10,20,10"

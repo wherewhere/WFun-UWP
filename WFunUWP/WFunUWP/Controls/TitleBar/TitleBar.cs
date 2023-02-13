@@ -24,16 +24,16 @@ namespace WFunUWP.Controls
     [TemplatePart(Name = "Icon", Type = typeof(Viewbox))]
     public partial class TitleBar : Control
     {
-        private Grid m_layoutRoot;
-        private TextBlock m_titleTextBlock;
-        private FrameworkElement m_customArea;
-        private Viewbox m_icon;
+        //private Grid m_layoutRoot;
+        //private TextBlock m_titleTextBlock;
+        //private FrameworkElement m_customArea;
+        //private Viewbox m_icon;
 
-        private bool m_isTitleSquished = false;
-        private bool m_isIconSquished = false;
+        //private bool m_isTitleSquished = false;
+        //private bool m_isIconSquished = false;
 
-        private double m_titleWidth;
-        private double m_iconWidth;
+        //private double m_titleWidth;
+        //private double m_iconWidth;
 
         public TitleBar()
         {
@@ -73,11 +73,11 @@ namespace WFunUWP.Controls
                 }
             }
 
-            m_layoutRoot = (Grid)GetTemplateChild("LayoutRoot");
+            //m_layoutRoot = (Grid)GetTemplateChild("LayoutRoot");
 
-            m_icon = (Viewbox)GetTemplateChild("Icon");
-            m_titleTextBlock = (TextBlock)GetTemplateChild("TitleText");
-            m_customArea = (FrameworkElement)GetTemplateChild("CustomContentPresenter");
+            //m_icon = (Viewbox)GetTemplateChild("Icon");
+            //m_titleTextBlock = (TextBlock)GetTemplateChild("TitleText");
+            //m_customArea = (FrameworkElement)GetTemplateChild("CustomContentPresenter");
 
             Window window = Window.Current;
             if (window != null)
