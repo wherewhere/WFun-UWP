@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
     - 'WFunUWP/**'
+  workflow_dispatch:
 
 jobs:
   build-and-test:
