@@ -5,14 +5,11 @@ namespace WFunUWP.Core.Helpers
 {
     public static class TasksHelper
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "task")]
         [Obsolete("Use FireAndForget instead")]
         public static void RunAndForget(this Task task)
         {
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "task")]
         public static void FireAndForget(this Task task)
         {
         }

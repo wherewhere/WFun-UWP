@@ -1,16 +1,37 @@
 ﻿using HtmlAgilityPack;
 using System;
+using System.ComponentModel;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
 
 namespace WFunUWP.Models
 {
-    public class UserModel : ICanCopy
+    public class UserModel : ICanCopy, INotifyPropertyChanged
     {
-        public bool IsCopyEnabled { get; set; }
+        private bool isCopyEnabled;
+        public bool IsCopyEnabled
+        {
+            get => isCopyEnabled;
+            set
+            {
+                if (isCopyEnabled != value)
+                {
+                    isCopyEnabled = value;
+                    RaisePropertyChangedEvent();
+                }
+            }
+        }
+
         public string UID { get; private set; }
         public string UserName { get; private set; }
         public ImageModel UserAvatar { get; private set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        internal void RaisePropertyChangedEvent([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        {
+            if (name != null) { PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)); }
+        }
 
         public UserModel(string doc)
         {

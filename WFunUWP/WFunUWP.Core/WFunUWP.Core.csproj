@@ -6,23 +6,20 @@
     <Platforms>ARM;ARM64;x86;x64</Platforms>
     <TargetFramework>uap10.0</TargetFramework>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
-    <TargetPlatformWinMDLocation>C:\Program Files (x86)\Windows Kits\10\UnionMetadata</TargetPlatformWinMDLocation>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Platform)' == 'ARM'
-				            or '$(Platform)' == 'x86'
-				            or '$(Platform)' == 'x64'">
-	<TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+  <PropertyGroup Condition="'$(Platform)' != 'ARM64'">
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)' == 'ARM64'">
-	<TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Connectivity" Version="4.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 

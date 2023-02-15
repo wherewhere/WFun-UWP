@@ -238,8 +238,7 @@ namespace WFunUWP.Pages
             {
                 AppTitle.TranslationTransition = new Vector3Transition();
 
-                AppTitle.Translation = (sender.DisplayMode == muxc.NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
-                         sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
+                AppTitle.Translation = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal || sender.IsPaneOpen
                     ? new System.Numerics.Vector3(smallLeftIndent, 0, 0)
                     : new System.Numerics.Vector3(largeLeftIndent, 0, 0);
             }
@@ -247,8 +246,7 @@ namespace WFunUWP.Pages
             {
                 Thickness currMargin = AppTitle.Margin;
 
-                AppTitle.Margin = (sender.DisplayMode == muxc.NavigationViewDisplayMode.Expanded && sender.IsPaneOpen) ||
-                         sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal
+                AppTitle.Margin = sender.DisplayMode == muxc.NavigationViewDisplayMode.Minimal || sender.IsPaneOpen
                     ? new Thickness(smallLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom)
                     : new Thickness(largeLeftIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
             }

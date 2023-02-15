@@ -47,7 +47,7 @@
                             x:Phase="1"
                             Text="{x:Bind Title}" />
                         <TextBlock
-                            x:Name="SubTitle"
+                            x:Name="SubTitleText"
                             Grid.Row="1"
                             x:Load="{x:Bind SubTitle, Converter={StaticResource EmptyStringToBoolConverter}, ConverterParameter='string'}"
                             x:Phase="2"

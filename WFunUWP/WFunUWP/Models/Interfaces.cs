@@ -1,13 +1,13 @@
 ﻿namespace WFunUWP.Models
 {
-    internal interface ICanChangeLikModel
+    internal interface ICanLike
     {
         string LikeNum { get; set; }
         bool Liked { get; set; }
         string ID { get; }
     }
 
-    internal interface ICanChangeReplyNum
+    internal interface ICanReply
     {
         string ReplyNum { get; set; }
     }
