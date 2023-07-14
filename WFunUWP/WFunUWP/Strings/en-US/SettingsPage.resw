@@ -181,7 +181,7 @@
     <value>Reset application</value>
   </data>
   <data name="ResetSettingsButton.Content" xml:space="preserve">
-    <value>Reset</value>
+    <value>RESET</value>
   </data>
   <data name="ResetSettingsConfirm.Content" xml:space="preserve">
     <value>Yes</value>
