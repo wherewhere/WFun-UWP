@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+﻿using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Immutable;
 using System.Collections.ObjectModel;
@@ -147,7 +147,7 @@ namespace WFunUWP.Helpers
             {
                 if (source is FrameworkElement FrameworkElement)
                 {
-                    r = source == DependencyObject.FindAscendantByName(FrameworkElement.Name);
+                    r = source == DependencyObject.FindAscendant(FrameworkElement.Name);
                 }
             }
             return source == originalSource || r;

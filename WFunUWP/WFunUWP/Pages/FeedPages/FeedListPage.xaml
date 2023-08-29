@@ -10,7 +10,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     xmlns:trigger="using:WFunUWP.Helpers.Trigger"
-    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -127,7 +127,7 @@
         </Grid.ChildrenTransitions>
         <ListView
             x:Name="ListView"
-            ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
+            ui:ListViewExtensions.ItemContainerStretchDirection="Horizontal"
             ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplateSelector="{StaticResource tempse}"
             ItemsSource="{x:Bind ForumDS, Mode=OneWay}"

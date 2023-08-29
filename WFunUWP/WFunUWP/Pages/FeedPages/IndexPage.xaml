@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:templates="using:WFunUWP.Controls.DataTemplates"
     xmlns:trigger="using:WFunUWP.Helpers.Trigger"
-    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -23,7 +23,7 @@
         </Grid.ChildrenTransitions>
         <ListView
             x:Name="ListView"
-            ui:ListViewExtensions.StretchItemContainerDirection="Horizontal"
+            ui:ListViewExtensions.ItemContainerStretchDirection="Horizontal"
             ItemContainerStyle="{StaticResource DefaultCardItemStyle}"
             ItemTemplate="{StaticResource Feed}"
             ItemsSource="{x:Bind NewsDS, Mode=OneWay}"

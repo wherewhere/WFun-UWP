@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+﻿using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -57,7 +57,7 @@ namespace WFunUWP.Controls
 
         private void ListView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            ScrollViewer = VisualTree.FindDescendantByName(ListView, "ScrollViewer") as ScrollViewer;
+            ScrollViewer = ListView.FindDescendant("ScrollViewer") as ScrollViewer;
         }
 
         public async Task Refresh(int p = -1)

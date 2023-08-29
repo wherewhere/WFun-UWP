@@ -77,12 +77,12 @@ namespace WFunUWP.Pages.SettingsPages
 
         internal bool CheckUpdateWhenLuanching
         {
-            get => SettingsHelper.Get<bool>(SettingsHelper.CheckUpdateWhenLuanching);
+            get => SettingsHelper.Get<bool>(SettingsHelper.CheckUpdateWhenLaunching);
             set
             {
                 if (CheckUpdateWhenLuanching != value)
                 {
-                    SettingsHelper.Set(SettingsHelper.CheckUpdateWhenLuanching, value);
+                    SettingsHelper.Set(SettingsHelper.CheckUpdateWhenLaunching, value);
                 }
             }
         }

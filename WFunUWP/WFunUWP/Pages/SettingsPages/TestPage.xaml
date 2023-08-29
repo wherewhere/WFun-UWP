@@ -9,14 +9,6 @@
     xmlns:trigger="using:WFunUWP.Helpers.Trigger"
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
-    <Page.Resources>
-        <Style x:Key="HeaderStyle" TargetType="cwuc:HeaderedContentControl">
-            <Setter Property="Margin" Value="0,8" />
-            <Setter Property="FontSize" Value="18" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        </Style>
-    </Page.Resources>
 
     <Grid x:Name="Root">
         <Grid.ChildrenTransitions>
@@ -31,7 +23,7 @@
                         <ReorderThemeTransition />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
-                <cwuc:HeaderedContentControl Header="通知测试" Style="{StaticResource HeaderStyle}">
+                <controls:SettingsGroup Header="通知测试">
                     <StackPanel>
                         <TextBox
                             x:Name="NotifyMessage"
@@ -84,8 +76,8 @@
                                 Tag="HideProgressBar" />
                         </StackPanel>
                     </StackPanel>
-                </cwuc:HeaderedContentControl>
-                <cwuc:HeaderedContentControl Header="网络测试" Style="{StaticResource HeaderStyle}">
+                </controls:SettingsGroup>
+                <controls:SettingsGroup Header="网络测试">
                     <StackPanel>
                         <TextBox
                             x:Name="WebUrl"
@@ -104,8 +96,8 @@
                                 Tag="OpenEdge" />
                         </StackPanel>
                     </StackPanel>
-                </cwuc:HeaderedContentControl>
-                <cwuc:HeaderedContentControl Header="界面测试" Style="{StaticResource HeaderStyle}">
+                </controls:SettingsGroup>
+                <controls:SettingsGroup Header="界面测试">
                     <StackPanel>
                         <StackPanel Margin="0,2" Orientation="Horizontal">
                             <Button
@@ -120,8 +112,8 @@
                                 Tag="Login" />
                         </StackPanel>
                     </StackPanel>
-                </cwuc:HeaderedContentControl>
-                <cwuc:HeaderedContentControl Header="文本测试" Style="{StaticResource HeaderStyle}">
+                </controls:SettingsGroup>
+                <controls:SettingsGroup Header="文本测试">
                     <StackPanel>
                         <TextBox
                             x:Name="UnformattedText"
@@ -133,7 +125,7 @@
                             TextWrapping="Wrap" />
                         <controls:HtmlBlock Margin="0,2" Source="{Binding ElementName=UnformattedText, Path=Text}" />
                     </StackPanel>
-                </cwuc:HeaderedContentControl>
+                </controls:SettingsGroup>
             </StackPanel>
         </ScrollViewer>
         <VisualStateManager.VisualStateGroups>

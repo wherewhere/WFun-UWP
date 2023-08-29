@@ -1,11 +1,13 @@
 ﻿using MetroLog;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using WFunUWP.Core.Helpers;
 using Windows.UI.Xaml;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
+using IObjectSerializer = Microsoft.Toolkit.Helpers.IObjectSerializer;
 
 namespace WFunUWP.Helpers
 {
@@ -19,12 +21,12 @@ namespace WFunUWP.Helpers
         public const string SelectedAppTheme = "SelectedAppTheme";
         public const string ShowOtherException = "ShowOtherException";
         public const string IsDisplayOriginPicture = "IsDisplayOriginPicture";
-        public const string CheckUpdateWhenLuanching = "CheckUpdateWhenLuanching";
+        public const string CheckUpdateWhenLaunching = "CheckUpdateWhenLaunching";
 
         public static Type Get<Type>(string key) => LocalObject.Read<Type>(key);
         public static void Set<Type>(string key, Type value) => LocalObject.Save(key, value);
-        public static void SetFile<Type>(string key, Type value) => LocalObject.SaveFileAsync(key, value);
-        public static async Task<Type> GetFile<Type>(string key) => await LocalObject.ReadFileAsync<Type>(key);
+        public static Task<Type> GetFile<Type>(string key) => LocalObject.ReadFileAsync<Type>($"Settings/{key}");
+        public static Task SetFile<Type>(string key, Type value) => LocalObject.CreateFileAsync($"Settings/{key}", value);
 
         public static void SetDefaultSettings()
         {
@@ -60,17 +62,17 @@ namespace WFunUWP.Helpers
             {
                 LocalObject.Save(IsDisplayOriginPicture, false);
             }
-            if (!LocalObject.KeyExists(CheckUpdateWhenLuanching))
+            if (!LocalObject.KeyExists(CheckUpdateWhenLaunching))
             {
-                LocalObject.Save(CheckUpdateWhenLuanching, true);
+                LocalObject.Save(CheckUpdateWhenLaunching, true);
             }
         }
     }
 
     internal static partial class SettingsHelper
     {
-        private static readonly LocalObjectStorageHelper LocalObject = new LocalObjectStorageHelper();
         public static readonly ILogManager LogManager = LogManagerFactory.CreateLogManager();
+        public static readonly ApplicationDataStorageHelper LocalObject = ApplicationDataStorageHelper.GetCurrent(new SystemTextJsonObjectSerializer());
 
         static SettingsHelper()
         {
@@ -177,5 +179,15 @@ namespace WFunUWP.Helpers
             }
             Set(Auth, string.Empty);
         }
+    }
+
+    public class SystemTextJsonObjectSerializer : IObjectSerializer
+    {
+        // Specify your serialization settings
+        private readonly JsonSerializerSettings settings = new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore };
+
+        string IObjectSerializer.Serialize<T>(T value) => JsonConvert.SerializeObject(value, typeof(T), Formatting.Indented, settings);
+
+        public T Deserialize<T>(string value) => JsonConvert.DeserializeObject<T>(value, settings);
     }
 }

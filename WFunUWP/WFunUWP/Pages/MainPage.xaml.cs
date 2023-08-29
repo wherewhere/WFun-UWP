@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+﻿using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,7 @@ namespace WFunUWP.Pages
     public sealed partial class MainPage : Page
     {
         public Action NavigationViewLoaded { get; set; }
-        public PageHeader PageHeader => NavigationView.FindDescendants<PageHeader>().FirstOrDefault();
+        public PageHeader PageHeader => NavigationView.FindDescendants().FirstOrDefault((x) => x is PageHeader) as PageHeader;
 
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
@@ -50,7 +50,7 @@ namespace WFunUWP.Pages
             LiveTileTask.UpdateTile();
             UIHelper.ShellDispatcher = Dispatcher;
             NavigationView.PaneDisplayMode = muxc.NavigationViewPaneDisplayMode.Left;
-            if (SettingsHelper.Get<bool>(SettingsHelper.CheckUpdateWhenLuanching)) { _ = CheckUpdate.CheckUpdateAsync(false, false); }
+            if (SettingsHelper.Get<bool>(SettingsHelper.CheckUpdateWhenLaunching)) { _ = CheckUpdate.CheckUpdateAsync(false, false); }
             NavigationView.RegisterPropertyChangedCallback(muxc.NavigationView.PaneDisplayModeProperty, new DependencyPropertyChangedCallback(OnPaneDisplayModeChanged));
             if (ApiInformation.IsMethodPresent("Windows.UI.Composition.Compositor", "TryCreateBlurredWallpaperBackdropBrush")) { BackdropMaterial.SetApplyToRootOrPageBackground(this, true); }
         }

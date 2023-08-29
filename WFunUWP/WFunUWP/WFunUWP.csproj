@@ -137,6 +137,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\HtmlToText.cs" />
+    <Compile Include="Common\WeakEvent.cs" />
     <Compile Include="Controls\CheckBoxWithDescriptionControl.cs" />
     <Compile Include="Controls\DataTemplates\Feeds.xaml.cs">
       <DependentUpon>Feeds.xaml</DependentUpon>
@@ -214,18 +216,25 @@
     <Compile Include="Controls\TitleBar\TitleBar.Properties.cs" />
     <Compile Include="Controls\TitleBar\TitleBarTemplateSettings.cs" />
     <Compile Include="Controls\TitleBar\TitleBarTemplateSettings.Properties.cs" />
+    <Compile Include="Helpers\DataHelper.cs" />
     <Compile Include="Helpers\DataSource\DataSourceBase.cs" />
     <Compile Include="Helpers\DataSource\IncrementalLoadingBase.cs" />
     <Compile Include="Helpers\Exceptions\ExceptionHandlingSynchronizationContext.cs" />
     <Compile Include="Helpers\GridHelper.cs" />
     <Compile Include="Helpers\ImageCacheHelper.cs" />
+    <Compile Include="Helpers\NetworkHelper.cs" />
+    <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Helpers\SharedHelpers.cs" />
+    <Compile Include="Helpers\TasksHelper.cs" />
     <Compile Include="Helpers\Tasks\CheckUpdate.cs" />
     <Compile Include="Helpers\Tasks\LiveTileTask.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Helpers\Trigger\DeviceFamilyTrigger.cs" />
     <Compile Include="Helpers\UIHelper.cs" />
+    <Compile Include="Helpers\UriHelper.cs" />
+    <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="Models\Exceptions\WFunMessageException.cs" />
     <Compile Include="Models\FeedDetailModel.cs" />
     <Compile Include="Models\FeedListModel.cs" />
     <Compile Include="Models\FeedReplyModel.cs" />
@@ -359,14 +368,11 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>7.1.3</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>4.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>4.0.0</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.7.3</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="QRCoder">
       <Version>1.4.3</Version>
@@ -498,9 +504,37 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WFunUWP.Core\WFunUWP.Core.csproj">
-      <Project>{70bbe4dd-dddb-4d76-8906-d121bb87924d}</Project>
-      <Name>WFunUWP.Core</Name>
+    <ProjectReference Include="..\ColorCode-Universal\ColorCode.Core\ColorCode.Core.csproj">
+      <Project>{0948432c-bd02-4405-904e-84dc2af7fe6f}</Project>
+      <Name>ColorCode.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColorCode-Universal\ColorCode.UWP\ColorCode.UWP.csproj">
+      <Project>{28cebe01-6d8e-47ea-8137-c085b95f432a}</Project>
+      <Name>ColorCode.UWP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsCommunityToolkit\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
+      <Project>{a76eee3a-fc3b-4ce6-a7fd-da5d7ebe3efb}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsCommunityToolkit\Microsoft.Toolkit.Uwp.UI.Controls.Core\Microsoft.Toolkit.Uwp.UI.Controls.Core.csproj">
+      <Project>{bc613f7a-37de-471c-b416-afcde911c28c}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsCommunityToolkit\Microsoft.Toolkit.Uwp.UI.Controls.Markdown\Microsoft.Toolkit.Uwp.UI.Controls.Markdown.csproj">
+      <Project>{9278bab2-55ce-4c12-8d26-5c097c534dc8}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Markdown</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsCommunityToolkit\Microsoft.Toolkit.Uwp.UI.Controls.Primitives\Microsoft.Toolkit.Uwp.UI.Controls.Primitives.csproj">
+      <Project>{9f962e89-c879-44c6-ae3f-91e10fd6df54}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Primitives</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsCommunityToolkit\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj">
+      <Project>{a69de70a-2a24-476f-9f00-37038094dcbe}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsCommunityToolkit\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj">
+      <Project>{fd195f68-5460-4cc3-8c22-16fed696ebad}</Project>
+      <Name>Microsoft.Toolkit.Uwp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
