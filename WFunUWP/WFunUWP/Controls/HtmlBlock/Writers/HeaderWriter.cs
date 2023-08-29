@@ -1,4 +1,4 @@
-﻿using WFunUWP.Models.Html;
+﻿using HtmlAgilityPack;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
 
@@ -12,17 +12,17 @@ namespace WFunUWP.Controls.Writers
         }
 
 
-        public override DependencyObject GetControl(HtmlFragment fragment)
+        public override DependencyObject GetControl(HtmlNode fragment)
         {
             return new Paragraph();
         }
 
-        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlFragment fragment)
+        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlNode fragment)
         {
             ApplyParagraphStyles(ctrl as Paragraph, GetDocumentStyle(fragment, style));
         }
 
-        private static ParagraphStyle GetDocumentStyle(HtmlFragment fragment, DocumentStyle style)
+        private static ParagraphStyle GetDocumentStyle(HtmlNode fragment, DocumentStyle style)
         {
             if (style == null)
             {

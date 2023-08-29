@@ -1,4 +1,4 @@
-﻿using WFunUWP.Models.Html;
+﻿using HtmlAgilityPack;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
 
@@ -6,17 +6,14 @@ namespace WFunUWP.Controls.Writers
 {
     internal class ListItemWriter : HtmlWriter
     {
-        public override string[] TargetTags
-        {
-            get { return new string[] { "li" }; }
-        }
+        public override string[] TargetTags => new string[] { "li" };
 
-        public override DependencyObject GetControl(HtmlFragment fragment)
+        public override DependencyObject GetControl(HtmlNode fragment)
         {
             return new Paragraph();
         }
 
-        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlFragment fragment)
+        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlNode fragment)
         {
             Paragraph li = ctrl as Paragraph;
             ListStyle currentStyle = style.Li;

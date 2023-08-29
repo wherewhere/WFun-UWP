@@ -1,4 +1,4 @@
-﻿using WFunUWP.Models.Html;
+﻿using HtmlAgilityPack;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -6,22 +6,19 @@ namespace WFunUWP.Controls.Writers
 {
     internal class ContainerWriter : HtmlWriter
     {
-        public override string[] TargetTags
-        {
-            get { return new string[] { "div", "ul", "ol", "dl", "section", "article", "header", "footer", "main", "figure", "details", "summary", "tbody" }; }
-        }
+        public override string[] TargetTags => new string[] { "div", "ul", "ol", "dl", "section", "article", "header", "footer", "main", "figure", "details", "summary", "tbody" };
 
-        public override DependencyObject GetControl(HtmlFragment fragment)
+        public override DependencyObject GetControl(HtmlNode fragment)
         {
             return new Grid();
         }
 
-        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlFragment fragment)
+        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlNode fragment)
         {
             ApplyContainerStyles(ctrl as Grid, GetDocumentStyle(fragment, style));
         }
 
-        private static ContainerStyle GetDocumentStyle(HtmlFragment fragment, DocumentStyle style)
+        private static ContainerStyle GetDocumentStyle(HtmlNode fragment, DocumentStyle style)
         {
             if (style == null)
             {

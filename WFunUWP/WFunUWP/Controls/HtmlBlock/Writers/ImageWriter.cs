@@ -1,8 +1,8 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using HtmlAgilityPack;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using WFunUWP.Models.Html;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,12 +13,9 @@ namespace WFunUWP.Controls.Writers
 {
     internal class ImageWriter : HtmlWriter
     {
-        public override string[] TargetTags
-        {
-            get { return new string[] { "img" }; }
-        }
+        public override string[] TargetTags => new string[] { "img" };
 
-        public override DependencyObject GetControl(HtmlFragment fragment)
+        public override DependencyObject GetControl(HtmlNode fragment)
         {
             HtmlNode node = fragment as HtmlNode;
             string src = GetImageSrc(node);
@@ -47,12 +44,12 @@ namespace WFunUWP.Controls.Writers
             return null;
         }
 
-        private static bool IsInline(HtmlFragment fragment)
+        private static bool IsInline(HtmlNode fragment)
         {
-            return fragment.Parent != null && fragment.Parent.Name == "p";
+            return fragment.ParentNode != null && fragment.ParentNode.Name == "p";
         }
 
-        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlFragment fragment)
+        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlNode fragment)
         {
             if (!IsInline(fragment))
             {
@@ -67,8 +64,8 @@ namespace WFunUWP.Controls.Writers
                 StretchDirection = StretchDirection.DownOnly
             };
 
-            int imgHeight = node.Attributes.GetValueInt("height");
-            int width = node.Attributes.GetValueInt("width");
+            int imgHeight = node.GetAttributeValue("height", 0);
+            int width = node.GetAttributeValue("width", 0);
 
             if (imgHeight > 0)
             {
@@ -91,14 +88,14 @@ namespace WFunUWP.Controls.Writers
 
         private static string GetImageSrc(HtmlNode img)
         {
-            if (!string.IsNullOrEmpty(img.Attributes.GetValue("src")))
+            if (!string.IsNullOrEmpty(img.GetAttributeValue("src", null)))
             {
-                return img.Attributes.GetValue("src");
+                return img.GetAttributeValue("src", null);
             }
-            else if (!string.IsNullOrEmpty(img.Attributes.GetValue("srcset")))
+            else if (!string.IsNullOrEmpty(img.GetAttributeValue("srcset", null)))
             {
                 Regex regex = new Regex(@"(?:(?<src>[^\""'\s,]+)\s*(?:\s+\d+[wx])(?:,\s*)?)");
-                MatchCollection matches = regex.Matches(img.Attributes.GetValue("srcset"));
+                MatchCollection matches = regex.Matches(img.GetAttributeValue("srcset", null));
 
                 if (matches.Count > 0)
                 {

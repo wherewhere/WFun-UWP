@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using WFunUWP.Controls.Containers;
 using WFunUWP.Controls.Writers;
-using WFunUWP.Models.Html;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -24,10 +24,10 @@ namespace WFunUWP.Controls
             set { SetValue(SourceProperty, value); }
         }
 
-        private static async void SourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void SourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             HtmlBlock self = d as HtmlBlock;
-            await self.UpdateContentAsync();
+            self.UpdateContentAsync();
         }
 
         public static readonly DependencyProperty DocumentStyleProperty = DependencyProperty.Register("DocumentStyle", typeof(DocumentStyle), typeof(HtmlBlock), new PropertyMetadata(new DocumentStyle(), DocumentStylesChanged));
@@ -61,16 +61,16 @@ namespace WFunUWP.Controls
             _docStyles = new DocumentStyle();
         }
 
-        protected override async void OnApplyTemplate()
+        protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
             _container = GetTemplateChild("_container") as Grid;
 
-            await UpdateContentAsync();
+            UpdateContentAsync();
         }
 
-        private async Task UpdateContentAsync()
+        private void UpdateContentAsync()
         {
             if (_container != null && !string.IsNullOrEmpty(Source))
             {
@@ -82,13 +82,10 @@ namespace WFunUWP.Controls
 
                 try
                 {
-                    HtmlDocument doc = await HtmlDocument.LoadAsync(Source);
+                    HtmlDocument doc = new HtmlDocument();
+                    doc.LoadHtml(Source);
 
-                    HtmlFragment body = doc?.Body;
-                    if (body == null)
-                    {
-                        body = doc;
-                    }
+                    HtmlNode body = doc?.DocumentNode;
 
                     WriteFragments(body, container);
                 }
@@ -99,11 +96,11 @@ namespace WFunUWP.Controls
             }
         }
 
-        private void WriteFragments(HtmlFragment fragment, DocumentContainer parentContainer)
+        private void WriteFragments(HtmlNode fragment, DocumentContainer parentContainer)
         {
             if (parentContainer != null)
             {
-                foreach (HtmlFragment childFragment in fragment.Fragments)
+                foreach (HtmlNode childFragment in fragment.ChildNodes)
                 {
                     HtmlWriter writer = HtmlWriterFactory.Find(childFragment);
 

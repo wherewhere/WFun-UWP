@@ -11,15 +11,13 @@
     <RootNamespace>WFunUWP</RootNamespace>
     <AssemblyName>WFunUWP</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>7.3</LangVersion>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22621.0</TargetPlatformVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>0CDF4A03E9BE9DD789894BB3C7AD3DEDECD9AB25</PackageCertificateThumbprint>
     <PackageCertificateKeyFile />
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -232,14 +230,6 @@
     <Compile Include="Models\FeedListModel.cs" />
     <Compile Include="Models\FeedReplyModel.cs" />
     <Compile Include="Models\ForumModel.cs" />
-    <Compile Include="Models\Html\DictionaryExtensions.cs" />
-    <Compile Include="Models\Html\HtmlDocument.cs" />
-    <Compile Include="Models\Html\HtmlException.cs" />
-    <Compile Include="Models\Html\HtmlFragment.cs" />
-    <Compile Include="Models\Html\HtmlNode.cs" />
-    <Compile Include="Models\Html\HtmlTag.cs" />
-    <Compile Include="Models\Html\HtmlText.cs" />
-    <Compile Include="Models\Html\TagReader.cs" />
     <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\Interfaces.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -358,7 +348,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.11.46</Version>
+      <Version>1.11.52</Version>
     </PackageReference>
     <PackageReference Include="MetroLog">
       <Version>1.0.1</Version>
@@ -367,7 +357,7 @@
       <Version>6.2.14</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>7.1.2</Version>
+      <Version>7.1.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
       <Version>4.0.0</Version>

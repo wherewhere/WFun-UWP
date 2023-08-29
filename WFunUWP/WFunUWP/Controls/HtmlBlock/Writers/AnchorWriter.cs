@@ -1,6 +1,6 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Diagnostics;
-using WFunUWP.Models.Html;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Documents;
 
@@ -8,37 +8,36 @@ namespace WFunUWP.Controls.Writers
 {
     internal class AnchorWriter : HtmlWriter
     {
-        public override string[] TargetTags
-        {
-            get { return new string[] { "a" }; }
-        }
+        public override string[] TargetTags => new string[] { "a" };
 
-        public override DependencyObject GetControl(HtmlFragment fragment)
+        public override DependencyObject GetControl(HtmlNode fragment)
         {
-            HtmlNode node = fragment as HtmlNode;
-            if (node != null && node.Attributes.ContainsKey("href"))
+            if (fragment.NodeType == HtmlNodeType.Element)
             {
-                Hyperlink a = new Hyperlink();
-
-
-                if (Uri.TryCreate(node.Attributes["href"], UriKind.Absolute, out Uri uri))
+                HtmlNode node = fragment;
+                if (node != null)
                 {
-                    try
-                    {
-                        a.NavigateUri = uri;
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine($"Error loading a@href '{uri?.ToString()}': {ex.Message}");
-                    }
-                }
+                    Hyperlink a = new Hyperlink();
 
-                return a;
+                    if (Uri.TryCreate(node.GetAttributeValue("href", string.Empty), UriKind.Absolute, out Uri uri))
+                    {
+                        try
+                        {
+                            a.NavigateUri = uri;
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Error loading a@href '{uri?.ToString()}': {ex.Message}");
+                        }
+                    }
+
+                    return a;
+                }
             }
             return null;
         }
 
-        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlFragment fragment)
+        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlNode fragment)
         {
             ApplyTextStyles(ctrl as Span, style.A);
         }

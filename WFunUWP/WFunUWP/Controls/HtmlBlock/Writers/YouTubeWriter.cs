@@ -1,19 +1,17 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using HtmlAgilityPack;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Text.RegularExpressions;
-using WFunUWP.Models.Html;
 
 namespace WFunUWP.Controls.Writers
 {
     internal class YouTubeWriter : IFrameVideoWriter
     {
-        public override string[] TargetTags
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override string[] TargetTags => throw new NotImplementedException();
 
-        public override bool Match(HtmlFragment fragment)
+        public override bool Match(HtmlNode fragment)
         {
+            if (fragment == null || fragment.NodeType != HtmlNodeType.Element) { return false; }
             string src = GetIframeSrc(fragment);
             return fragment.Name == "iframe" && !string.IsNullOrWhiteSpace(src) && src.ToLowerInvariant().Contains("www.youtube.com");
         }

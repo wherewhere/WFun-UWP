@@ -1,6 +1,6 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using HtmlAgilityPack;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using WFunUWP.Models.Html;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 
@@ -13,8 +13,9 @@ namespace WFunUWP.Controls.Writers
             get { throw new NotImplementedException(); }
         }
 
-        public override bool Match(HtmlFragment fragment)
+        public override bool Match(HtmlNode fragment)
         {
+            if (fragment == null || fragment.NodeType != HtmlNodeType.Element) { return false; }
             string src = GetIframeSrc(fragment);
             return fragment.Name == "iframe" && !string.IsNullOrWhiteSpace(src) && src.ToLowerInvariant().Contains("channel9.msdn.com");
         }

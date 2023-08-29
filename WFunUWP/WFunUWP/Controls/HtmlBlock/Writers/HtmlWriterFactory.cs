@@ -1,8 +1,8 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using WFunUWP.Models.Html;
 
 namespace WFunUWP.Controls.Writers
 {
@@ -10,7 +10,7 @@ namespace WFunUWP.Controls.Writers
     {
         private static List<HtmlWriter> _writers;
 
-        public static HtmlWriter Find(HtmlFragment fragment)
+        public static HtmlWriter Find(HtmlNode fragment)
         {
             EnsureWriters();
 

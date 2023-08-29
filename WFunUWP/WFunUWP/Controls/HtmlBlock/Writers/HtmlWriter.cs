@@ -1,6 +1,6 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Linq;
-using WFunUWP.Models.Html;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -12,15 +12,15 @@ namespace WFunUWP.Controls.Writers
     {
         public abstract string[] TargetTags { get; }
 
-        public abstract DependencyObject GetControl(HtmlFragment fragment);
+        public abstract DependencyObject GetControl(HtmlNode fragment);
 
-        public virtual void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlFragment fragment)
+        public virtual void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlNode fragment)
         {
         }
 
-        public virtual bool Match(HtmlFragment fragment)
+        public virtual bool Match(HtmlNode fragment)
         {
-            return fragment != null && !string.IsNullOrEmpty(fragment.Name) && TargetTags.Any(t => t.Equals(fragment.Name, StringComparison.CurrentCultureIgnoreCase));
+            return fragment != null && fragment.NodeType == HtmlNodeType.Element && !string.IsNullOrEmpty(fragment.Name) && TargetTags.Any(t => t.Equals(fragment.Name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         protected static Binding CreateBinding(object source, string path)

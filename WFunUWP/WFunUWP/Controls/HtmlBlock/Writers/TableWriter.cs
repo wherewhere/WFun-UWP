@@ -1,4 +1,4 @@
-﻿using WFunUWP.Models.Html;
+﻿using HtmlAgilityPack;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -7,17 +7,14 @@ namespace WFunUWP.Controls.Writers
 {
     internal class TableWriter : HtmlWriter
     {
-        public override string[] TargetTags
-        {
-            get { return new string[] { "table" }; }
-        }
+        public override string[] TargetTags => new string[] { "table" };
 
-        public override DependencyObject GetControl(HtmlFragment fragment)
+        public override DependencyObject GetControl(HtmlNode fragment)
         {
             return new Grid();
         }
 
-        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlFragment fragment)
+        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlNode fragment)
         {
             if (style?.Table != null)
             {

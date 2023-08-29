@@ -1,10 +1,10 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using HtmlAgilityPack;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.IO;
 using System.Reflection;
 using WFunUWP.Core.Helpers;
 using WFunUWP.Helpers;
-using WFunUWP.Models.Html;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
@@ -23,52 +23,55 @@ namespace WFunUWP.Controls.Writers
         protected abstract void SetScreenshot(ImageEx img, HtmlNode node);
         protected abstract ImageStyle GetStyle(DocumentStyle style);
 
-        public override DependencyObject GetControl(HtmlFragment fragment)
+        public override DependencyObject GetControl(HtmlNode fragment)
         {
-            HtmlNode node = fragment as HtmlNode;
-            if (node != null)
+            if (fragment.NodeType == HtmlNodeType.Element)
             {
-                Grid grid = new Grid
+                HtmlNode node = fragment;
+                if (node != null)
                 {
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                };
+                    Grid grid = new Grid
+                    {
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                    };
 
-                grid.Tapped += (sender, e) =>
-                {
-                    Launcher.LaunchUriAsync(new Uri(GetIframeSrc(node))).AsTask().FireAndForget();
-                };
+                    grid.Tapped += (sender, e) =>
+                    {
+                        Launcher.LaunchUriAsync(new Uri(GetIframeSrc(node))).AsTask().FireAndForget();
+                    };
 
-                grid.PointerEntered += (sender, e) =>
-                {
-                    Window.Current.CoreWindow.PointerCursor = _handCursor;
-                };
-                grid.PointerExited += (sender, e) =>
-                {
-                    Window.Current.CoreWindow.PointerCursor = _arrowCursor;
-                };
+                    grid.PointerEntered += (sender, e) =>
+                    {
+                        Window.Current.CoreWindow.PointerCursor = _handCursor;
+                    };
+                    grid.PointerExited += (sender, e) =>
+                    {
+                        Window.Current.CoreWindow.PointerCursor = _arrowCursor;
+                    };
 
-                AddColumn(grid);
-                AddColumn(grid);
-                AddColumn(grid);
+                    AddColumn(grid);
+                    AddColumn(grid);
+                    AddColumn(grid);
 
-                Viewbox screenShot = GetImageControl((i) => SetScreenshot(i, node));
+                    Viewbox screenShot = GetImageControl((i) => SetScreenshot(i, node));
 
-                Grid.SetColumn(screenShot, 0);
-                Grid.SetColumnSpan(screenShot, 3);
-                grid.Children.Add(screenShot);
+                    Grid.SetColumn(screenShot, 0);
+                    Grid.SetColumnSpan(screenShot, 3);
+                    grid.Children.Add(screenShot);
 
-                Viewbox player = GetImageControl((i) => i.Source = GetPlayerImage());
+                    Viewbox player = GetImageControl((i) => i.Source = GetPlayerImage());
 
-                Grid.SetColumn(player, 1);
-                grid.Children.Add(player);
+                    Grid.SetColumn(player, 1);
+                    grid.Children.Add(player);
 
-                return grid;
+                    return grid;
+                }
             }
 
             return null;
         }
 
-        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlFragment fragment)
+        public override void ApplyStyles(DocumentStyle style, DependencyObject ctrl, HtmlNode fragment)
         {
             Grid grid = ctrl as Grid;
             Viewbox vb = grid.GetChild<Viewbox>(0, 0);
@@ -76,14 +79,14 @@ namespace WFunUWP.Controls.Writers
             ApplyImageStyles(vb, GetStyle(style));
         }
 
-        protected static string GetIframeSrc(HtmlFragment fragment)
+        protected static string GetIframeSrc(HtmlNode fragment)
         {
-            HtmlNode node = fragment.AsNode();
-            if (node != null)
+            if (fragment.NodeType == HtmlNodeType.Element)
             {
-                if (node.Attributes.ContainsKey("src"))
+                HtmlNode node = fragment;
+                if (node != null)
                 {
-                    return node.Attributes["src"];
+                    return node.GetAttributeValue("src", string.Empty);
                 }
             }
             return string.Empty;
