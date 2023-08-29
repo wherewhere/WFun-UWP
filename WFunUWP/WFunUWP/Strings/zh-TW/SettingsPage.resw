@@ -121,70 +121,70 @@
     <value>关于</value>
   </data>
   <data name="CheckingUpdates.Text" xml:space="preserve">
-    <value>正在检查更新……</value>
+    <value>正在檢查更新……</value>
   </data>
   <data name="CheckUpdates.Content" xml:space="preserve">
-    <value>检查更新</value>
+    <value>檢查更新</value>
   </data>
   <data name="CheckUpdateWhenLuanchingSettings.Description" xml:space="preserve">
     <value>在应用启动时检查更新。</value>
   </data>
   <data name="CheckUpdateWhenLuanchingSettings.Header" xml:space="preserve">
-    <value>启动时检查更新</value>
+    <value>啟動時檢查更新</value>
   </data>
   <data name="CleanCacheButton.Content" xml:space="preserve">
     <value>清理</value>
   </data>
   <data name="CleanCacheSettings.Description" xml:space="preserve">
-    <value>清理图片缓存。</value>
+    <value>清理圖片快取。</value>
   </data>
   <data name="CleanCacheSettings.Header" xml:space="preserve">
-    <value>清理缓存</value>
+    <value>清理快取</value>
   </data>
   <data name="ContentSettingsHeader.Header" xml:space="preserve">
-    <value>内容</value>
+    <value>內容</value>
   </data>
   <data name="EULA.Content" xml:space="preserve">
-    <value>用户协议</value>
+    <value>用戶協定</value>
   </data>
   <data name="FeedbackLink.Content" xml:space="preserve">
-    <value>反馈</value>
+    <value>反饋</value>
   </data>
   <data name="GoToTestPage.Description" xml:space="preserve">
-    <value>前往用于测试的页面。</value>
+    <value>前往用於測試的頁面。</value>
   </data>
   <data name="GoToTestPage.Header" xml:space="preserve">
-    <value>前往测试页面</value>
+    <value>前往測試頁面</value>
   </data>
   <data name="LastChecked.Text" xml:space="preserve">
-    <value>上次检查时间: </value>
+    <value>上次檢查時間: </value>
   </data>
   <data name="LogFolderLink.Content" xml:space="preserve">
-    <value>日志</value>
+    <value>日誌</value>
   </data>
   <data name="NoPicsModeSettings.Description" xml:space="preserve">
-    <value>浏览时不显示头像和图片。</value>
+    <value>流覽時不顯示頭像和圖片。</value>
   </data>
   <data name="NoPicsModeSettings.Header" xml:space="preserve">
-    <value>无图模式</value>
+    <value>無圖模式</value>
   </data>
   <data name="OthersSettingsHeader.Header" xml:space="preserve">
     <value>其他</value>
   </data>
   <data name="ReleaseNotes.Content" xml:space="preserve">
-    <value>发行说明</value>
+    <value>發布說明</value>
   </data>
   <data name="ResetSettings.Description" xml:space="preserve">
-    <value>重置此应用程序的设置。</value>
+    <value>重置此應用程式的設置。</value>
   </data>
   <data name="ResetSettings.Header" xml:space="preserve">
-    <value>重置应用</value>
+    <value>重置應用</value>
   </data>
   <data name="ResetSettingsButton.Content" xml:space="preserve">
-    <value>重置</value>
+    <value>重設</value>
   </data>
   <data name="ResetSettingsConfirm.Content" xml:space="preserve">
-    <value>确定</value>
+    <value>確定</value>
   </data>
   <data name="ResetSettingsTitle.Text" xml:space="preserve">
     <value>您确定要重置应用吗？</value>

@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Chat.Content" xml:space="preserve">
-    <value>社区</value>
+    <value>社區</value>
   </data>
   <data name="Find.Content" xml:space="preserve">
     <value>搜索</value>
   </data>
   <data name="Home.Content" xml:space="preserve">
-    <value>主页</value>
+    <value>主頁</value>
   </data>
   <data name="List.Content" xml:space="preserve">
-    <value>论坛</value>
+    <value>論壇</value>
   </data>
   <data name="NavigationView.PaneTitle" xml:space="preserve">
     <value>智机社区</value>
